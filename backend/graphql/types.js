@@ -1,15 +1,14 @@
 import { gql } from 'apollo-server-express';
+import { tiposEnums } from '../models/enums/tipos.js';
+import { tiposUsuario } from '../models/user/tipos.js';
 
 
-export const types = gql`
-type Usuario {
-  _id: ID!
-  idUsuario: String!
-  email: String!
-  nombre: String!
- }
-type Query {
-  Usuarios: [Usuario]
-}
+const tiposGlobales = gql`
+  scalar Date
+`;
 
-`
+export const types = [
+  tiposGlobales,
+  tiposEnums,
+  tiposUsuario,
+  ];
