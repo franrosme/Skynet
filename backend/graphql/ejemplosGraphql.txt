@@ -57,3 +57,11 @@ mutation EliminarUsuario{
     nombre
   }
 }
+
+6. Listar Proyectos
+
+query ListarProyectos {
+  ListarProyectos(rol: Administrador) {
+    nombre
+    }
+}

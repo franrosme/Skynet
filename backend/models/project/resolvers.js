@@ -6,6 +6,16 @@ const resolversProyecto = {
         const proyectos = await ProjectModel.find();
         return proyectos;
       },
+      ListarProyectos: async (parent, args) => {
+        if(args.rol==="Administrador"){
+          const proyectos = await ProjectModel.find();
+          return proyectos;
+
+        }else{
+          return console.log("no es administrador")
+        }
+        
+      },
     },
     Mutation: {
       crearProyecto: async (parent, args) => {

@@ -28,10 +28,12 @@ const tiposProyecto = gql`
     idLider: String
     avance: [Avance]
     inscripcion: [Inscripcion]
+     
   }
   type Query {
     Proyectos: [Proyecto]
-  }
+    ListarProyectos(rol:Enum_Rol!): [Proyecto]
+   }
   type Mutation {
     crearProyecto( 
     nombre: String!
