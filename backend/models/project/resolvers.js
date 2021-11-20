@@ -46,6 +46,21 @@ const resolversProyecto = {
           return "no es administrador"
         }
 
+      },
+      cambiarEstado: async (parent, args) => {
+        if(args.rol==="Administrador"){
+          const proyectos = await ProjectModel.updateOne({nombre:args.nombre},
+            { $set: { "estado" : args.estado } }
+            );
+            console.log(args.nombre+". Nuevo estado: "+args.estado);
+          return args.nombre+". Nuevo estado: "+args.estado
+
+        }else{
+          console.log("no es administrador")
+
+          return "no es administrador"
+        }
+
       }
     },
   };

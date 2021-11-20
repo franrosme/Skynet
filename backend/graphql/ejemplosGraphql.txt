@@ -58,6 +58,7 @@ mutation EliminarUsuario{
   }
 }
 
+Administrador
 6. Listar Proyectos
 
 query ListarProyectos {
@@ -69,4 +70,12 @@ query ListarProyectos {
 
 mutation AprobarProyecto {
   aprobarProyecto(rol: Administrador, nombre: "proyecto 3")
+}
+
+8.  Activar/desactivar proyecto
+mutation CambiarEstado{
+  cambiarEstado(rol: Administrador,
+   nombre: "proyecto 2",
+   estado: Activo
+  )
 }

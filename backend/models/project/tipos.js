@@ -22,7 +22,7 @@ const tiposProyecto = gql`
     presupuesto: Int!
     fechaInicio: Date!
     fechaFin: Date
-    estado: String
+    estado: Enum_EstadoProyecto
     fase: String
     lider: String
     idLider: String
@@ -47,6 +47,8 @@ const tiposProyecto = gql`
     fase: Enum_FaseProyecto
     ): Proyecto
     aprobarProyecto(rol:Enum_Rol!, nombre:String!):String
+    cambiarEstado(rol:Enum_Rol!, nombre:String!, estado: Enum_EstadoProyecto):String
+
   }
 `;
 
