@@ -19,6 +19,7 @@ const resolversProyecto = {
     },
     Mutation: {
       crearProyecto: async (parent, args) => {
+        if(args.rol==="Lider"){
         const proyectoCreado = await ProjectModel.create({
           nombre: args.nombre,
           objetivosGenerales:args. objetivosGenerales,
@@ -31,6 +32,7 @@ const resolversProyecto = {
           fase: args.fase,
       });
         return proyectoCreado;
+      }
       },
       aprobarProyecto: async (parent, args) => {
         if(args.rol==="Administrador"){

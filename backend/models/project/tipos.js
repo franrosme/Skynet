@@ -35,7 +35,7 @@ const tiposProyecto = gql`
     ListarProyectos(rol:Enum_Rol!): [Proyecto]
    }
   type Mutation {
-    crearProyecto( 
+    crearProyecto(rol:Enum_Rol! 
     nombre: String!
     objetivosGenerales: String!
     objetivosEspecificos: [String!]

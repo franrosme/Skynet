@@ -86,3 +86,16 @@ mutation CambiarFase{
   fase: Terminado, 
   nombre: "proyecto 3" )
 }
+Lider
+12. Crear Proyecto nuevo 
+mutation CrearProyecto {
+  crearProyecto(
+    nombre: "Proyecto xyz",
+    objetivosGenerales:"objetivos",
+    presupuesto:1356654,
+    lider:"Camilo",
+    idLider:"1241",
+    rol: Lider) {
+    nombre
+  }
+}
