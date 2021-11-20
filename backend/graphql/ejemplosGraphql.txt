@@ -79,3 +79,10 @@ mutation CambiarEstado{
    estado: Activo
   )
 }
+9. cambiar fase en desarrollo => terminado
+mutation CambiarFase{
+  cambiarFase(rol: Administrador,
+  faseActual:En_Desarrollo 
+  fase: Terminado, 
+  nombre: "proyecto 3" )
+}

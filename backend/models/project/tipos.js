@@ -48,6 +48,12 @@ const tiposProyecto = gql`
     ): Proyecto
     aprobarProyecto(rol:Enum_Rol!, nombre:String!):String
     cambiarEstado(rol:Enum_Rol!, nombre:String!, estado: Enum_EstadoProyecto):String
+    cambiarFase(
+      rol:Enum_Rol!,
+      faseActual: Enum_FaseProyecto!,
+      fase: Enum_FaseProyecto!,
+      nombre:String!
+   ): String
 
   }
 `;

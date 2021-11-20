@@ -61,7 +61,22 @@ const resolversProyecto = {
           return "no es administrador"
         }
 
-      }
+      },
+      cambiarFase: async (parent, args) => {
+        if(args.rol==="Administrador" && args.fase==="Terminado" && args.faseActual==="En_Desarrollo"){
+          const proyectos = await ProjectModel.updateOne({nombre:args.nombre},
+            { $set: { "fase" : args.fase } }
+            );
+            console.log(args.nombre+". Nueva fase: "+args.fase);
+          return args.nombre+". Nueva fase: "+args.fase
+
+        }else{
+          console.log("no es administrador")
+
+          return "no es administrador"
+        }
+
+      },
     },
   };
   

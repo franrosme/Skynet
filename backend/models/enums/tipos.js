@@ -17,7 +17,7 @@ const tiposEnums = gql`
   }
   enum Enum_FaseProyecto {
     Iniciado
-    En_Desarrolo
+    En_Desarrollo
     Terminado
     Null
   }
