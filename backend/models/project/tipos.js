@@ -46,6 +46,7 @@ const tiposProyecto = gql`
     estado: Enum_EstadoProyecto
     fase: Enum_FaseProyecto
     ): Proyecto
+    aprobarProyecto(rol:Enum_Rol!, nombre:String!):String
   }
 `;
 

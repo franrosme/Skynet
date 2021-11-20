@@ -32,6 +32,21 @@ const resolversProyecto = {
       });
         return proyectoCreado;
       },
+      aprobarProyecto: async (parent, args) => {
+        if(args.rol==="Administrador"){
+          const proyectos = await ProjectModel.updateOne({nombre:args.nombre},
+            { $set: { "fase" : "Iniciado"} }
+            );
+            console.log("proyecto aprobado");
+          return "proyecto aprobado"
+
+        }else{
+          console.log("no es administrador")
+
+          return "no es administrador"
+        }
+
+      }
     },
   };
   
