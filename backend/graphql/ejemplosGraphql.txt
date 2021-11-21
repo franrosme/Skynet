@@ -99,3 +99,13 @@ mutation CrearProyecto {
     nombre
   }
 }
+
+13. Listar proyectos lider
+query Proyectos {
+  ListarProyectos(rol: Lider,
+  idLider:"1241"
+  ) {
+  nombre
+  estado  
+  }
+}

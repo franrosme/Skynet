@@ -32,7 +32,7 @@ const tiposProyecto = gql`
   }
   type Query {
     Proyectos: [Proyecto]
-    ListarProyectos(rol:Enum_Rol!): [Proyecto]
+    ListarProyectos(rol:Enum_Rol!, idLider: String): [Proyecto]    
    }
   type Mutation {
     crearProyecto(rol:Enum_Rol! 

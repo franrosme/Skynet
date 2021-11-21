@@ -11,7 +11,12 @@ const resolversProyecto = {
           const proyectos = await ProjectModel.find();
           return proyectos;
 
-        }else{
+        }
+        else if(args.rol==="Lider"){
+          const proyectos = await ProjectModel.find({idLider:args.idLider});
+          return proyectos;
+        }
+        else{
           return console.log("no es administrador")
         }
         
