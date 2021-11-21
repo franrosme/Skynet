@@ -46,6 +46,15 @@ const tiposProyecto = gql`
     estado: Enum_EstadoProyecto
     fase: Enum_FaseProyecto
     ): Proyecto
+    editarProyecto(
+      _id: ID!
+      rol:Enum_Rol!
+      idLider: String! 
+      nombre: String
+      objetivosGenerales: String
+      objetivosEspecificos: [String]
+      presupuesto: Int
+    ):String
     aprobarProyecto(rol:Enum_Rol!, nombre:String!):String
     cambiarEstado(rol:Enum_Rol!, nombre:String!, estado: Enum_EstadoProyecto):String
     cambiarFase(

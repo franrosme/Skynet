@@ -109,3 +109,10 @@ query Proyectos {
   estado  
   }
 }
+14. actualizar datos
+mutation EditarProyecto {
+  editarProyecto(_id: "619905320b306192fbb64e61",
+   rol: Lider, 
+   idLider: "107687526",
+   presupuesto: 860000) 
+}

@@ -39,6 +39,26 @@ const resolversProyecto = {
         return proyectoCreado;
       }
       },
+      editarProyecto: async (parent, args) => {
+        if(args.rol==="Lider"){
+        const proyectoCreado = await ProjectModel.updateOne({
+          idLider:args.idLider, 
+          estado:"Activo",
+          _id:args._id
+        },
+        {$set:{
+          nombre: args.nombre,
+          objetivosGenerales:args. objetivosGenerales,
+          objetivosEspecificos: args.objetivosEspecificos,
+          presupuesto: args.presupuesto
+         }
+
+      });
+        console.log("proyecto actualizado");
+          return "proyecto actualizado"
+       
+      }
+      },
       aprobarProyecto: async (parent, args) => {
         if(args.rol==="Administrador"){
           const proyectos = await ProjectModel.updateOne({nombre:args.nombre},
