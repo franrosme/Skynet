@@ -190,6 +190,19 @@ const resolversProyecto = {
         }
 
       },
+      editarAvance:  async (parent, args) => {
+        if(args.rol==="Estudiante"){
+          const avance = await ProjectModel.updateOne({nombre:args.nombre,"avance.idAvance": args.idAvance},
+            { $set: { "avance.$.descripcion": args.descripcion} }
+            );
+            
+          return "avance registrado correctamente"
+        }
+        else{
+          return "no es estudiante"
+        }
+
+      },
 
 
     },

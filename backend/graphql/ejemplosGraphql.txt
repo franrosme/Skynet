@@ -186,4 +186,11 @@ mutation RegistrarAvance {
       descripcion:"avance 1"
     })
 }
+23. editar avance
+mutation EditarAvance {
+  editarAvance(
+    nombre: "proyecto humanidades", idAvance: "619b1b8a45ce59363b3d2464",
+    rol: Estudiante, 
+    descripcion: "descripcion Actualizada")
+}
 

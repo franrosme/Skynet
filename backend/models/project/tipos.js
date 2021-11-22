@@ -81,6 +81,7 @@ const tiposProyecto = gql`
     agregarObservaciones(rol:Enum_Rol!, idLider: String!, idAvance: ID!, observacionesDelLider: [String!]):String
     inscripcion(nombre: String!, rol:Enum_Rol!, inscripcion: inputInscripcion): String
     registrarAvance(nombre: String!, rol:Enum_Rol!, avance: inputAvance):String
+    editarAvance(nombre: String!, idAvance: ID!,rol:Enum_Rol!, descripcion: String!):String
   }
 `;
 
