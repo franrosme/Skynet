@@ -167,5 +167,13 @@ Estudiante
 ListarProyectos(rol: Estudiante) {
     nombre
   }
-
+20. inscribirse a proyecto
+mutation Inscripcion{
+  inscripcion(nombre: "Proyecto xxx",
+   rol: Estudiante,
+   inscripcion: {
+     idEstudiante:"19852",
+     }
+   )
+}
 

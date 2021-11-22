@@ -14,6 +14,9 @@ const tiposProyecto = gql`
     fechaDeIngreso: Date!
     fechaDeEgreso: Date
   }
+  input inputInscripcion {
+    idEstudiante: String!
+  }
   type Proyecto {
     _id: ID!
     nombre: String!
@@ -71,7 +74,8 @@ const tiposProyecto = gql`
       nombre:String!
    ): String
    cambiarEstadoInscripcion(rol:Enum_Rol!, idInscripcion: ID!, estado: Enum_EstadoInscripcion!):String
-  agregarObservaciones(rol:Enum_Rol!, idLider: String!, idAvance: ID!, observacionesDelLider: [String!]):String
+    agregarObservaciones(rol:Enum_Rol!, idLider: String!, idAvance: ID!, observacionesDelLider: [String!]):String
+    inscripcion(nombre: String!, rol:Enum_Rol!, inscripcion: inputInscripcion): String
   }
 `;
 

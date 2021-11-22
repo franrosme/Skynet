@@ -152,6 +152,20 @@ const resolversProyecto = {
         }
 
       },
+      inscripcion:  async (parent, args) => {
+        if(args.rol==="Estudiante"){
+          const inscripcion = await ProjectModel.updateOne({nombre:args.nombre},
+            { $push: { inscripcion: args.inscripcion} }
+            );
+            
+          return "Inscripcion exitosa"
+        }
+        else{
+          return "no es estudiante"
+        }
+
+      }
+
     },
   };
   

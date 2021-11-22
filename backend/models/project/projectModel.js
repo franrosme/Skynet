@@ -48,7 +48,9 @@ const projectSchema = new Schema(
     inscripcion: [{
         idInscripcion: {
             type: Schema.Types.ObjectId,
-            required: true,            
+            required: true,  
+            auto: true,  
+            
         },
         idEstudiante: {
             type: String,
@@ -62,6 +64,7 @@ const projectSchema = new Schema(
         },
         fechaDeIngreso: {
             type: Date,
+            default: new Date()
         },
         fechaDeEgreso: {
             type: Date,
@@ -70,7 +73,8 @@ const projectSchema = new Schema(
     avance: [{
         idAvance: {
             type: Schema.Types.ObjectId,
-            required: true
+            required: true,
+            auto: true,  
             },
             fecha: {
                 type: Date,
