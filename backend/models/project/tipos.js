@@ -69,6 +69,7 @@ const tiposProyecto = gql`
       fase: Enum_FaseProyecto!,
       nombre:String!
    ): String
+   cambiarEstadoInscripcion(rol:Enum_Rol!, idInscripcion: ID!, estado: Enum_EstadoInscripcion!):String
 
   }
 `;

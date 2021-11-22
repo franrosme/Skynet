@@ -114,6 +114,21 @@ const resolversProyecto = {
         }
 
       },
+      cambiarEstadoInscripcion: async (parent, args) => {
+        if(args.rol==="Lider"){
+          const proyectos = await ProjectModel.updateOne({"inscripcion.idInscripcion":args.idInscripcion},
+            { $set: { "inscripcion.$.estado": args.estado} }
+            );
+            console.log("Nuevo estado: "+args.estado);
+          return " Nuevo estado: "+args.estado
+
+        }else{
+          console.log("no es administrador")
+
+          return "no es administrador"
+        }
+
+      },
     },
   };
   

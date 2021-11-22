@@ -129,3 +129,10 @@ query ListarInscripciones{
     }
 }
 }
+16. cambiar estado de inscripcion
+mutation CambiarEstadoInscripcion{
+  cambiarEstadoInscripcion(
+    rol: Lider, 
+    idInscripcion: "619afdc52cc5333c094a648b", 
+    estado: Aceptada)
+}
