@@ -31,6 +31,14 @@ const resolversProyecto = {
         }
         
       },
+      VerProyecto: async (parent, args) => {
+        if(args.rol==="Lider"){
+        const proyecto = await ProjectModel.findOne({nombre:args.nombre, idLider:args.idLider});
+        return proyecto;
+        } else{
+          return console.log("no es Lider")
+        }
+      },
     },
     Mutation: {
       crearProyecto: async (parent, args) => {

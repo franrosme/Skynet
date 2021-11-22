@@ -136,3 +136,24 @@ mutation CambiarEstadoInscripcion{
     idInscripcion: "619afdc52cc5333c094a648b", 
     estado: Aceptada)
 }
+17. Informacion del proyecto
+query VerProyecto {
+  VerProyecto(
+    rol: Lider,
+    idLider: "107687526",
+    nombre: "proyecto x") {
+    nombre
+    avance {
+      idAvance
+      fecha
+      descripcion
+      observacionesDelLider
+    }
+    objetivosGenerales
+    objetivosEspecificos
+    presupuesto
+    fechaInicio
+    estado
+    fase
+  }
+}
