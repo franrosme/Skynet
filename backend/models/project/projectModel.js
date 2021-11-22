@@ -49,8 +49,7 @@ const projectSchema = new Schema(
         idInscripcion: {
             type: Schema.Types.ObjectId,
             required: true,  
-            auto: true,  
-            
+            auto: true,              
         },
         idEstudiante: {
             type: String,

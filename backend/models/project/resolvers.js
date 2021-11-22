@@ -39,18 +39,17 @@ const resolversProyecto = {
           return console.log("no es Lider")
         }
       },
-     /*VerAvances: async (parent, args) => {
+     VerAvances: async (parent, args) => {
         if(args.rol==="Estudiante"){
         const avance = await ProjectModel.find({
           "inscripcion.idEstudiante":args.idEstudiante, 
           "inscripcion.estado":"Aceptada",
           nombre:args.nombre});
-          console.log(avance)
-        return avance;
+          return avance;
         } else{
           return console.log("no es Estudiante")
         }
-      },*/
+      },
     },
     Mutation: {
       crearProyecto: async (parent, args) => {

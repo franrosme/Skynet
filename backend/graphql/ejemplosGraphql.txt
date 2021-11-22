@@ -177,6 +177,17 @@ mutation Inscripcion{
    )
 }
 21. listar avances 
+query VerAvances {
+  VerAvances(rol:Estudiante,
+  idEstudiante: "14687526", nombre:"proyecto x") {
+    
+    avance {
+      descripcion
+      observacionesDelLider
+      fecha
+    }
+  }
+}
 22.Registrar avances
 mutation RegistrarAvance {
   registrarAvance(
