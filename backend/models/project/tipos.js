@@ -71,7 +71,7 @@ const tiposProyecto = gql`
       nombre:String!
    ): String
    cambiarEstadoInscripcion(rol:Enum_Rol!, idInscripcion: ID!, estado: Enum_EstadoInscripcion!):String
-
+  agregarObservaciones(rol:Enum_Rol!, idLider: String!, idAvance: ID!, observacionesDelLider: [String!]):String
   }
 `;
 

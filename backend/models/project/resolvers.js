@@ -137,6 +137,21 @@ const resolversProyecto = {
         }
 
       },
+      agregarObservaciones: async (parent, args) => {
+        if(args.rol==="Lider"){
+          const proyectos = await ProjectModel.updateOne({"avance.idAvance":args.idAvance, idLider:args.idLider},
+            { $set: { "avance.$.observacionesDelLider": args.observacionesDelLider} }
+            );
+            console.log("Observaciones: "+args.observacionesDelLider);
+          return "Observaciones: "+args.observacionesDelLider
+
+        }else{
+          console.log("no es administrador")
+
+          return "no es administrador"
+        }
+
+      },
     },
   };
   

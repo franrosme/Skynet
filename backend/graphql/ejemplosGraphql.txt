@@ -157,3 +157,9 @@ query VerProyecto {
     fase
   }
 }
+18. Agregar observaciones
+mutation AgregarObservaciones{
+  agregarObservaciones(rol: Lider,
+  idLider: "107687526", idAvance: "619b04572cc5333c094a648f", observacionesDelLider: ["Se observan mejorias en el proyecto x", "se recomienda mejorar el desempeño"])
+}
+
