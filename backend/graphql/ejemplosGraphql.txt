@@ -116,3 +116,16 @@ mutation EditarProyecto {
    idLider: "107687526",
    presupuesto: 860000) 
 }
+15. listar solicitudes de inscripcion
+query ListarInscripciones{
+  ListarInscripciones(rol: Lider, idLider: "107687526") {
+    nombre
+    inscripcion {
+      idEstudiante
+      estado
+      fechaDeIngreso
+      idInscripcion
+      fechaDeEgreso
+    }
+}
+}

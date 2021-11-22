@@ -17,7 +17,17 @@ const resolversProyecto = {
           return proyectos;
         }
         else{
-          return console.log("no es administrador")
+          return console.log("no es Lider")
+        }
+        
+      },
+      ListarInscripciones: async (parent, args) => {
+        if(args.rol==="Lider"){
+          const inscripcion = await ProjectModel.find({idLider:args.idLider},{"inscripcion":1,"nombre":1});
+          return inscripcion;
+        }
+        else{
+          return console.log("no es Lider")
         }
         
       },

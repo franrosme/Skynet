@@ -30,9 +30,15 @@ const tiposProyecto = gql`
     inscripcion: [Inscripcion]
      
   }
+  type LInscripcion {
+    nombre: String!
+    inscripcion: [Inscripcion]
+     
+  }
   type Query {
     Proyectos: [Proyecto]
-    ListarProyectos(rol:Enum_Rol!, idLider: String): [Proyecto]    
+    ListarProyectos(rol:Enum_Rol!, idLider: String): [Proyecto]   
+    ListarInscripciones(rol:Enum_Rol!, idLider: String!):[LInscripcion] 
    }
   type Mutation {
     crearProyecto(rol:Enum_Rol! 
