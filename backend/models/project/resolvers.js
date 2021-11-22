@@ -39,6 +39,18 @@ const resolversProyecto = {
           return console.log("no es Lider")
         }
       },
+     /*VerAvances: async (parent, args) => {
+        if(args.rol==="Estudiante"){
+        const avance = await ProjectModel.find({
+          "inscripcion.idEstudiante":args.idEstudiante, 
+          "inscripcion.estado":"Aceptada",
+          nombre:args.nombre});
+          console.log(avance)
+        return avance;
+        } else{
+          return console.log("no es Estudiante")
+        }
+      },*/
     },
     Mutation: {
       crearProyecto: async (parent, args) => {
@@ -164,7 +176,21 @@ const resolversProyecto = {
           return "no es estudiante"
         }
 
-      }
+      },
+      registrarAvance:  async (parent, args) => {
+        if(args.rol==="Estudiante"){
+          const avance = await ProjectModel.updateOne({nombre:args.nombre},
+            { $push: { avance: args.avance} }
+            );
+            
+          return "avance registrado correctamente"
+        }
+        else{
+          return "no es estudiante"
+        }
+
+      },
+
 
     },
   };

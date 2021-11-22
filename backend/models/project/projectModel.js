@@ -79,6 +79,7 @@ const projectSchema = new Schema(
             fecha: {
                 type: Date,
                 required: true,
+                default: new Date()
             },
             descripcion: {
                 type: String,

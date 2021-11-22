@@ -176,4 +176,14 @@ mutation Inscripcion{
      }
    )
 }
+21. listar avances 
+22.Registrar avances
+mutation RegistrarAvance {
+  registrarAvance(
+    nombre: "proyecto humanidades" , 
+    rol: Estudiante,
+    avance: {
+      descripcion:"avance 1"
+    })
+}
 

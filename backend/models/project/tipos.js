@@ -7,6 +7,9 @@ const tiposProyecto = gql`
     descripcion: String!
     observacionesDelLider: [String!]
     }
+    input inputAvance {
+    descripcion: String!
+    }
   type Inscripcion {
     idInscripcion: ID!
     idEstudiante: String!
@@ -43,6 +46,7 @@ const tiposProyecto = gql`
     ListarProyectos(rol:Enum_Rol!, idLider: String): [Proyecto]   
     ListarInscripciones(rol:Enum_Rol!, idLider: String!):[LInscripcion] 
     VerProyecto(rol:Enum_Rol!, idLider:String!, nombre:String!): Proyecto
+    
    }
   type Mutation {
     crearProyecto(rol:Enum_Rol! 
@@ -76,6 +80,7 @@ const tiposProyecto = gql`
    cambiarEstadoInscripcion(rol:Enum_Rol!, idInscripcion: ID!, estado: Enum_EstadoInscripcion!):String
     agregarObservaciones(rol:Enum_Rol!, idLider: String!, idAvance: ID!, observacionesDelLider: [String!]):String
     inscripcion(nombre: String!, rol:Enum_Rol!, inscripcion: inputInscripcion): String
+    registrarAvance(nombre: String!, rol:Enum_Rol!, avance: inputAvance):String
   }
 `;
 
