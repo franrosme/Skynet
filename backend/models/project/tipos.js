@@ -38,6 +38,8 @@ const tiposProyecto = gql`
   }
   type LProyectos {
     nombre: String!
+    fase: Enum_FaseProyecto
+    estado: Enum_EstadoProyecto
        
   }
   type LInscripcion {

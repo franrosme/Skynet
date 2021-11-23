@@ -8,7 +8,7 @@ const resolversProyecto = {
       },
       ListarProyectos: async (parent, args) => {
         if(args.rol==="Administrador"||args.rol==="Estudiante"){
-          const proyectos = await ProjectModel.find({},{"nombre":1, "_id":0});
+          const proyectos = await ProjectModel.find({},{"nombre":1, "fase":1, "estado":1, "_id":0});
           return proyectos;
 
         }
