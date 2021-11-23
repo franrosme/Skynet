@@ -8,16 +8,16 @@ const resolversProyecto = {
       },
       ListarProyectos: async (parent, args) => {
         if(args.rol==="Administrador"||args.rol==="Estudiante"){
-          const proyectos = await ProjectModel.find();
+          const proyectos = await ProjectModel.find({},{"nombre":1, "_id":0});
           return proyectos;
 
         }
         else if(args.rol==="Lider"){
-          const proyectos = await ProjectModel.find({idLider:args.idLider});
+          const proyectos = await ProjectModel.find({idLider:args.idLider},{"nombre":1, "_id":0});
           return proyectos;
         }
-        else{
-          return console.log("no es Lider")
+        else {
+          return console.log("Rol no valido")
         }
         
       },
@@ -83,8 +83,11 @@ const resolversProyecto = {
          }
 
       });
-        console.log("proyecto actualizado");
-          return "proyecto actualizado"
+      if(proyectoCreado.modifiedCount>0){
+
+        return "Proyecto actualizado"
+      }
+      else{ return "El proyecto no se pudo actualizar"}
        
       }
       },
@@ -121,7 +124,8 @@ const resolversProyecto = {
       cambiarFase: async (parent, args) => {
         if(args.rol==="Administrador" && args.fase==="Terminado" && args.faseActual==="En_Desarrollo"){
           const proyectos = await ProjectModel.updateOne({nombre:args.nombre},
-            { $set: { "fase" : args.fase } }
+            { $set: { "fase" : args.fase,
+                      "estado" :"Inactivo"} }
             );
             console.log(args.nombre+". Nueva fase: "+args.fase);
           return args.nombre+". Nueva fase: "+args.fase
