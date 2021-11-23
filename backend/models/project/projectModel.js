@@ -21,7 +21,6 @@ const projectSchema = new Schema(
     },
     fechaInicio: {
       type: Date,
-      default: new Date()
     },
     fechaFin: {
       type: Date,

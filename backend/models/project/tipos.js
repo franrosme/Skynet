@@ -26,7 +26,7 @@ const tiposProyecto = gql`
     objetivosGenerales: String!
     objetivosEspecificos: [String!]
     presupuesto: Int!
-    fechaInicio: Date!
+    fechaInicio: Date
     fechaFin: Date
     estado: Enum_EstadoProyecto
     fase: String

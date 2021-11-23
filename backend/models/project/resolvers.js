@@ -94,7 +94,7 @@ const resolversProyecto = {
       aprobarProyecto: async (parent, args) => {
         if(args.rol==="Administrador"){
           const proyectos = await ProjectModel.updateOne({nombre:args.nombre},
-            { $set: { "fase" : "Iniciado"} }
+            { $set: { "estado": "Activo", "fase" : "Iniciado", "fechaInicio": new Date()} }
             );
             console.log("proyecto aprobado");
           return "proyecto aprobado"
