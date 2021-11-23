@@ -1,0 +1,42 @@
+{
+    "name": "@types/express-jwt",
+    "version": "0.0.42",
+    "description": "TypeScript definitions for express-jwt",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": " Wonshik Kim",
+            "url": "https://github.com/wokim",
+            "githubUsername": "wokim"
+        },
+        {
+            "name": "Kacper Polak",
+            "url": "https://github.com/kacepe",
+            "githubUsername": "kacepe"
+        },
+        {
+            "name": "Sl1MBoy",
+            "url": "https://github.com/Sl1MBoy",
+            "githubUsername": "Sl1MBoy"
+        },
+        {
+            "name": "Milan Mimra",
+            "url": "https://github.com/milan-mimra",
+            "githubUsername": "milan-mimra"
+        }
+    ],
+    "main": "",
+    "types": "index",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/express-jwt"
+    },
+    "scripts": {},
+    "dependencies": {
+        "@types/express": "*",
+        "@types/express-unless": "*"
+    },
+    "typesPublisherContentHash": "4fa093f23699dab3164665e3315aeb9cb505e4f4a175281b3a6ef84c7fa5951a",
+    "typeScriptVersion": "2.3"
+}

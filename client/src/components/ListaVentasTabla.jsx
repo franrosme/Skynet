@@ -35,13 +35,13 @@ const ListaVentasTabla = () => {
   };
     return (
         <div>
-        <section >
+       {/*  <section >
           <Link to ='/agregarventas'>
           <Button color="primary" size="lg">Adicionar venta</Button></Link>
-        </section>
+        </section> */}
 
         <FormGroup className="mt-3 w-100">
-        <Label for="Search">Buscar venta</Label>
+        <Label for="Search">Buscar integrante</Label>
         <Input
           type="text"
           onChange={(e) => {
@@ -58,14 +58,11 @@ const ListaVentasTabla = () => {
           <Table striped key={key}>
             <thead>
               <tr>
-              <th>Código venta</th>
-              <th>Identificación producto</th>
-              <th>Valor venta</th>
-              <th>Cantidad</th>
-              <th>Fecha venta</th>
-              <th>Documento cliente</th>
-              <th>Nombre cliente</th>
-              <th>ID Vendedor</th>
+              <th>Código integrante</th>
+              <th>Identificación</th>
+              <th>Rol</th>
+              <th>Nombre proyecto</th>
+              <th>Fecha Actualización</th>
               <th>Estado</th>
               <th>Actualizar</th>
               <th>Eliminar</th>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import logo from '../assets/Skynet.png';
 
 import {
   Collapse,
@@ -39,7 +40,8 @@ const NavBar = () => {
     <div className="nav-container">
       <Navbar className="navbar-dark bg-dark" expand="md">
         <Container>
-          <NavbarBrand className="logo" />
+          <NavbarBrand><img src={logo} width="110" alt="Logo Skynet" className="logoImg" />
+          </NavbarBrand>
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="mr-auto" navbar>
@@ -61,7 +63,7 @@ const NavBar = () => {
                     exact
                     activeClassName="router-link-exact-active"
                   >
-                    Administración de Productos
+                    Proyectos
                   </NavLink>
                 </NavItem>            
               )}
@@ -73,7 +75,7 @@ const NavBar = () => {
                     exact
                     activeClassName="router-link-exact-active"
                   >
-                    Administración de Ventas
+                    Información Integrantes
                   </NavLink>
                 </NavItem>            
               )}

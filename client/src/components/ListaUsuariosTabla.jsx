@@ -38,13 +38,13 @@ const ListaUsuariosTabla = () => {
       <section>
         <Link to="/agregarroles">
           <Button color="primary" size="lg">
-            Adicionar Usuario
+            Adicionar Integrante
           </Button>
         </Link>
       </section>
 
       <FormGroup className="mt-3 w-100">
-        <Label for="Search">Buscar Usuario</Label>
+        <Label for="Search">Buscar integrante</Label>
         <Input
           type="text"
           onChange={(e) => {
@@ -61,8 +61,8 @@ const ListaUsuariosTabla = () => {
           <Table striped key={key}>
             <thead>
               <tr>
-                <th>Código del usuario</th>
-                <th>Nombre del usuario</th>
+                <th>Código del integrante</th>
+                <th>Nombre del integrante</th>
                 <th>Rol</th>
                 <th>Estado</th>
                 <th>Actualizar</th>

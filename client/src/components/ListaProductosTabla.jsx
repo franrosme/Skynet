@@ -38,13 +38,13 @@ const ListaProductosTabla = () => {
       <section>
         <Link to="/agregarproductos">
           <Button color="primary" size="lg">
-            Adicionar producto
+            Crear Proyecto
           </Button>
         </Link>
       </section>
 
       <FormGroup className="mt-3 w-100">
-        <Label for="Search">Buscar producto</Label>
+        <Label for="Search">Buscar proyecto</Label>
         <Input
           type="text"
           onChange={(e) => {
@@ -61,9 +61,9 @@ const ListaProductosTabla = () => {
           <Table striped key={key}>
             <thead>
               <tr>
-                <th>Código del producto</th>
-                <th>Nombre del producto</th>
-                <th>Valor Unitario</th>
+                <th>Código del proyecto</th>
+                <th>Nombre del proyecto</th>
+                <th>Lider proyecto</th>
                 <th>Estado</th>
                 <th>Actualizar</th>
                 <th>Eliminar</th>

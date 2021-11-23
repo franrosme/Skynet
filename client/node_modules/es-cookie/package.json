@@ -1,0 +1,46 @@
+{
+  "name": "es-cookie",
+  "version": "1.3.2",
+  "description": "A JavaScript module for handling cookies",
+  "files": [
+    "src/*.js",
+    "src/*.d.ts"
+  ],
+  "main": "src/es-cookie.js",
+  "types": "./src/es-cookie.d.ts",
+  "keywords": [
+    "cookies",
+    "typescript",
+    "module",
+    "commonjs",
+    "rollup",
+    "browserify",
+    "webpack"
+  ],
+  "scripts": {
+    "prepublish": "tsc && browserify test/tests.js -o test/browser/testbundle.js",
+    "start": "http-server"
+  },
+  "author": {
+    "name": "Theodore Brown",
+    "email": "theodorejb@outlook.com",
+    "url": "http://theodorejb.me/"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/theodorejb/es-cookie",
+  "bugs": {
+    "url": "https://github.com/theodorejb/es-cookie/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/theodorejb/es-cookie.git"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.0",
+    "@types/node": "^12.12.24",
+    "browserify": "^16.2.2",
+    "http-server": "^0.12.1",
+    "mocha": "^7.0.0",
+    "typescript": "^3.7.4"
+  }
+}
