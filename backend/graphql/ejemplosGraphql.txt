@@ -1,0 +1,207 @@
+listar usuarios
+
+query Usuarios {
+  Usuarios {
+    email
+    nombre
+    rol
+    estado
+    idUsuario
+  }
+}
+
+buscar un usuario
+
+query Usuario {
+  Usuario(idUsuario:"10768326") {
+    email
+    nombre
+    
+  }
+}
+crear usuario
+
+mutation USUARIO {
+  crearUsuario(
+    nombre:"Ines Cruz",
+    email:"inec@hmail.com",
+    idUsuario: "12231",
+    clave:"clave",
+    rol: Lider
+    )
+    {
+    nombre
+    rol
+  }
+}
+editar usuario
+
+mutation USUARIO{
+  editarUsuario(
+    _id:"6198fc53955df726a85952ea",
+    nombre:"pedro",
+    email:"oiupp@hmail.com",
+    idUsuario: "1992",
+    estado: Pendiente
+    )
+    {
+    nombre
+    rol
+  }
+}
+
+eliminar usuario
+
+mutation EliminarUsuario{
+  eliminarUsuario(email: "pp@hmail.com") {
+    nombre
+  }
+}
+
+Administrador
+6. Listar Proyectos
+
+query ListarProyectos {
+  ListarProyectos(rol: Administrador) {
+    nombre
+    }
+}
+7. Aprobar proyecto
+
+mutation AprobarProyecto {
+  aprobarProyecto(rol: Administrador, nombre: "proyecto 3")
+}
+
+8.  Activar/desactivar proyecto
+mutation CambiarEstado{
+  cambiarEstado(rol: Administrador,
+   nombre: "proyecto 2",
+   estado: Activo
+  )
+}
+9. cambiar fase en desarrollo => terminado
+mutation CambiarFase{
+  cambiarFase(rol: Administrador,
+  faseActual:En_Desarrollo 
+  fase: Terminado, 
+  nombre: "proyecto 3" )
+}
+Lider
+12. Crear Proyecto nuevo 
+mutation CrearProyecto {
+  crearProyecto(
+    nombre: "Proyecto xyz",
+    objetivosGenerales:"objetivos",
+    presupuesto:1356654,
+    lider:"Camilo",
+    idLider:"1241",
+    rol: Lider) {
+    nombre
+  }
+}
+
+13. Listar proyectos lider
+query Proyectos {
+  ListarProyectos(rol: Lider,
+  idLider:"1241"
+  ) {
+  nombre
+  estado  
+  }
+}
+14. actualizar datos
+mutation EditarProyecto {
+  editarProyecto(_id: "619905320b306192fbb64e61",
+   rol: Lider, 
+   idLider: "107687526",
+   presupuesto: 860000) 
+}
+15. listar solicitudes de inscripcion
+query ListarInscripciones{
+  ListarInscripciones(rol: Lider, idLider: "107687526") {
+    nombre
+    inscripcion {
+      idEstudiante
+      estado
+      fechaDeIngreso
+      idInscripcion
+      fechaDeEgreso
+    }
+}
+}
+16. cambiar estado de inscripcion
+mutation CambiarEstadoInscripcion{
+  cambiarEstadoInscripcion(
+    rol: Lider, 
+    idInscripcion: "619afdc52cc5333c094a648b", 
+    estado: Aceptada)
+}
+17. Informacion del proyecto
+query VerProyecto {
+  VerProyecto(
+    rol: Lider,
+    idLider: "107687526",
+    nombre: "proyecto x") {
+    nombre
+    avance {
+      idAvance
+      fecha
+      descripcion
+      observacionesDelLider
+    }
+    objetivosGenerales
+    objetivosEspecificos
+    presupuesto
+    fechaInicio
+    estado
+    fase
+  }
+}
+18. Agregar observaciones
+mutation AgregarObservaciones{
+  agregarObservaciones(rol: Lider,
+  idLider: "107687526", idAvance: "619b04572cc5333c094a648f", observacionesDelLider: ["Se observan mejorias en el proyecto x", "se recomienda mejorar el desempeño"])
+}
+Estudiante
+19. Listar Proyectos
+ListarProyectos(rol: Estudiante) {
+    nombre
+  }
+20. inscribirse a proyecto
+mutation Inscripcion{
+  inscripcion(nombre: "Proyecto xxx",
+   rol: Estudiante,
+   inscripcion: {
+     idEstudiante:"19852",
+     }
+   )
+}
+21. listar avances 
+query VerAvances {
+  VerAvances(rol:Estudiante,
+  idEstudiante: "14687526", nombre:"proyecto x") {
+    
+    avance {
+      descripcion
+      observacionesDelLider
+      fecha
+    }
+  }
+}
+22.Registrar avances
+mutation RegistrarAvance {
+  registrarAvance(
+    nombre: "proyecto humanidades" , 
+    rol: Estudiante,
+    avance: {
+      descripcion:"avance 1"
+    })
+}
+23. editar avance
+mutation EditarAvance {
+  editarAvance(
+    nombre: "proyecto humanidades", idAvance: "619b1b8a45ce59363b3d2464",
+    rol: Estudiante, 
+    descripcion: "descripcion Actualizada")
+}
+
