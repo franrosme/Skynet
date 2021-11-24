@@ -1,0 +1,35 @@
+crear un proyecto que tenga:
+	1 objetivo general
+	2 objetivos especificos
+
+1. referencia en la parte "many" de la relacion (en el objetivo)
+	1. crear el proyecto
+	2. crear los objetivos y asociarlos al proyecto
+	3. si queremos consultar el proyecto y obtener los objetivos,
+	necesitamos primero hacer un filtro en los objetivos y despues hacer
+	el query al proyecto
+
+Ventajas: si la parte many tiene muchas entidades, este método es más eficiente en términos de velocidad
+y almacenamiento.
+
+Desventajas: tengo que hacer dos queries, tengo que hacer las creaciones por separado.
+
+2. referencia en la parte "one" de la relacion (en el proyecto)
+	1. crear los objetivos
+	2. crear el proyecto y asociarle los objetivos
+	3. consultar el proyecto con un populate
+
+ventajas: el query puede usar populate
+desventajas: si la parte many de la relacion crece demasiado, el documento de proyecto se vuelve muy pesado
+y podría ser lento para cargar. Tengo que hacer las creaciones por separado.
+
+3. no hacer referencia y registrar los elementos many directamente en el elemento one
+	1. crear el proyecto y agregarle manualmente los objetivos
+	2. consultar el proyecto
+
+ventajas: un solo query, una sola creación
+desventajas: si crece demasiado el array, el documento se hace muy pesado, y se demoraría mucho en cargar.
+es mas dificil la edicion de los objetivos
+
+
+
