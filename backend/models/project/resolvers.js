@@ -292,17 +292,54 @@ const resolversProyecto = {
 
       },
       inscripcion:  async (parent, args) => {
-        if(args.rol==="Estudiante"){
-          const inscripcion = await ProjectModel.updateOne({nombre:args.nombre},
-            { $push: { inscripcion: args.inscripcion} }
-            );
-            
-          return "Inscripcion exitosa"
+        var reabrirInscripcion = false;
+       const user = await UserModel.findOne({ idUsuario: args.inscripcion.idEstudiante })
+       if(user && user.estado === "Autorizado" && user.rol==="Estudiante"){
+          const busqueda = await ProjectModel.findOne({
+            _id:args.idProyecto, "inscripcion.idEstudiante":user.idUsuario });
+              if(busqueda !== null){
+                for(let i = 0; i < busqueda.inscripcion.length; i++) {
+                  if(busqueda.inscripcion[i].idEstudiante=== user.idUsuario){
+                    if(busqueda.inscripcion[i].estado==="Aceptada" && busqueda.inscripcion[i].fechaDeEgreso===null){
+                      reabrirInscripcion = false;
+                      return "El usuario ya pertenece al proyecto indicado"
+                    }else if(busqueda.inscripcion[i].estado==="Rechazada")
+                    {
+                      reabrirInscripcion = false;
+                      return "El usuario ya fue rechazado al proyecto indicado"
+                    }
+                    else if(busqueda.inscripcion[i].estado==="Aceptada" && busqueda.inscripcion[i].fechaDeEgreso!==null){
+                      reabrirInscripcion = true;
+                    }
+                    else{
+                      return "El usuario no pertenece al proyecto indicado"
+                    }
+                  }
+                 }
+                 if(reabrirInscripcion){
+                  const inscripcion = await ProjectModel.updateOne({_id: args.idProyecto},                    
+                    { $push: { inscripcion: args.inscripcion} });
+                    if(inscripcion.modifiedCount>0){
+                      return "El usuario ya trabajo en el proyecto indicado, puede inscribirse nuevamente al reabrir"
+                    }
+                    else{ return "No se pudo registrar"}
+                 }
+  
+  
+            }else{
+                const inscripcion = await ProjectModel.updateOne({_id: args.idProyecto},                    
+                  { $push: { inscripcion: args.inscripcion} });
+                  if(inscripcion.modifiedCount>0){
+                    return "Usuario inscrito por primera vez"
+                  }
+                  else{ return "No se pudo registrar"}
+  
+              }
+           
+        } else {
+            return "Usuario no valido"
         }
-        else{
-          return "no es estudiante"
-        }
-
+       
       },
       registrarAvance:  async (parent, args) => {
         if(args.rol==="Estudiante"){
