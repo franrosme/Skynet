@@ -75,18 +75,15 @@ const resolversProyecto = {
     },
     Mutation: {
       crearProyecto: async (parent, args) => {
-        if(args.rol==="Lider"){
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if(user && user.estado === "Autorizado" && user.rol==="Lider"){
         const proyectoCreado = await ProjectModel.create({
-          nombre: args.nombre,
-          objetivosGenerales:args. objetivosGenerales,
-          objetivosEspecificos: args.objetivosEspecificos,
-          presupuesto: args.presupuesto,
-          fechaInicio: args.fechaInicio,
-          lider: args.lider,
-          idLider: args.idLider,
-          estado: args.estado,
-          fase: args.fase,
-      });
+          nombre: args.campos.nombre,
+          objetivosGenerales:args.campos.objetivosGenerales,
+          objetivosEspecificos: args.campos.objetivosEspecificos,
+          presupuesto: args.campos.presupuesto,
+          lider: user._id,
+        });
         return proyectoCreado;
       }
       },
