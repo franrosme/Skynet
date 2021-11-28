@@ -153,6 +153,25 @@ const resolversProyecto = {
           return "No es administrador"
         }
       },
+      reabrirProyecto: async (parent, args) => {
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+          const reabrir = await ProjectModel.updateOne({
+            $and:[
+              {estado:{$eq:"Inactivo"}},
+              {$or:[{fase:{$eq:"Iniciado"}},{fase:{$eq:"En_Desarrollo"}}]},
+              {_id:{$eq:args.idProyecto}}
+            ]},
+            { $set: { "estado": "Activo"} }
+            );
+            if(reabrir.modifiedCount>0){
+              return "proyecto reabierto"
+            }
+            else{ return "No se pudo reabrir el proyecto"};
+        }else{
+          return "No es administrador"
+        }
+      },
       cambiarEstado: async (parent, args) => {
         if(args.rol==="Administrador"){
           const proyectos = await ProjectModel.updateOne({nombre:args.nombre},
