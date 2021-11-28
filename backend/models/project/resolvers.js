@@ -135,19 +135,23 @@ const resolversProyecto = {
       }else{ return "Rol no valido"}
       },
       aprobarProyecto: async (parent, args) => {
-        if(args.rol==="Administrador"){
-          const proyectos = await ProjectModel.updateOne({nombre:args.nombre},
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+          const aprobar = await ProjectModel.updateOne({
+            $and:[
+              {estado:{$eq:"Inactivo"}},
+              {fase:{$eq:null}},
+              {_id:{$eq:args.idProyecto}}
+            ]},
             { $set: { "estado": "Activo", "fase" : "Iniciado", "fechaInicio": new Date()} }
             );
-            console.log("proyecto aprobado");
-          return "proyecto aprobado"
-
+            if(aprobar.modifiedCount>0){
+              return "proyecto aprobado"
+            }
+            else{ return "No se pudo aprobar el proyecto"};
         }else{
-          console.log("no es administrador")
-
-          return "no es administrador"
+          return "No es administrador"
         }
-
       },
       cambiarEstado: async (parent, args) => {
         if(args.rol==="Administrador"){
