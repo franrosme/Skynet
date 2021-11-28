@@ -30,13 +30,12 @@ const tiposProyecto = gql`
     fechaFin: Date
     estado: Enum_EstadoProyecto
     fase: String
-    lider: String
-    idLider: String
+    lider: Usuario
     avance: [Avance]
     inscripcion: [Inscripcion]
-     
-  }
+    }
   type LProyectos {
+    _id:ID!
     nombre: String!
     fase: Enum_FaseProyecto
     estado: Enum_EstadoProyecto
@@ -55,9 +54,8 @@ const tiposProyecto = gql`
     ListarProyectos(idUsuario: String!): [LProyectos]
     ListarInscripciones(idUsuario: String!):[LInscripcion] 
     VerAvances(nombre:String!, rol:Enum_Rol!, idEstudiante: String!):[LAvance] 
-    VerProyecto(rol:Enum_Rol!, idLider:String!, nombre:String!): Proyecto
-    
-   }
+    VerProyecto(idUsuario: String!, idProyecto:ID!): Proyecto
+  }
   type Mutation {
     crearProyecto(rol:Enum_Rol! 
     nombre: String!

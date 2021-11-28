@@ -27,14 +27,26 @@ const resolversProyecto = {
           } else{
             return console.log("Rol no valido o usuario no autorizado") }      
         },
-      VerProyecto: async (parent, args) => {
-        if(args.rol==="Lider"){
-        const proyecto = await ProjectModel.findOne({nombre:args.nombre, idLider:args.idLider});
-        return proyecto;
-        } else{
-          return console.log("no es Lider")
-        }
-      },
+        VerProyecto: async (parent, args) => {
+          const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+          if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+            const proyecto = await ProjectModel.findOne({_id:args.idProyecto}).populate("lider");
+            return proyecto;
+          } 
+          else if(user && user.estado === "Autorizado" && user.rol==="Lider"){
+            const proyecto = await ProjectModel.findOne({
+              $and:[
+                {_id:{$eq:args.idProyecto}},           
+                {lider:{$eq:user._id}},
+              ]}).populate("lider");
+            return proyecto;
+            } 
+          else if(user && user.estado === "Autorizado" && user.rol==="Estudiante"){
+              const proyecto = await ProjectModel.findOne({_id:args.idProyecto}).populate("lider");
+              return proyecto;
+          } else{
+            return console.log("Rol no valido o usuario no autorizado") }
+        },
      VerAvances: async (parent, args) => {
         if(args.rol==="Estudiante"){
         const avance = await ProjectModel.find({
