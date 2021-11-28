@@ -204,6 +204,40 @@ const resolversProyecto = {
           return "no es administrador"
         }
       },
+      terminarProyecto: async (parent, args) => {
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+          const finalizado = await ProjectModel.updateOne({
+            $and:[
+              {_id:{$eq:args.idProyecto}},
+              {estado:{$eq:"Activo"}},
+              {fase:{$eq:"En_Desarrollo"}},
+            ]},
+            { $set: { "fase" : "Terminado",
+                      "estado" :"Inactivo",
+                      "fechaFin": new Date()} }
+            );
+            if(finalizado.modifiedCount>0){
+              const busqueda = await ProjectModel.findOne({_id:args.idProyecto});
+                for(let i = 0; i < busqueda.inscripcion.length; i++) {
+                  if(busqueda.inscripcion[i].estado==="Aceptada" && busqueda.inscripcion[i].fechaDeEgreso===null){
+                    const proyectos = await ProjectModel.updateOne({
+                      "inscripcion._id":busqueda.inscripcion[i]._id
+                      },
+                      { $set: {"inscripcion.$.fechaDeEgreso": new Date()
+                      } }
+                      );
+                    }  
+              }
+                return busqueda.nombre +  "Proyecto terminado"
+            }
+            else{ return "No se pudo cambiar la fase del proyecto"};
+        }
+        else{
+          return "no es administrador"
+        }
+  
+      },
       cambiarEstado: async (parent, args) => {
         if(args.rol==="Administrador"){
           const proyectos = await ProjectModel.updateOne({nombre:args.nombre},
