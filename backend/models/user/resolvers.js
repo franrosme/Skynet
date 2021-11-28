@@ -13,10 +13,13 @@ const resolversUsuario = {
     },
     Mutation: {
       crearUsuario: async (parent, args) => {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(args.password, salt);
         const usuarioCreado = await UserModel.create({
           email: args.email,
           idUsuario: args.idUsuario,
           nombre: args.nombre,
+          clave: hashedPassword,
           rol: args.rol,
         });
   
