@@ -277,19 +277,33 @@ const resolversProyecto = {
   
       },
       agregarObservaciones: async (parent, args) => {
-        if(args.rol==="Lider"){
-          const proyectos = await ProjectModel.updateOne({"avance.idAvance":args.idAvance, idLider:args.idLider},
-            { $set: { "avance.$.observacionesDelLider": args.observacionesDelLider} }
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if(user && user.estado === "Autorizado" && user.rol==="Lider"){
+          const observaciones = await ProjectModel.updateOne({
+            $and:[
+              {"avance._id":{$eq: args.idAvance}},
+              {estado:{$eq:"Activo"}},
+              {lider:{$eq:user._id}}]},
+            { $set: { "avance.$.observacionesDelLider": args.observacionesDelLider} });
+            if(observaciones.modifiedCount>0){
+              return "Observaciones: "+args.observacionesDelLider
+            }
+            else{ return "No se pudo guardar la observacion"};
+          }
+        else if(user && user.estado === "Autorizado" && user.rol==="Administradror"){
+          const observaciones = await ProjectModel.updateOne({
+            $and:[
+              {"avance._id":{$eq: args.idAvance}},
+              {estado:{$eq:"Activo"}}]},
+            { $push: { "avance.$.observacionesDelLider": args.observacionesDelLider} }
             );
-            console.log("Observaciones: "+args.observacionesDelLider);
-          return "Observaciones: "+args.observacionesDelLider
-
-        }else{
-          console.log("no es administrador")
-
-          return "no es administrador"
+            if(observaciones.modifiedCount>0){
+              return "Observaciones: "+args.observacionesDelLider
+            }
+            else{ return "No se pudo guardar la observacion"};
+          }else{
+           return "Rol no valido"
         }
-
       },
       inscripcion:  async (parent, args) => {
         var reabrirInscripcion = false;
