@@ -21,10 +21,6 @@ const tiposEnums = gql`
     Terminado
     Null
   }
-  enum Enum_TipoObjetivo {
-    General
-    Especifico
-  }
   enum Enum_EstadoInscripcion {
     Aceptada
     Rechazada
