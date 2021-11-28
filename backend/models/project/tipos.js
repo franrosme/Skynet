@@ -2,23 +2,17 @@ import { gql } from 'apollo-server-express';
 
 const tiposProyecto = gql`
   type Avance {
-    idAvance: ID!
+    _id: ID!
     fecha: Date!
     descripcion: String!
     observacionesDelLider: [String!]
     }
-    input inputAvance {
-    descripcion: String!
-    }
   type Inscripcion {
-    idInscripcion: ID!
+    _id: ID!
     idEstudiante: String!
     estado: Enum_EstadoInscripcion
     fechaDeIngreso: Date!
     fechaDeEgreso: Date
-  }
-  input inputInscripcion {
-    idEstudiante: String!
   }
   type Proyecto {
     _id: ID!
@@ -30,70 +24,77 @@ const tiposProyecto = gql`
     fechaFin: Date
     estado: Enum_EstadoProyecto
     fase: String
-    lider: String
-    idLider: String
+    lider: Usuario
     avance: [Avance]
     inscripcion: [Inscripcion]
-     
+    }
+  type ProyectoCreado {
+    _id:ID
+    nombre: String
+    objetivosGenerales: String
+    objetivosEspecificos: [String]
+    presupuesto: Int
+    fechaInicio: Date
+    estado: Enum_EstadoProyecto
+    fase: String
   }
   type LProyectos {
+    _id:ID
     nombre: String!
     fase: Enum_FaseProyecto
     estado: Enum_EstadoProyecto
-       
+    lider:Usuario
   }
   type LInscripcion {
     nombre: String!
     inscripcion: [Inscripcion]
-     
   }
   type LAvance {
-    avance: [Avance]
-     
+  nombre: String!
+  avance: [Avance]
   }
-  type Query {
-    Proyectos: [Proyecto]
-    ListarProyectos(rol:Enum_Rol!, idLider: String): [LProyectos]   
-    ListarInscripciones(rol:Enum_Rol!, idLider: String!):[LInscripcion] 
-    VerAvances(nombre:String!, rol:Enum_Rol!, idEstudiante: String!):[LAvance] 
-    VerProyecto(rol:Enum_Rol!, idLider:String!, nombre:String!): Proyecto
-    
-   }
-  type Mutation {
-    crearProyecto(rol:Enum_Rol! 
+  input inputAvance {
+    descripcion: String!
+  }
+  input editProyecto {
+    nombre: String
+    objetivosGenerales: String
+    objetivosEspecificos: [String]
+    presupuesto: Int
+    lider: String
+    fechaInicio: Date
+    fechaFin: Date
+  }
+  input crearProyecto {
     nombre: String!
     objetivosGenerales: String!
     objetivosEspecificos: [String!]
     presupuesto: Int!
-    fechaInicio: Date
-    lider: String
-    idLider: String
-    estado: Enum_EstadoProyecto
-    fase: Enum_FaseProyecto
-    ): Proyecto
-    editarProyecto(
-      _id: ID!
-      rol:Enum_Rol!
-      idLider: String! 
-      nombre: String
-      objetivosGenerales: String
-      objetivosEspecificos: [String]
-      presupuesto: Int
-    ):String
-    aprobarProyecto(rol:Enum_Rol!, nombre:String!):String
-    cambiarEstado(rol:Enum_Rol!, nombre:String!, estado: Enum_EstadoProyecto):String
-    cambiarFase(
-      rol:Enum_Rol!,
-      faseActual: Enum_FaseProyecto!,
-      fase: Enum_FaseProyecto!,
-      nombre:String!
-   ): String
-   cambiarEstadoInscripcion(rol:Enum_Rol!, idInscripcion: ID!, estado: Enum_EstadoInscripcion!):String
-    agregarObservaciones(rol:Enum_Rol!, idLider: String!, idAvance: ID!, observacionesDelLider: [String!]):String
-    inscripcion(nombre: String!, rol:Enum_Rol!, inscripcion: inputInscripcion): String
-    registrarAvance(nombre: String!, rol:Enum_Rol!, avance: inputAvance):String
-    editarAvance(nombre: String!, idAvance: ID!,rol:Enum_Rol!, descripcion: String!):String
   }
+  input inputInscripcion {
+    idEstudiante: String!
+  }
+
+  type Query {
+    ListarProyectos(idUsuario: String!): [LProyectos]
+    ListarInscripciones(idUsuario: String!):[LInscripcion] 
+    VerProyecto(idUsuario: String!, idProyecto:ID!): Proyecto
+    VerAvances(idUsuario: String!, idProyecto:ID!):[LAvance] 
+  }
+
+  type Mutation {
+    crearProyecto(idUsuario: String!, campos: crearProyecto): ProyectoCreado
+    editarProyecto(idUsuario: String!, idProyecto: ID!, campos: editProyecto): String
+    aprobarProyecto(idUsuario: String!, idProyecto: ID!): String
+    inactivarProyecto(idUsuario: String!, idProyecto: ID!): String
+    terminarProyecto( idUsuario: String!, idProyecto: ID!): String
+    cambiarEstadoInscripcion(idUsuario: String!, idInscripcion: ID!, lider: String! estado: Enum_EstadoInscripcion!): String
+    agregarObservaciones(idUsuario: String!, idAvance: ID!, observacionesDelLider: [String!]): String
+    inscripcion(idProyecto: ID!, inscripcion: inputInscripcion): String
+    registrarAvance(idProyecto: ID!, idEstudiante: String!, avance: inputAvance): String
+    editarAvance(idProyecto: ID!, idAvance: ID!, idEstudiante: String!, descripcion: String!): String
+    reabrirProyecto(idUsuario: String!, idProyecto: ID!): String
+}
 `;
 
 export { tiposProyecto };

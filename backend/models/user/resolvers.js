@@ -1,6 +1,4 @@
 import { UserModel } from './userModel.js';
-import aes256 from 'aes256';
-const key = 'CLAVEDIFICIL';
 const resolversUsuario = {
     Query: {
       Usuarios: async (parent, args) => {
@@ -9,18 +7,19 @@ const resolversUsuario = {
         return usuarios;
       },
       Usuario: async (parent, args) => {
-        const usuario = await UserModel.findOne({idUsuario: args.idUsuario });
+        const usuario = await UserModel.findOne({_id: args._id });
         return usuario;
       },
     },
     Mutation: {
       crearUsuario: async (parent, args) => {
-        const encryptedPass = aes256.encrypt(key, args.clave);
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(args.password, salt);
         const usuarioCreado = await UserModel.create({
           email: args.email,
           idUsuario: args.idUsuario,
           nombre: args.nombre,
-          clave: encryptedPass,
+          clave: hashedPassword,
           rol: args.rol,
         });
   

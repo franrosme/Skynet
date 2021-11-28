@@ -1,213 +1,424 @@
 import { ProjectModel } from './projectModel.js';
+import { UserModel } from '../user/userModel.js';
 
 const resolversProyecto = {
     Query: {
-      Proyectos: async (parent, args) => {
-        const proyectos = await ProjectModel.find();
-        return proyectos;
-      },
       ListarProyectos: async (parent, args) => {
-        if(args.rol==="Administrador"||args.rol==="Estudiante"){
-          const proyectos = await ProjectModel.find({},{"nombre":1, "fase":1, "estado":1, "_id":0});
-          return proyectos;
-
-        }
-        else if(args.rol==="Lider"){
-          const proyectos = await ProjectModel.find({idLider:args.idLider},{"nombre":1, "_id":0});
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if (user && user.estado === "Autorizado" && (user.rol==="Administrador"||user.rol==="Estudiante")) {
+          const proyectos = await ProjectModel.find({},{}).populate("lider");
           return proyectos;
         }
-        else {
-          return console.log("Rol no valido")
-        }
-        
-      },
-      ListarInscripciones: async (parent, args) => {
-        if(args.rol==="Lider"){
-          const inscripcion = await ProjectModel.find({idLider:args.idLider},{"inscripcion":1,"nombre":1});
-          return inscripcion;
-        }
-        else{
-          return console.log("no es Lider")
-        }
-        
-      },
-      VerProyecto: async (parent, args) => {
-        if(args.rol==="Lider"){
-        const proyecto = await ProjectModel.findOne({nombre:args.nombre, idLider:args.idLider});
-        return proyecto;
-        } else{
-          return console.log("no es Lider")
-        }
-      },
-     VerAvances: async (parent, args) => {
-        if(args.rol==="Estudiante"){
-        const avance = await ProjectModel.find({
-          "inscripcion.idEstudiante":args.idEstudiante, 
-          "inscripcion.estado":"Aceptada",
-          nombre:args.nombre});
-          return avance;
-        } else{
-          return console.log("no es Estudiante")
-        }
-      },
+        else if(user && user.estado === "Autorizado" && user.rol==="Lider"){
+          const proyectos = await ProjectModel.find({lider:user._id},{}).populate("lider");
+          return proyectos;
+        } else {
+            return console.log("Rol no valido o usuario no autorizado")}
+        },
+        ListarInscripciones: async (parent, args) => {
+          const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+          if(user && user.estado === "Autorizado" && user.rol==="Lider"){
+            const inscripcion = await ProjectModel.find({lider:user._id},{"inscripcion":1,"nombre":1});
+            return inscripcion;
+          }
+          else if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+            const inscripcion = await ProjectModel.find({},{"inscripcion":1,"nombre":1});
+            return inscripcion;
+          } else{
+            return console.log("Rol no valido o usuario no autorizado") }      
+        },
+        VerProyecto: async (parent, args) => {
+          const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+          if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+            const proyecto = await ProjectModel.findOne({_id:args.idProyecto}).populate("lider");
+            return proyecto;
+          } 
+          else if(user && user.estado === "Autorizado" && user.rol==="Lider"){
+            const proyecto = await ProjectModel.findOne({
+              $and:[
+                {_id:{$eq:args.idProyecto}},           
+                {lider:{$eq:user._id}},
+              ]}).populate("lider");
+            return proyecto;
+            } 
+          else if(user && user.estado === "Autorizado" && user.rol==="Estudiante"){
+              const proyecto = await ProjectModel.findOne({_id:args.idProyecto}).populate("lider");
+              return proyecto;
+          } else{
+            return console.log("Rol no valido o usuario no autorizado") }
+        },
+        VerAvances: async (parent, args) => {
+          const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+          if(user && user.estado === "Autorizado" && user.rol==="Estudiante"){
+          const avance = await ProjectModel.find({
+            $and:[
+              {_id:{$eq:args.idProyecto}}, 
+              {"inscripcion.idEstudiante":{$eq:user.idUsuario}},
+              {"inscripcion.estado":{$eq:"Aceptada"}}]});
+            return avance;
+          }
+          else if(user && user.estado === "Autorizado" && user.rol==="Lider"){
+            const avance = await ProjectModel.find({
+              $and:[
+                {_id:{$eq:args.idProyecto}}, 
+                { lider:{$eq:user._id}}]});
+              return avance;
+          }
+          else if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+            const avance = await ProjectModel.find({_id:args.idProyecto});
+             
+            return avance;
+          } else{
+            return console.log("Rol no valido o usuario no autorizado")
+          }
+        },
     },
     Mutation: {
       crearProyecto: async (parent, args) => {
-        if(args.rol==="Lider"){
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if(user && user.estado === "Autorizado" && user.rol==="Lider"){
         const proyectoCreado = await ProjectModel.create({
-          nombre: args.nombre,
-          objetivosGenerales:args. objetivosGenerales,
-          objetivosEspecificos: args.objetivosEspecificos,
-          presupuesto: args.presupuesto,
-          fechaInicio: args.fechaInicio,
-          lider: args.lider,
-          idLider: args.idLider,
-          estado: args.estado,
-          fase: args.fase,
-      });
+          nombre: args.campos.nombre,
+          objetivosGenerales:args.campos.objetivosGenerales,
+          objetivosEspecificos: args.campos.objetivosEspecificos,
+          presupuesto: args.campos.presupuesto,
+          lider: user._id,
+        });
         return proyectoCreado;
       }
       },
       editarProyecto: async (parent, args) => {
-        if(args.rol==="Lider"){
-        const proyectoCreado = await ProjectModel.updateOne({
-          idLider:args.idLider, 
-          estado:"Activo",
-          _id:args._id
-        },
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+        const proyectoActualizado = await ProjectModel.updateOne({
+          $and:[
+            {estado:{$eq:"Activo"}},
+            {_id:{$eq:args.idProyecto}}
+          ]},
         {$set:{
-          nombre: args.nombre,
-          objetivosGenerales:args. objetivosGenerales,
-          objetivosEspecificos: args.objetivosEspecificos,
-          presupuesto: args.presupuesto
-         }
-
+          nombre: args.campos.nombre,
+          objetivosGenerales:args.campos.objetivosGenerales,
+          objetivosEspecificos: args.campos.objetivosEspecificos,
+          presupuesto: args.campos.presupuesto,
+          lider: args.campos.lider,
+          fechaInicio: args.campos.fechaInicio,
+          fechaFin: args.campos.fechaFin,
+          }
       });
-      if(proyectoCreado.modifiedCount>0){
-
-        return "Proyecto actualizado"
+      if(proyectoActualizado.modifiedCount>0){
+        return "Proyecto actualizado";
       }
       else{ return "El proyecto no se pudo actualizar"}
-       
+        
+      }else if(user && user.estado === "Autorizado" && user.rol==="Lider"){
+        const proyectoActualizado = await ProjectModel.updateOne({
+          $and:[
+            {lider:{$eq:user._id}},
+            {estado:{$eq:"Activo"}},
+            {_id:{$eq:args.idProyecto}}
+          ]},
+        {$set:{
+          nombre: args.campos.nombre,
+          objetivosGenerales:args.campos.objetivosGenerales,
+          objetivosEspecificos: args.campos.objetivosEspecificos,
+          presupuesto: args.campos.presupuesto,
+          lider: args.campos.lider,
+          fechaInicio: args.campos.fechaInicio,
+          fechaFin: args.campos.fechaFin,
+          }
+      });
+      if(proyectoActualizado.modifiedCount>0){
+        return "Proyecto actualizado";
       }
+      else{ return "El proyecto no se pudo actualizar"}
+        
+      }else{ return "Rol no valido"}
       },
       aprobarProyecto: async (parent, args) => {
-        if(args.rol==="Administrador"){
-          const proyectos = await ProjectModel.updateOne({nombre:args.nombre},
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+          const aprobar = await ProjectModel.updateOne({
+            $and:[
+              {estado:{$eq:"Inactivo"}},
+              {fase:{$eq:null}},
+              {_id:{$eq:args.idProyecto}}
+            ]},
             { $set: { "estado": "Activo", "fase" : "Iniciado", "fechaInicio": new Date()} }
             );
-            console.log("proyecto aprobado");
-          return "proyecto aprobado"
-
+            if(aprobar.modifiedCount>0){
+              return "proyecto aprobado"
+            }
+            else{ return "No se pudo aprobar el proyecto"};
         }else{
-          console.log("no es administrador")
-
-          return "no es administrador"
+          return "No es administrador"
         }
-
       },
-      cambiarEstado: async (parent, args) => {
-        if(args.rol==="Administrador"){
-          const proyectos = await ProjectModel.updateOne({nombre:args.nombre},
-            { $set: { "estado" : args.estado } }
+      reabrirProyecto: async (parent, args) => {
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+          const reabrir = await ProjectModel.updateOne({
+            $and:[
+              {estado:{$eq:"Inactivo"}},
+              {$or:[{fase:{$eq:"Iniciado"}},{fase:{$eq:"En_Desarrollo"}}]},
+              {_id:{$eq:args.idProyecto}}
+            ]},
+            { $set: { "estado": "Activo"} }
             );
-            console.log(args.nombre+". Nuevo estado: "+args.estado);
-          return args.nombre+". Nuevo estado: "+args.estado
-
+            if(reabrir.modifiedCount>0){
+              return "proyecto reabierto"
+            }
+            else{ return "No se pudo reabrir el proyecto"};
         }else{
-          console.log("no es administrador")
-
-          return "no es administrador"
+          return "No es administrador"
         }
-
       },
-      cambiarFase: async (parent, args) => {
-        if(args.rol==="Administrador" && args.fase==="Terminado" && args.faseActual==="En_Desarrollo"){
-          const proyectos = await ProjectModel.updateOne({nombre:args.nombre},
-            { $set: { "fase" : args.fase,
-                      "estado" :"Inactivo"} }
+      inactivarProyecto: async (parent, args) => {
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+          const inactivar = await ProjectModel.updateOne({
+            $and:[
+              {_id:{$eq:args.idProyecto}},
+              {estado:{$eq:"Activo"}},
+              {$or:[{fase:{$eq:"Iniciado"}},{fase:{$eq:"En_Desarrollo"}}]},
+            ]},
+            { $set: { "estado" : "Inactivo"
+            } }
             );
-            console.log(args.nombre+". Nueva fase: "+args.fase);
-          return args.nombre+". Nueva fase: "+args.fase
-
-        }else{
-          console.log("no es administrador")
-
+            if(inactivar.modifiedCount>0){
+              const busqueda = await ProjectModel.findOne({_id:args.idProyecto});
+              for(let i = 0; i < busqueda.inscripcion.length; i++) {
+                if(busqueda.inscripcion[i].estado==="Aceptada" && busqueda.inscripcion[i].fechaDeEgreso===null){
+                  const proyectos = await ProjectModel.updateOne({
+                    "inscripcion._id":busqueda.inscripcion[i]._id
+                    },
+                    { $set: {"inscripcion.$.fechaDeEgreso": new Date()
+                    } }
+                    );
+                }             
+            }
+              return busqueda.nombre + ". Nuevo estado: Inactivo"
+            }
+            else{ return "No se pudo cambiar el estado del proyecto"};
+           }     
+        else{
           return "no es administrador"
         }
-
       },
+      terminarProyecto: async (parent, args) => {
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+          const finalizado = await ProjectModel.updateOne({
+            $and:[
+              {_id:{$eq:args.idProyecto}},
+              {estado:{$eq:"Activo"}},
+              {fase:{$eq:"En_Desarrollo"}},
+            ]},
+            { $set: { "fase" : "Terminado",
+                      "estado" :"Inactivo",
+                      "fechaFin": new Date()} }
+            );
+            if(finalizado.modifiedCount>0){
+              const busqueda = await ProjectModel.findOne({_id:args.idProyecto});
+                for(let i = 0; i < busqueda.inscripcion.length; i++) {
+                  if(busqueda.inscripcion[i].estado==="Aceptada" && busqueda.inscripcion[i].fechaDeEgreso===null){
+                    const proyectos = await ProjectModel.updateOne({
+                      "inscripcion._id":busqueda.inscripcion[i]._id
+                      },
+                      { $set: {"inscripcion.$.fechaDeEgreso": new Date()
+                      } }
+                      );
+                    }  
+              }
+                return busqueda.nombre +  "Proyecto terminado"
+            }
+            else{ return "No se pudo cambiar la fase del proyecto"};
+        }
+        else{
+          return "no es administrador"
+        }
+  
+      },
+      
       cambiarEstadoInscripcion: async (parent, args) => {
-        if(args.rol==="Lider"){
-          const proyectos = await ProjectModel.updateOne({"inscripcion.idInscripcion":args.idInscripcion},
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+          if(user && user.estado === "Autorizado" && (user.rol==="Administrador"||user.rol==="Lider")&&(args.estado==="Aceptada")){
+          const estadoInscripcion = await ProjectModel.updateOne({
+            $and:[
+              {"inscripcion._id":{$eq: args.idInscripcion}},
+              {estado:{$eq:"Activo"}},
+              {lider:{$eq:args.lider}}]},
+            { $set: { "inscripcion.$.estado": args.estado,
+                      "inscripcion.$.fechaDeIngreso": new Date()} }
+            );
+            if(estadoInscripcion.modifiedCount>0){
+              return " Nuevo estado: "+args.estado
+            }
+            else{ return "No se pudo cambiar el estado de la inscripcion"};
+          
+  
+        }else if(user && user.estado === "Autorizado"&&(user.rol==="Administrador"||user.rol==="Lider")&&(args.estado==="Rechazada")){
+          const estadoInscripcion = await ProjectModel.updateOne({
+            $and:[
+              {"inscripcion._id":{$eq: args.idInscripcion}},
+              {estado:{$eq:"Activo"}},
+              {lider:{$eq:args.lider}}]
+            
+            },
             { $set: { "inscripcion.$.estado": args.estado} }
             );
-            console.log("Nuevo estado: "+args.estado);
-          return " Nuevo estado: "+args.estado
-
-        }else{
-          console.log("no es administrador")
-
-          return "no es administrador"
+            if(estadoInscripcion.modifiedCount>0){
+              return " Nuevo estado: "+args.estado
+            }
+            else{ return "No se pudo cambiar el estado de la inscripcion"};
         }
-
+        else{
+          return "Rol no autorizado"
+        }
+  
       },
       agregarObservaciones: async (parent, args) => {
-        if(args.rol==="Lider"){
-          const proyectos = await ProjectModel.updateOne({"avance.idAvance":args.idAvance, idLider:args.idLider},
-            { $set: { "avance.$.observacionesDelLider": args.observacionesDelLider} }
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if(user && user.estado === "Autorizado" && user.rol==="Lider"){
+          const observaciones = await ProjectModel.updateOne({
+            $and:[
+              {"avance._id":{$eq: args.idAvance}},
+              {estado:{$eq:"Activo"}},
+              {lider:{$eq:user._id}}]},
+            { $set: { "avance.$.observacionesDelLider": args.observacionesDelLider} });
+            if(observaciones.modifiedCount>0){
+              return "Observaciones: "+args.observacionesDelLider
+            }
+            else{ return "No se pudo guardar la observacion"};
+          }
+        else if(user && user.estado === "Autorizado" && user.rol==="Administradror"){
+          const observaciones = await ProjectModel.updateOne({
+            $and:[
+              {"avance._id":{$eq: args.idAvance}},
+              {estado:{$eq:"Activo"}}]},
+            { $push: { "avance.$.observacionesDelLider": args.observacionesDelLider} }
             );
-            console.log("Observaciones: "+args.observacionesDelLider);
-          return "Observaciones: "+args.observacionesDelLider
-
-        }else{
-          console.log("no es administrador")
-
-          return "no es administrador"
+            if(observaciones.modifiedCount>0){
+              return "Observaciones: "+args.observacionesDelLider
+            }
+            else{ return "No se pudo guardar la observacion"};
+          }else{
+           return "Rol no valido"
         }
-
       },
       inscripcion:  async (parent, args) => {
-        if(args.rol==="Estudiante"){
-          const inscripcion = await ProjectModel.updateOne({nombre:args.nombre},
-            { $push: { inscripcion: args.inscripcion} }
-            );
-            
-          return "Inscripcion exitosa"
+        var reabrirInscripcion = false;
+       const user = await UserModel.findOne({ idUsuario: args.inscripcion.idEstudiante })
+       if(user && user.estado === "Autorizado" && user.rol==="Estudiante"){
+          const busqueda = await ProjectModel.findOne({
+            _id:args.idProyecto, "inscripcion.idEstudiante":user.idUsuario });
+              if(busqueda !== null){
+                for(let i = 0; i < busqueda.inscripcion.length; i++) {
+                  if(busqueda.inscripcion[i].idEstudiante=== user.idUsuario){
+                    if(busqueda.inscripcion[i].estado==="Aceptada" && busqueda.inscripcion[i].fechaDeEgreso===null){
+                      reabrirInscripcion = false;
+                      return "El usuario ya pertenece al proyecto indicado"
+                    }else if(busqueda.inscripcion[i].estado==="Rechazada")
+                    {
+                      reabrirInscripcion = false;
+                      return "El usuario ya fue rechazado al proyecto indicado"
+                    }
+                    else if(busqueda.inscripcion[i].estado==="Aceptada" && busqueda.inscripcion[i].fechaDeEgreso!==null){
+                      reabrirInscripcion = true;
+                    }
+                    else{
+                      return "El usuario no pertenece al proyecto indicado"
+                    }
+                  }
+                 }
+                 if(reabrirInscripcion){
+                  const inscripcion = await ProjectModel.updateOne({_id: args.idProyecto},                    
+                    { $push: { inscripcion: args.inscripcion} });
+                    if(inscripcion.modifiedCount>0){
+                      return "El usuario ya trabajo en el proyecto indicado, puede inscribirse nuevamente al reabrir"
+                    }
+                    else{ return "No se pudo registrar"}
+                 }
+  
+  
+            }else{
+                const inscripcion = await ProjectModel.updateOne({_id: args.idProyecto},                    
+                  { $push: { inscripcion: args.inscripcion} });
+                  if(inscripcion.modifiedCount>0){
+                    return "Usuario inscrito por primera vez"
+                  }
+                  else{ return "No se pudo registrar"}
+  
+              }
+           
+        } else {
+            return "Usuario no valido"
         }
-        else{
-          return "no es estudiante"
-        }
-
+       
       },
       registrarAvance:  async (parent, args) => {
-        if(args.rol==="Estudiante"){
-          const avance = await ProjectModel.updateOne({nombre:args.nombre},
+        const user = await UserModel.findOne({ idUsuario: args.idEstudiante })
+        if(user && user.estado === "Autorizado" && user.rol==="Estudiante"){
+          const NumeroAvances = await ProjectModel.find({
+            _id:args.idProyecto, 
+            avance:{$size:0}
+          })
+          if(NumeroAvances.length!==0){
+          const primerAvance = await ProjectModel.updateOne({
+            $and:[
+            {_id:{$eq:args.idProyecto}},
+            {estado:{$eq:"Activo"}},
+            {fase:{$eq:"Iniciado"}},
+            {"inscripcion.estado":{ $eq: "Aceptada"}},
+            {"inscripcion.fechaDeEgreso":{ $eq: null}},
+            {"inscripcion.idEstudiante":{ $eq: user.idUsuario}}]},
+          {$push: { avance: args.avance}, $set: {fase:"En_Desarrollo"} }
+          );
+          if(primerAvance.modifiedCount>0){
+            return "El primer avance fue registrado correctamente"
+          }
+          else{ return "El primer avance no se pudo registrar"}
+           }else{
+            const avance = await ProjectModel.updateOne({
+            $and:[
+              {_id:{$eq:args.idProyecto}},
+              {estado:{$eq:"Activo"}},
+              {fase:{$eq:"En_Desarrollo"}},
+              {"inscripcion.estado":{ $eq: "Aceptada"}},
+              {"inscripcion.fechaDeEgreso":{ $eq: null}},
+              {"inscripcion.idEstudiante":{ $eq: user.idUsuario}}]},
             { $push: { avance: args.avance} }
             );
-            
-          return "avance registrado correctamente"
-        }
-        else{
+            if(avance.modifiedCount>0){
+              return "El avance fue registrado correctamente"
+            }
+            else{ return "El avance no se pudo registrar"};
+          }
+        }else{
           return "no es estudiante"
         }
-
       },
       editarAvance:  async (parent, args) => {
-        if(args.rol==="Estudiante"){
-          const avance = await ProjectModel.updateOne({nombre:args.nombre,"avance.idAvance": args.idAvance},
+        const user = await UserModel.findOne({ idUsuario: args.idEstudiante })
+        if(user && user.estado === "Autorizado" && user.rol==="Estudiante"){
+          const avance = await ProjectModel.updateOne({
+            $and:[
+              {_id:{$eq:args.idProyecto}},
+              {estado:{$eq:"Activo"}},
+              {fase:{$ne:"Iniciado"}},
+              {"inscripcion.estado":{ $eq: "Aceptada"}},
+              { "avance._id":{ $eq: args.idAvance }},
+              {"inscripcion.idEstudiante":{ $eq: user.idUsuario}}]},
             { $set: { "avance.$.descripcion": args.descripcion} }
             );
-            
-          return "avance registrado correctamente"
+            if(avance.modifiedCount>0){
+  
+              return "El avance se actualizo correctamente"
+            }
+            else{ return "El avance no se pudo actualizar"}
+          }else{
+            return "no es estudiante"
         }
-        else{
-          return "no es estudiante"
-        }
-
       },
-
-
     },
   };
   
