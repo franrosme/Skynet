@@ -384,20 +384,27 @@ const resolversProyecto = {
         }
       },
       editarAvance:  async (parent, args) => {
-        if(args.rol==="Estudiante"){
-          const avance = await ProjectModel.updateOne({nombre:args.nombre,"avance.idAvance": args.idAvance},
+        const user = await UserModel.findOne({ idUsuario: args.idEstudiante })
+        if(user && user.estado === "Autorizado" && user.rol==="Estudiante"){
+          const avance = await ProjectModel.updateOne({
+            $and:[
+              {_id:{$eq:args.idProyecto}},
+              {estado:{$eq:"Activo"}},
+              {fase:{$ne:"Iniciado"}},
+              {"inscripcion.estado":{ $eq: "Aceptada"}},
+              { "avance._id":{ $eq: args.idAvance }},
+              {"inscripcion.idEstudiante":{ $eq: user.idUsuario}}]},
             { $set: { "avance.$.descripcion": args.descripcion} }
             );
-            
-          return "avance registrado correctamente"
+            if(avance.modifiedCount>0){
+  
+              return "El avance se actualizo correctamente"
+            }
+            else{ return "El avance no se pudo actualizar"}
+          }else{
+            return "no es estudiante"
         }
-        else{
-          return "no es estudiante"
-        }
-
       },
-
-
     },
   };
   
