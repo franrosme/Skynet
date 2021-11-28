@@ -40,6 +40,7 @@ const tiposProyecto = gql`
     nombre: String!
     fase: Enum_FaseProyecto
     estado: Enum_EstadoProyecto
+    lider:Usuario
        
   }
   type LInscripcion {
@@ -52,8 +53,7 @@ const tiposProyecto = gql`
      
   }
   type Query {
-    Proyectos: [Proyecto]
-    ListarProyectos(rol:Enum_Rol!, idLider: String): [LProyectos]   
+    ListarProyectos(idUsuario: String!): [LProyectos]
     ListarInscripciones(rol:Enum_Rol!, idLider: String!):[LInscripcion] 
     VerAvances(nombre:String!, rol:Enum_Rol!, idEstudiante: String!):[LAvance] 
     VerProyecto(rol:Enum_Rol!, idLider:String!, nombre:String!): Proyecto

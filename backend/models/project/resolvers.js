@@ -1,26 +1,20 @@
 import { ProjectModel } from './projectModel.js';
+import { UserModel } from '../user/userModel.js';
 
 const resolversProyecto = {
     Query: {
-      Proyectos: async (parent, args) => {
-        const proyectos = await ProjectModel.find();
-        return proyectos;
-      },
       ListarProyectos: async (parent, args) => {
-        if(args.rol==="Administrador"||args.rol==="Estudiante"){
-          const proyectos = await ProjectModel.find({},{"nombre":1, "fase":1, "estado":1, "_id":0});
-          return proyectos;
-
-        }
-        else if(args.rol==="Lider"){
-          const proyectos = await ProjectModel.find({idLider:args.idLider},{"nombre":1, "_id":0});
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if (user && user.estado === "Autorizado" && (user.rol==="Administrador"||user.rol==="Estudiante")) {
+          const proyectos = await ProjectModel.find({},{}).populate("lider");
           return proyectos;
         }
-        else {
-          return console.log("Rol no valido")
-        }
-        
-      },
+        else if(user && user.estado === "Autorizado" && user.rol==="Lider"){
+          const proyectos = await ProjectModel.find({lider:user._id},{}).populate("lider");
+          return proyectos;
+        } else {
+            return console.log("Rol no valido o usuario no autorizado")}
+        },
       ListarInscripciones: async (parent, args) => {
         if(args.rol==="Lider"){
           const inscripcion = await ProjectModel.find({idLider:args.idLider},{"inscripcion":1,"nombre":1});
