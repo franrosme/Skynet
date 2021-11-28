@@ -47,17 +47,31 @@ const resolversProyecto = {
           } else{
             return console.log("Rol no valido o usuario no autorizado") }
         },
-     VerAvances: async (parent, args) => {
-        if(args.rol==="Estudiante"){
-        const avance = await ProjectModel.find({
-          "inscripcion.idEstudiante":args.idEstudiante, 
-          "inscripcion.estado":"Aceptada",
-          nombre:args.nombre});
-          return avance;
-        } else{
-          return console.log("no es Estudiante")
-        }
-      },
+        VerAvances: async (parent, args) => {
+          const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+          if(user && user.estado === "Autorizado" && user.rol==="Estudiante"){
+          const avance = await ProjectModel.find({
+            $and:[
+              {_id:{$eq:args.idProyecto}}, 
+              {"inscripcion.idEstudiante":{$eq:user.idUsuario}},
+              {"inscripcion.estado":{$eq:"Aceptada"}}]});
+            return avance;
+          }
+          else if(user && user.estado === "Autorizado" && user.rol==="Lider"){
+            const avance = await ProjectModel.find({
+              $and:[
+                {_id:{$eq:args.idProyecto}}, 
+                { lider:{$eq:user._id}}]});
+              return avance;
+          }
+          else if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+            const avance = await ProjectModel.find({_id:args.idProyecto});
+             
+            return avance;
+          } else{
+            return console.log("Rol no valido o usuario no autorizado")
+          }
+        },
     },
     Mutation: {
       crearProyecto: async (parent, args) => {

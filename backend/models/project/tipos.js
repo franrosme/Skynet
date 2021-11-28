@@ -47,15 +47,15 @@ const tiposProyecto = gql`
     inscripcion: [Inscripcion]
   }
   type LAvance {
+    nombre: String!
     avance: [Avance]
-     
-  }
+    }
   type Query {
     ListarProyectos(idUsuario: String!): [LProyectos]
     ListarInscripciones(idUsuario: String!):[LInscripcion] 
-    VerAvances(nombre:String!, rol:Enum_Rol!, idEstudiante: String!):[LAvance] 
     VerProyecto(idUsuario: String!, idProyecto:ID!): Proyecto
-  }
+    VerAvances(idUsuario: String!, idProyecto:ID!):[LAvance] 
+ }
   type Mutation {
     crearProyecto(rol:Enum_Rol! 
     nombre: String!
