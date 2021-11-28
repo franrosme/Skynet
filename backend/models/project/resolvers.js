@@ -15,16 +15,18 @@ const resolversProyecto = {
         } else {
             return console.log("Rol no valido o usuario no autorizado")}
         },
-      ListarInscripciones: async (parent, args) => {
-        if(args.rol==="Lider"){
-          const inscripcion = await ProjectModel.find({idLider:args.idLider},{"inscripcion":1,"nombre":1});
-          return inscripcion;
-        }
-        else{
-          return console.log("no es Lider")
-        }
-        
-      },
+        ListarInscripciones: async (parent, args) => {
+          const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+          if(user && user.estado === "Autorizado" && user.rol==="Lider"){
+            const inscripcion = await ProjectModel.find({lider:user._id},{"inscripcion":1,"nombre":1});
+            return inscripcion;
+          }
+          else if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+            const inscripcion = await ProjectModel.find({},{"inscripcion":1,"nombre":1});
+            return inscripcion;
+          } else{
+            return console.log("Rol no valido o usuario no autorizado") }      
+        },
       VerProyecto: async (parent, args) => {
         if(args.rol==="Lider"){
         const proyecto = await ProjectModel.findOne({nombre:args.nombre, idLider:args.idLider});
