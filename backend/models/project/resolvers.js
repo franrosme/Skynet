@@ -172,6 +172,38 @@ const resolversProyecto = {
           return "No es administrador"
         }
       },
+      inactivarProyecto: async (parent, args) => {
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+          const inactivar = await ProjectModel.updateOne({
+            $and:[
+              {_id:{$eq:args.idProyecto}},
+              {estado:{$eq:"Activo"}},
+              {$or:[{fase:{$eq:"Iniciado"}},{fase:{$eq:"En_Desarrollo"}}]},
+            ]},
+            { $set: { "estado" : "Inactivo"
+            } }
+            );
+            if(inactivar.modifiedCount>0){
+              const busqueda = await ProjectModel.findOne({_id:args.idProyecto});
+              for(let i = 0; i < busqueda.inscripcion.length; i++) {
+                if(busqueda.inscripcion[i].estado==="Aceptada" && busqueda.inscripcion[i].fechaDeEgreso===null){
+                  const proyectos = await ProjectModel.updateOne({
+                    "inscripcion._id":busqueda.inscripcion[i]._id
+                    },
+                    { $set: {"inscripcion.$.fechaDeEgreso": new Date()
+                    } }
+                    );
+                }             
+            }
+              return busqueda.nombre + ". Nuevo estado: Inactivo"
+            }
+            else{ return "No se pudo cambiar el estado del proyecto"};
+           }     
+        else{
+          return "no es administrador"
+        }
+      },
       cambiarEstado: async (parent, args) => {
         if(args.rol==="Administrador"){
           const proyectos = await ProjectModel.updateOne({nombre:args.nombre},
