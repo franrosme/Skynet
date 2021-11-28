@@ -342,17 +342,46 @@ const resolversProyecto = {
        
       },
       registrarAvance:  async (parent, args) => {
-        if(args.rol==="Estudiante"){
-          const avance = await ProjectModel.updateOne({nombre:args.nombre},
+        const user = await UserModel.findOne({ idUsuario: args.idEstudiante })
+        if(user && user.estado === "Autorizado" && user.rol==="Estudiante"){
+          const NumeroAvances = await ProjectModel.find({
+            _id:args.idProyecto, 
+            avance:{$size:0}
+          })
+          if(NumeroAvances.length!==0){
+          const primerAvance = await ProjectModel.updateOne({
+            $and:[
+            {_id:{$eq:args.idProyecto}},
+            {estado:{$eq:"Activo"}},
+            {fase:{$eq:"Iniciado"}},
+            {"inscripcion.estado":{ $eq: "Aceptada"}},
+            {"inscripcion.fechaDeEgreso":{ $eq: null}},
+            {"inscripcion.idEstudiante":{ $eq: user.idUsuario}}]},
+          {$push: { avance: args.avance}, $set: {fase:"En_Desarrollo"} }
+          );
+          if(primerAvance.modifiedCount>0){
+            return "El primer avance fue registrado correctamente"
+          }
+          else{ return "El primer avance no se pudo registrar"}
+           }else{
+            const avance = await ProjectModel.updateOne({
+            $and:[
+              {_id:{$eq:args.idProyecto}},
+              {estado:{$eq:"Activo"}},
+              {fase:{$eq:"En_Desarrollo"}},
+              {"inscripcion.estado":{ $eq: "Aceptada"}},
+              {"inscripcion.fechaDeEgreso":{ $eq: null}},
+              {"inscripcion.idEstudiante":{ $eq: user.idUsuario}}]},
             { $push: { avance: args.avance} }
             );
-            
-          return "avance registrado correctamente"
-        }
-        else{
+            if(avance.modifiedCount>0){
+              return "El avance fue registrado correctamente"
+            }
+            else{ return "El avance no se pudo registrar"};
+          }
+        }else{
           return "no es estudiante"
         }
-
       },
       editarAvance:  async (parent, args) => {
         if(args.rol==="Estudiante"){
