@@ -240,19 +240,41 @@ const resolversProyecto = {
       },
       
       cambiarEstadoInscripcion: async (parent, args) => {
-        if(args.rol==="Lider"){
-          const proyectos = await ProjectModel.updateOne({"inscripcion.idInscripcion":args.idInscripcion},
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+          if(user && user.estado === "Autorizado" && (user.rol==="Administrador"||user.rol==="Lider")&&(args.estado==="Aceptada")){
+          const estadoInscripcion = await ProjectModel.updateOne({
+            $and:[
+              {"inscripcion._id":{$eq: args.idInscripcion}},
+              {estado:{$eq:"Activo"}},
+              {lider:{$eq:args.lider}}]},
+            { $set: { "inscripcion.$.estado": args.estado,
+                      "inscripcion.$.fechaDeIngreso": new Date()} }
+            );
+            if(estadoInscripcion.modifiedCount>0){
+              return " Nuevo estado: "+args.estado
+            }
+            else{ return "No se pudo cambiar el estado de la inscripcion"};
+          
+  
+        }else if(user && user.estado === "Autorizado"&&(user.rol==="Administrador"||user.rol==="Lider")&&(args.estado==="Rechazada")){
+          const estadoInscripcion = await ProjectModel.updateOne({
+            $and:[
+              {"inscripcion._id":{$eq: args.idInscripcion}},
+              {estado:{$eq:"Activo"}},
+              {lider:{$eq:args.lider}}]
+            
+            },
             { $set: { "inscripcion.$.estado": args.estado} }
             );
-            console.log("Nuevo estado: "+args.estado);
-          return " Nuevo estado: "+args.estado
-
-        }else{
-          console.log("no es administrador")
-
-          return "no es administrador"
+            if(estadoInscripcion.modifiedCount>0){
+              return " Nuevo estado: "+args.estado
+            }
+            else{ return "No se pudo cambiar el estado de la inscripcion"};
         }
-
+        else{
+          return "Rol no autorizado"
+        }
+  
       },
       agregarObservaciones: async (parent, args) => {
         if(args.rol==="Lider"){
