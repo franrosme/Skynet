@@ -1,6 +1,4 @@
 import { UserModel } from './userModel.js';
-import aes256 from 'aes256';
-const key = 'CLAVEDIFICIL';
 const resolversUsuario = {
     Query: {
       Usuarios: async (parent, args) => {
@@ -15,12 +13,10 @@ const resolversUsuario = {
     },
     Mutation: {
       crearUsuario: async (parent, args) => {
-        const encryptedPass = aes256.encrypt(key, args.clave);
         const usuarioCreado = await UserModel.create({
           email: args.email,
           idUsuario: args.idUsuario,
           nombre: args.nombre,
-          clave: encryptedPass,
           rol: args.rol,
         });
   
