@@ -88,27 +88,51 @@ const resolversProyecto = {
       }
       },
       editarProyecto: async (parent, args) => {
-        if(args.rol==="Lider"){
-        const proyectoCreado = await ProjectModel.updateOne({
-          idLider:args.idLider, 
-          estado:"Activo",
-          _id:args._id
-        },
+        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+        const proyectoActualizado = await ProjectModel.updateOne({
+          $and:[
+            {estado:{$eq:"Activo"}},
+            {_id:{$eq:args.idProyecto}}
+          ]},
         {$set:{
-          nombre: args.nombre,
-          objetivosGenerales:args. objetivosGenerales,
-          objetivosEspecificos: args.objetivosEspecificos,
-          presupuesto: args.presupuesto
-         }
-
+          nombre: args.campos.nombre,
+          objetivosGenerales:args.campos.objetivosGenerales,
+          objetivosEspecificos: args.campos.objetivosEspecificos,
+          presupuesto: args.campos.presupuesto,
+          lider: args.campos.lider,
+          fechaInicio: args.campos.fechaInicio,
+          fechaFin: args.campos.fechaFin,
+          }
       });
-      if(proyectoCreado.modifiedCount>0){
-
-        return "Proyecto actualizado"
+      if(proyectoActualizado.modifiedCount>0){
+        return "Proyecto actualizado";
       }
       else{ return "El proyecto no se pudo actualizar"}
-       
+        
+      }else if(user && user.estado === "Autorizado" && user.rol==="Lider"){
+        const proyectoActualizado = await ProjectModel.updateOne({
+          $and:[
+            {lider:{$eq:user._id}},
+            {estado:{$eq:"Activo"}},
+            {_id:{$eq:args.idProyecto}}
+          ]},
+        {$set:{
+          nombre: args.campos.nombre,
+          objetivosGenerales:args.campos.objetivosGenerales,
+          objetivosEspecificos: args.campos.objetivosEspecificos,
+          presupuesto: args.campos.presupuesto,
+          lider: args.campos.lider,
+          fechaInicio: args.campos.fechaInicio,
+          fechaFin: args.campos.fechaFin,
+          }
+      });
+      if(proyectoActualizado.modifiedCount>0){
+        return "Proyecto actualizado";
       }
+      else{ return "El proyecto no se pudo actualizar"}
+        
+      }else{ return "Rol no valido"}
       },
       aprobarProyecto: async (parent, args) => {
         if(args.rol==="Administrador"){
