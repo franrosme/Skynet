@@ -10,16 +10,21 @@ import { EDITAR_USUARIO } from 'graphql/usuarios/mutations';
 import DropDown from 'components/Dropdown';
 import { Enum_EstadoUsuario } from 'utils/enums';
 
-const EditarUsuario = () => {
+export default function EditarUsuario (props) {
+  
+  
   const { form, formData, updateFormData } = useFormData(null);
-  const { _id } = useParams();
-
+  var { _id } = useParams();
+  var usuario= _id;
+  _id=props._id;
+  console.log("id usuario: "+ _id)
+  console.log("id a cambiar: "+ usuario)
   const {
     data: queryData,
     error: queryError,
     loading: queryLoading,
   } = useQuery(GET_USUARIO, {
-    variables: { _id },
+    variables: {_id, usuario },
   });
 
 
@@ -30,7 +35,7 @@ const EditarUsuario = () => {
     e.preventDefault();
     delete formData.rol;
     editarUsuario({
-      variables: { _id, ...formData },
+      variables: { _id, usuario, ...formData },
     });
   };
 
@@ -51,7 +56,7 @@ const EditarUsuario = () => {
   }, [queryError, mutationError]);
 
   if (queryLoading) return <div>Cargando....</div>;
-
+console.log("query data: "+queryData)
   return (
     <div className='flew flex-col w-full h-full items-center justify-center p-10'>
       <Link to='/usuarios'>
@@ -86,13 +91,7 @@ const EditarUsuario = () => {
           defaultValue={queryData.Usuario.idUsuario}
           required={true}
         />
-        <DropDown
-          label='Estado de la persona:'
-          name='estado'
-          defaultValue={queryData.Usuario.estado}
-          required={true}
-          options={Enum_EstadoUsuario}
-        />
+        
         <span>Rol del usuario: {queryData.Usuario.rol}</span>
         <ButtonLoading
           disabled={Object.keys(formData).length === 0}
@@ -104,4 +103,3 @@ const EditarUsuario = () => {
   );
 };
 
-export default EditarUsuario;
