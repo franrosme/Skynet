@@ -49,6 +49,10 @@ const tiposProyecto = gql`
     nombre: String!
     inscripcion: [Inscripcion]
   }
+  type gInscripcion {
+    nombre: String!
+    inscripcion: Inscripcion
+  }
   type LAvance {
   nombre: String!
   avance: [Avance]
@@ -76,21 +80,23 @@ const tiposProyecto = gql`
   }
 
   type Query {
-    ListarProyectos(idUsuario: String!): [LProyectos]
+    ListarProyectos(idUsuario: ID!): [LProyectos]
     ListarInscripciones(idUsuario: String!):[LInscripcion] 
-    VerProyecto(idUsuario: String!, idProyecto:ID!): Proyecto
+    VerProyecto(idUsuario: ID!, idProyecto:ID!): Proyecto
     VerAvances(idUsuario: String!, idProyecto:ID!):[LAvance] 
+    getInscripcion(idUsuario: ID!, idInscripcion: ID!): gInscripcion
   }
 
   type Mutation {
-    crearProyecto(idUsuario: String!, campos: crearProyecto): ProyectoCreado
-    editarProyecto(idUsuario: String!, idProyecto: ID!, campos: editProyecto): String
+    crearProyecto(idUsuario: ID!, campos: crearProyecto): ProyectoCreado
+    editarProyecto(idUsuario: ID!, idProyecto: ID!, campos: editProyecto): String
     aprobarProyecto(idUsuario: String!, idProyecto: ID!): String
     inactivarProyecto(idUsuario: String!, idProyecto: ID!): String
     terminarProyecto( idUsuario: String!, idProyecto: ID!): String
-    cambiarEstadoInscripcion(idUsuario: String!, idInscripcion: ID!, lider: String! estado: Enum_EstadoInscripcion!): String
+    cambiarEstadoInscripcion(idUsuario: String!, idInscripcion: ID!, lider: String, estado: Enum_EstadoInscripcion!): String
     agregarObservaciones(idUsuario: String!, idAvance: ID!, observacionesDelLider: [String!]): String
     inscripcion(idProyecto: ID!, inscripcion: inputInscripcion): String
+    
     registrarAvance(idProyecto: ID!, idEstudiante: String!, avance: inputAvance): String
     editarAvance(idProyecto: ID!, idAvance: ID!, idEstudiante: String!, descripcion: String!): String
     reabrirProyecto(idUsuario: String!, idProyecto: ID!): String

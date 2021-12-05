@@ -13,7 +13,7 @@ const resolversUsuario = {
   },
   Usuario: async (parent, args) => {
     const user = await UserModel.findOne({ _id: args._id})
-    if(user && user.estado === "Autorizado" && (user.rol==="Administrador" || user.rol==="Lider")){
+    if(user &&  (user.rol==="Administrador" || user.rol==="Lider" || user.rol==="Estudiante")){
       const usuario = await UserModel.findOne({ _id: args.usuario})
       return usuario;
     }else {

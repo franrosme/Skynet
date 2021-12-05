@@ -4,7 +4,7 @@ import { UserModel } from '../user/userModel.js';
 const resolversProyecto = {
     Query: {
       ListarProyectos: async (parent, args) => {
-        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        const user = await UserModel.findOne({ _id: args.idUsuario })
         if (user && user.estado === "Autorizado" && (user.rol==="Administrador"||user.rol==="Estudiante")) {
           const proyectos = await ProjectModel.find({},{}).populate("lider");
           return proyectos;
@@ -16,7 +16,7 @@ const resolversProyecto = {
             return console.log("Rol no valido o usuario no autorizado")}
         },
         ListarInscripciones: async (parent, args) => {
-          const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+          const user = await UserModel.findOne({ _id: args.idUsuario })
           if(user && user.estado === "Autorizado" && user.rol==="Lider"){
             const inscripcion = await ProjectModel.find({lider:user._id},{"inscripcion":1,"nombre":1});
             return inscripcion;
@@ -27,8 +27,21 @@ const resolversProyecto = {
           } else{
             return console.log("Rol no valido o usuario no autorizado") }      
         },
+        getInscripcion: async (parent, args) => {
+          const user = await UserModel.findOne({ _id: args.idUsuario })
+          if(user && user.estado === "Autorizado" && user.rol==="Lider"){
+            const inscripcion = await ProjectModel.find({"inscripcion._id":args.idInscripcion,
+            lider:user._id},{"inscripcion":1,"nombre":1});
+            return inscripcion;
+          }
+          else if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
+            const inscripcion = await ProjectModel.find({"inscripcion._id":args.idInscripcion},{"inscripcion":1,"nombre":1});
+            return inscripcion;
+          } else{
+            return console.log("Rol no valido o usuario no autorizado") }      
+        },
         VerProyecto: async (parent, args) => {
-          const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+          const user = await UserModel.findOne({ _id: args.idUsuario })
           if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
             const proyecto = await ProjectModel.findOne({_id:args.idProyecto}).populate("lider");
             return proyecto;
@@ -75,8 +88,8 @@ const resolversProyecto = {
     },
     Mutation: {
       crearProyecto: async (parent, args) => {
-        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
-        if(user && user.estado === "Autorizado" && user.rol==="Lider"){
+        const user = await UserModel.findOne({ _id: args.idUsuario })
+        if(user && user.estado === "Autorizado" && (user.rol==="Lider"||user.rol==="Administrador")){
         const proyectoCreado = await ProjectModel.create({
           nombre: args.campos.nombre,
           objetivosGenerales:args.campos.objetivosGenerales,
@@ -88,7 +101,7 @@ const resolversProyecto = {
       }
       },
       editarProyecto: async (parent, args) => {
-        const user = await UserModel.findOne({ idUsuario: args.idUsuario })
+        const user = await UserModel.findOne({ _id: args.idUsuario })
         if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
         const proyectoActualizado = await ProjectModel.updateOne({
           $and:[
