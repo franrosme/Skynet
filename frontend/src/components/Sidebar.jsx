@@ -2,17 +2,24 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from 'context/authContext';
 import PrivateComponent from './PrivateComponent';
+import logo from '../assets/Skynet.png';
 
 const SidebarLinks = () => {
   return (
     <ul className='mt-12'>
       <SidebarRoute to='' title='Inicio' icon='fas fa-home' />
       <PrivateComponent roleList={['Administrador']}>
-        <SidebarRoute to='/usuarios' title='Usuarios' icon='fas fa-user' />
+        <SidebarRoute to='/usuarios' title='Usuarios' icon='fas fa-users' />
       </PrivateComponent>
-      <SidebarRoute to='/page2' title='Pagina2' icon='fas fa-smile-wink' />
-      <SidebarRoute to='/category1' title='Catego 1' icon='fab fa-amazon' />
-      <SidebarRoute to='/category1/page1' title='Test' icon='fas fa-car' />
+      <SidebarRoute to='/usuario' title='Perfil Usuario' icon='fas fa-user' />
+      
+      <SidebarRoute to="/proyectos" title='Proyectos' icon='fas fa-tasks' />
+      <PrivateComponent roleList={['Administrador']}>
+        <SidebarRoute to='/proyectos/avances' title='Avances' icon='fas fa-file-contract' />
+      </PrivateComponent>
+      <PrivateComponent roleList={['Administrador']}>
+        <SidebarRoute to='/proyectos/inscripciones' title='Inscripciones' icon='fas fa-file-invoice' />
+      </PrivateComponent>
       <Logout />
     </ul>
   );
@@ -39,8 +46,8 @@ const Logout = () => {
 const Logo = () => {
   return (
     <div className='py-3 w-full flex flex-col items-center justify-center'>
-      <img src='logo.png' alt='Logo' className='h-16' />
-      <span className='my-2 text-xl font-bold text-center'>Título de Mi Aplicación</span>
+      <img src={logo} width="110" alt="Logo Skynet" className="logoImg"/>
+      <span className='my-2 text-xl font-bold text-center'>Sistema De Gestión De Proyectos</span>
     </div>
   );
 };

@@ -8,8 +8,16 @@ import Index from 'pages/Index';
 import Page2 from 'pages/Page2';
 import IndexCategory1 from 'pages/category1/Index';
 import Category1 from 'pages/category1/CategoryPage1';
-import IndexUsuarios from 'pages/usuarios';
+import IndexUsuarios from 'pages/usuarios/index';
+import IndexProyectos from 'pages/proyectos/index';
+import Proyecto from 'pages/proyectos/proyecto';
+import PerfilUsuario from 'pages/usuarios/usuario';
 import EditarUsuario from 'pages/usuarios/editar';
+import EditarProyecto from 'pages/proyectos/editar';
+import CrearProyecto from 'pages/proyectos/crear';
+import Inscripciones from 'pages/proyectos/inscripciones';
+import EstadoInscripcion from 'pages/proyectos/estadoInscripcion';
+import Avances from 'pages/proyectos/avances';
 import 'styles/globals.css';
 import 'styles/tabla.css';
 import AuthLayout from 'layouts/AuthLayout';
@@ -77,10 +85,16 @@ function App() {
               <Route path='/' element={<PrivateLayout />}>
                 <Route path='' element={<Index />} />
                 <Route path='/usuarios' element={<IndexUsuarios _id= {userData._id}/>} />
+                <Route path='/usuario' element={<PerfilUsuario _id= {userData._id}/>} />
                 <Route path='/usuarios/editar/:_id' element={<EditarUsuario _id= {userData._id} />} />
-                <Route path='page2' element={<Page2 />} />
-                <Route path='category1' element={<IndexCategory1 />} />
-                <Route path='category1/page1' element={<Category1 />} />
+                <Route path='/proyectos' element={<IndexProyectos _id= {userData._id}/>} />
+                <Route path='/proyecto/:_id' element={<Proyecto _id= {userData._id}/>} />
+                <Route path='/proyectos/editar/:_id' element={<EditarProyecto _id= {userData._id} />} />
+                <Route path='/proyectos/crear/:_id' element={<CrearProyecto _id= {userData._id} />} />
+                <Route path='/proyectos/estado/:_id' element={<EditarProyecto _id= {userData._id} />} />
+                <Route path='/proyectos/avances' element={<Avances  _id= {userData._id}/>} />
+                <Route path='/proyectos/inscripciones' element={<Inscripciones _id= {userData._id} />} />
+                <Route path='/proyectos/inscripciones/estado/:id' element={<EstadoInscripcion _id= {userData._id} />} />
               </Route>
               <Route path='/auth' element={<AuthLayout />}>
                 <Route path='register' element={<Register />} />
