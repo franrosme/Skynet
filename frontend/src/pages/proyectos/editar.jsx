@@ -31,7 +31,23 @@ export default function EditarProyecto (props) {
   const submitForm = (e) => {
     e.preventDefault();
     delete formData.rol;
+
     console.log(formData)
+    formData.presupuesto= parseInt(formData.presupuesto)
+    const arr =[]
+    
+  
+    
+    for (const property in formData) {
+      if(property.includes("E")){
+        arr.push(formData[property])
+        delete formData[property];
+        //console.log(`${property}: ${formData[property]}`);
+      }
+     
+    }
+    formData.objetivosEspecificos= arr;
+    console.log(arr)
     const campos=formData
     EditarProyecto({
       variables: { idUsuario, idProyecto, campos},
@@ -76,14 +92,34 @@ console.log("query data: "+queryData)
           required={true}
         />
      
-        <Input
+        <Input as="textarea"
           label='Objetivo General:'
-          type='textarea'
+          type='text'
           name='objetivosGenerales'
           defaultValue={queryData.VerProyecto.objetivosGenerales}
           required={true}
         />
+        <h1>Objetivos Especificos:</h1>
+        {queryData.VerProyecto.objetivosEspecificos.map((u, index) => {
+          return(
+          <Input as="textarea"
+          type='text'
+          name={`E${index}`}
+          defaultValue={u}
+          required={true}
+        />);
+
+        })
+
+        }
         
+         <Input
+          label='Presupuesto:'
+          type='number'
+          name='presupuesto'
+          defaultValue={queryData.VerProyecto.presupuesto}
+          required={true}
+        />
         
         <ButtonLoading
           disabled={Object.keys(formData).length === 0}

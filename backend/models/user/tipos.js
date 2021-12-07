@@ -21,7 +21,7 @@ const tiposUsuario = gql`
       clave: String!
       rol: Enum_Rol!
     ): Usuario
-    cambiarEstado(_id: ID!, usuario:ID!, estado: Enum_EstadoUsuario!): String
+    cambiarEstado( _id: ID!, usuario:ID!, estado: Enum_EstadoUsuario!): String
     editarUsuario(
       _id: String!
       usuario:String!

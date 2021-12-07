@@ -27,4 +27,10 @@ const EDITAR_USUARIO = gql`
   }
 `;
 
-export { EDITAR_USUARIO };
+const CAMBIAR_ESTADO_USUARIO = gql`
+mutation CambiarEstado($_id: ID!, $usuario: ID!, $estado: Enum_EstadoUsuario!) {
+  cambiarEstado(_id: $_id, usuario: $usuario, estado: $estado)
+}
+`;
+
+export { EDITAR_USUARIO, CAMBIAR_ESTADO_USUARIO };

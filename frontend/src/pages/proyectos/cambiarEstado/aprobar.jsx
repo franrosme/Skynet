@@ -5,39 +5,38 @@ import Input from 'components/Input';
 import ButtonLoading from 'components/ButtonLoading';
 import useFormData from 'hooks/useFormData';
 import { toast } from 'react-toastify';
-import { GET_INSCRIPCION } from 'graphql/proyectos/queries';
+import { GET_PROYECTO } from 'graphql/proyectos/queries';
 import DropDown from 'components/Dropdown';
 import { Enum_EstadoInscripcion } from 'utils/enums';
-import { ESTADO_INSCRIPCION } from 'graphql/proyectos/mutations';
+import { APROBAR } from 'graphql/proyectos/mutations';
 
-export default function EstadoInscripcion (props) {
-  
-  
+export default function AprobarProyecto (props) {
   const { form, formData, updateFormData } = useFormData(null);
-  const idUsuario=props._id;
+  const idUsuario = props._id;
+  console.log("id Usuario"+idUsuario)
   var { _id } = useParams();
-  const idInscripcion= _id;
- 
-
+  const idProyecto= _id;
   const {
     data: queryData,
     error: queryError,
     loading: queryLoading,
-  } = useQuery(GET_INSCRIPCION, {
-    variables: {idUsuario,idInscripcion},
+  } = useQuery(GET_PROYECTO, {
+    variables: {idUsuario, idProyecto },
   });
-
-
-  const [EditarEstado, { data: mutationData, loading: mutationLoading, error: mutationError }] =
-    useMutation(ESTADO_INSCRIPCION);
+  
+  const [aprobarProyecto, { data: mutationData, loading: mutationLoading, error: mutationError }] =
+    useMutation(APROBAR);
 
   const submitForm = (e) => {
     e.preventDefault();
-    delete formData.rol;
-    const estado=formData.estado;
-    EditarEstado({
-      variables: { idUsuario, idInscripcion, estado},
-    });
+    console.log(formData.respuesta)
+    if(formData.respuesta==="0"){ 
+      aprobarProyecto({
+        variables: { idUsuario, idProyecto},
+      });}else{
+        console.log("no desea aprobar el proyecto")
+      }
+    
   };
 
   useEffect(() => {
@@ -59,65 +58,36 @@ export default function EstadoInscripcion (props) {
   if (queryLoading) return <div>Cargando....</div>;
 
 
-
-const imprimir = []
-  queryData.getInscripcion.map((u) => {
-    console.log(u.inscripcion.length)
-    if(u.inscripcion.length > 0){
-      
-    u.inscripcion.forEach((x)=> {
-    
-    imprimir.push({
-      "_id":x._id,
-    "nombreP":u.nombre, 
-    "nombreE":x.estudiante.nombre, 
-    "idEstudiante":x.estudiante.idUsuario, 
-    "estado":x.estado,
-    "fechaDeEgreso":x.fechaDeEgreso,
-    "fechaDeIngreso":x.fechaDeIngreso,
-  
-  })
-   
-     })
-    
-   }
-  })
-  console.log("query data: "+ imprimir)
   return (
     <div className='flew flex-col w-full h-full items-center justify-center p-10'>
       <Link to='/proyectos/inscripciones'>
         <i className='fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900' />
       </Link>
-      <h1 className='m-4 text-3xl text-gray-800 font-bold text-center'>Inscripcion</h1>
+      <h1 className='m-4 text-3xl text-gray-800 font-bold text-center'>Aprobar Proyecto</h1>
       <form
         onSubmit={submitForm}
         onChange={updateFormData}
         ref={form}
         className='flex flex-col items-center justify-center'
-      >{imprimir.map((x) => {
-        return( 
+      >
         
-        <div key={x._id}>
-          <strong>Nombre Proyecto: </strong>{x.nombreP}
-          <strong>Nombre Estudiante: </strong>{x.nombreE}
-       
-         <strong> Identificacion Estudiante: </strong>{x.idEstudiante}
+        
+        <h1> <strong>Nombre Proyecto: </strong>  {queryData.VerProyecto.nombre}</h1>
+         
       
                
          <DropDown
-          label='Estado de la inscripcion:'
-          name='estado'
-          defaultValue={Enum_EstadoInscripcion[x.estado]}
+          label='aprobar proyecto'
+          name='respuesta'
           required={true}
-          options={Enum_EstadoInscripcion}
+          options={['Si','No']}
         />
               
-        </div>);
+        
          
          
          
        
-      })}
      
           {/*}
         <Input

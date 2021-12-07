@@ -5,38 +5,48 @@ import Input from 'components/Input';
 import ButtonLoading from 'components/ButtonLoading';
 import useFormData from 'hooks/useFormData';
 import { toast } from 'react-toastify';
-import { GET_INSCRIPCION } from 'graphql/proyectos/queries';
 import DropDown from 'components/Dropdown';
 import { Enum_EstadoInscripcion } from 'utils/enums';
 import { ESTADO_INSCRIPCION } from 'graphql/proyectos/mutations';
+import { VER_AVANCE } from 'graphql/proyectos/queries';
+import { ADD_OBSERVACION } from 'graphql/proyectos/mutations';
 
-export default function EstadoInscripcion (props) {
+export default function AgregarObservacion (props) {
   
   
   const { form, formData, updateFormData } = useFormData(null);
   const idUsuario=props._id;
   var { _id } = useParams();
-  const idInscripcion= _id;
+  const idAvance= _id;
  
 
   const {
     data: queryData,
     error: queryError,
     loading: queryLoading,
-  } = useQuery(GET_INSCRIPCION, {
-    variables: {idUsuario,idInscripcion},
+  } = useQuery(VER_AVANCE, {
+    variables: {idUsuario,idAvance},
   });
 
 
-  const [EditarEstado, { data: mutationData, loading: mutationLoading, error: mutationError }] =
-    useMutation(ESTADO_INSCRIPCION);
+  const [AddObservacion, { data: mutationData, loading: mutationLoading, error: mutationError }] =
+    useMutation(ADD_OBSERVACION);
 
   const submitForm = (e) => {
     e.preventDefault();
     delete formData.rol;
-    const estado=formData.estado;
-    EditarEstado({
-      variables: { idUsuario, idInscripcion, estado},
+    const arr =[]
+    for (const property in formData) {
+      if(property.includes("E")){
+        arr.push(formData[property])
+        delete formData[property];
+        //console.log(`${property}: ${formData[property]}`);
+      }
+     
+    }
+    const observacionesDelLider=arr;
+    AddObservacion({
+      variables: { idUsuario, idAvance, observacionesDelLider},
     });
   };
 
@@ -61,20 +71,17 @@ export default function EstadoInscripcion (props) {
 
 
 const imprimir = []
-  queryData.getInscripcion.map((u) => {
-    console.log(u.inscripcion.length)
-    if(u.inscripcion.length > 0){
+  queryData.VerAvance.map((u) => {
+    if(u.avance.length > 0){
       
-    u.inscripcion.forEach((x)=> {
+    u.avance.forEach((x)=> {
     
     imprimir.push({
+      "nombre":u.nombre,
       "_id":x._id,
-    "nombreP":u.nombre, 
-    "nombreE":x.estudiante.nombre, 
-    "idEstudiante":x.estudiante.idUsuario, 
-    "estado":x.estado,
-    "fechaDeEgreso":x.fechaDeEgreso,
-    "fechaDeIngreso":x.fechaDeIngreso,
+    "fecha":x.fecha, 
+    "descripcion":x.descripcion, 
+    "observacionesDelLider":x.observacionesDelLider
   
   })
    
@@ -85,10 +92,10 @@ const imprimir = []
   console.log("query data: "+ imprimir)
   return (
     <div className='flew flex-col w-full h-full items-center justify-center p-10'>
-      <Link to='/proyectos/inscripciones'>
+      <Link to='/proyectos/avances'>
         <i className='fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900' />
       </Link>
-      <h1 className='m-4 text-3xl text-gray-800 font-bold text-center'>Inscripcion</h1>
+      <h1 className='m-4 text-3xl text-gray-800 font-bold text-center'>Nueva Observacion</h1>
       <form
         onSubmit={submitForm}
         onChange={updateFormData}
@@ -98,20 +105,27 @@ const imprimir = []
         return( 
         
         <div key={x._id}>
-          <strong>Nombre Proyecto: </strong>{x.nombreP}
-          <strong>Nombre Estudiante: </strong>{x.nombreE}
+          <strong>Nombre Proyecto: </strong>{x.nombre}
+         
        
-         <strong> Identificacion Estudiante: </strong>{x.idEstudiante}
+         <strong> fecha: </strong>{x.fecha}
       
-               
-         <DropDown
-          label='Estado de la inscripcion:'
-          name='estado'
-          defaultValue={Enum_EstadoInscripcion[x.estado]}
+        
+         <strong>descripcion: </strong> {x.descripcion}
+         <h1>observaciones del lider:</h1>
+      
+         {x.observacionesDelLider.map((u, index) => {
+          return(
+          <Input as="textarea"
+          type='text'
+          name={`E${index}`}
+          defaultValue={u}
           required={true}
-          options={Enum_EstadoInscripcion}
-        />
-              
+        />);
+
+        })
+
+        }     
         </div>);
          
          

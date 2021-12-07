@@ -16,56 +16,63 @@ query ListarProyectos($idUsuario: ID!) {
 `;
 
 const GET_PROYECTO = gql`
-query VerProyecto($idUsuario: ID!, $idProyecto: ID!) {
-  VerProyecto(idUsuario: $idUsuario, idProyecto: $idProyecto) {
+query Query($idUsuario: ID!, $idProyecto: ID!) {
+  VerProyecto(idUsuario: $idUsuario, idProyecto: $idProyecto
+   ) {
+    _id
     nombre
-    presupuesto
-    fase
-    estado
-    lider {
-      nombre
-      idUsuario
-      email
-    }
     objetivosGenerales
     objetivosEspecificos
+    presupuesto
     fechaInicio
     fechaFin
+    estado
+    fase
+    lider {
+      _id
+      idUsuario
+      email
+      nombre
+      rol
+      estado
+    }
     avance {
+      _id
       fecha
       descripcion
       observacionesDelLider
     }
     inscripcion {
-      idEstudiante
+      _id
       estado
       fechaDeIngreso
       fechaDeEgreso
+      estudiante {
+        _id
+        idUsuario
+        email
+        nombre
+        rol
+        estado
+      }
     }
   }
 }
 `;
 const GET_INSCRIPCION = gql`
-query GetInscripcion($idUsuario: ID!, $idInscripcion: ID!) {
+query getInscripcion($idUsuario: ID!, $idInscripcion: ID!) {
   getInscripcion(idUsuario: $idUsuario, idInscripcion: $idInscripcion) {
     nombre
     inscripcion {
       _id
-      idEstudiante
-      estado
-      fechaDeIngreso
-      fechaDeEgreso
-    }
-  }}
-`;
-
-const INSCRIPCIONES = gql`
-query ListarInscripciones($idUsuario: String!) {
-  ListarInscripciones(idUsuario: $idUsuario) {
-    nombre
-    inscripcion {
-      _id
-      idEstudiante
+      estudiante {
+        _id
+        idUsuario
+        email
+        nombre
+        rol
+        estado
+      }
       estado
       fechaDeIngreso
       fechaDeEgreso
@@ -74,4 +81,52 @@ query ListarInscripciones($idUsuario: String!) {
 }
 `;
 
-export { GET_PROYECTOS, GET_PROYECTO,  GET_INSCRIPCION, INSCRIPCIONES };
+const INSCRIPCIONES = gql`
+query ListarInscripciones($idUsuario: ID!) {
+  ListarInscripciones(idUsuario: $idUsuario) {
+    nombre
+    inscripcion {
+      _id
+      estudiante {
+        _id
+        idUsuario
+        email
+        nombre
+        rol
+        estado
+      }
+      estado
+      fechaDeIngreso
+      fechaDeEgreso
+    }
+  }
+}
+`;
+const AVANCES = gql`
+query ListarAvances($idUsuario: ID!) {
+  ListarAvances(idUsuario: $idUsuario) {
+    nombre
+    avance {
+      _id
+      fecha
+      descripcion
+      observacionesDelLider
+    }
+  }
+}
+`;
+const VER_AVANCE = gql`
+query VerAvance($idUsuario: ID!, $idAvance: ID!) {
+  VerAvance(idUsuario: $idUsuario, idAvance: $idAvance) {
+    nombre
+    avance {
+      _id
+      fecha
+      descripcion
+      observacionesDelLider
+    }
+  }
+}
+`;
+
+export { GET_PROYECTOS, GET_PROYECTO,  GET_INSCRIPCION, INSCRIPCIONES, AVANCES, VER_AVANCE };

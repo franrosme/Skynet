@@ -4,14 +4,13 @@ import { GET_PROYECTOS } from 'graphql/proyectos/queries';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { Enum_FaseProyecto, Enum_EstadoProyecto } from 'utils/enums';
-import PrivateRoute from 'components/PrivateRoute';
 import { Button } from "react-bootstrap";
+import PrivateComponent from 'components/PrivateComponent';
 
 
 export default function IndexProyectos (props) {
   
    const idUsuario = props._id;
-  console.log(idUsuario)
   const { data, error, loading } = useQuery(GET_PROYECTOS, {
     variables: { idUsuario }});
     useEffect(() => {
@@ -20,19 +19,17 @@ export default function IndexProyectos (props) {
       }
     }, [error]);
   if (loading) return <div>Cargando.... </div>;
-  console.log(data.ListarProyectos)
-  return (
-    <PrivateRoute roleList={['Administrador']}>
-        
+  return (<><PrivateComponent roleList={['Administrador']}>
+
       <div>
-      <Button
-    type="button"
-    onClick={(e) => {
-      e.preventDefault();
-      window.location.href='/proyectos/crear/'+idUsuario;
-      }}
->Crear Proyecto</Button>
-       <h1> Datos Proyectos:</h1>
+        <Button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            window.location.href = '/proyectos/crear/' + idUsuario;
+          } }
+        >Crear Proyecto</Button>
+        <h1> Datos Proyectos:</h1>
         <table className='tabla'>
           <thead>
             <tr>
@@ -47,7 +44,7 @@ export default function IndexProyectos (props) {
           </thead>
           <tbody>
             {data && data.ListarProyectos ? (
-              
+
               <>
                 {data.ListarProyectos.map((u) => {
                   return (
@@ -69,13 +66,13 @@ export default function IndexProyectos (props) {
                         <Link to={`/proyectos/aprobar/${u._id}`} alt='Aprobar proyecto'>
                           <i className='fas fa-thumbs-up text-green-600 hover:text-green-400 cursor-pointer' />
                         </Link>
-                        <Link to={`/proyecto/inactivar/${u._id}`} alt='Inactivar proyecto'>
+                        <Link to={`/proyectos/inactivar/${u._id}`} alt='Inactivar proyecto'>
                           <i className='fas fa-power-off text-red-600 hover:text-red-400 cursor-pointer' />
                         </Link>
-                        <Link to={`/proyecto/terminar/${u._id}`} alt='Terminar proyecto'>
+                        <Link to={`/proyectos/terminar/${u._id}`} alt='Terminar proyecto'>
                           <i className='fas fa-window-close text-red-600 hover:text-red-400 cursor-pointer' />
                         </Link>
-                        <Link to={`/proyecto/reabrir/${u._id}`} alt='Reabrir proyecto'>
+                        <Link to={`/proyectos/reabrir/${u._id}`} alt='Reabrir proyecto'>
                           <i className='fas fa-power-off text-green-600 hover:text-green-400 cursor-pointer' />
                         </Link>
                       </td>
@@ -89,8 +86,53 @@ export default function IndexProyectos (props) {
           </tbody>
         </table>
       </div>
-    </PrivateRoute>
-  );
+    </PrivateComponent>
+    <PrivateComponent roleList={['Estudiante']}>
+
+        <div>
+   
+          <h1> Proyectos Vista Estudiante:</h1>
+          <table className='tabla'>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Lider</th>
+                <th>fase</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data && data.ListarProyectos ? (
+
+                <>
+                  {data.ListarProyectos.map((u) => {
+                    return (
+                      <tr key={u._id}>
+                        <td>{u.nombre}</td>
+                        <td>{u.lider.nombre}</td>
+                        <td>{Enum_FaseProyecto[u.fase]}</td>
+                        <td>{Enum_EstadoProyecto[u.estado]}</td>
+                        <td>
+                          {u.estado === "Activo" ?(
+                              <Link to={`/proyecto/${u._id}`}>
+                                <i className='fas fa-eye text-blue-600 hover:text-blue-400 cursor-pointer' />
+                              </Link>):(
+                                <div>No autorizado</div>
+                              )}
+                          
+                        </td>
+                       </tr>
+                    );
+                  })}
+                </>
+              ) : (
+                <div>No autorizado</div>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </PrivateComponent></>);
 };
 
 

@@ -42,8 +42,9 @@ const projectSchema = new Schema(
       default: null,
     },
     inscripcion: [{
-        idEstudiante: {
-            type: String,
+        estudiante: {
+          type: Schema.Types.ObjectId,
+          ref: UserModel,
             required: true,
         },
         estado: {

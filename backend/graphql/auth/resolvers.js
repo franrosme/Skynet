@@ -19,7 +19,7 @@ const resolversAutenticacion = {
         token: generateToken({
           _id: usuarioCreado._id,
           nombre: usuarioCreado.nombre,
-          ideUsuario: usuarioCreado.idUsuario,
+          idUsuario: usuarioCreado.idUsuario,
           email: usuarioCreado.email,
           rol: usuarioCreado.rol,
         }),

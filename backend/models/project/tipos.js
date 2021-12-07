@@ -9,9 +9,9 @@ const tiposProyecto = gql`
     }
   type Inscripcion {
     _id: ID!
-    idEstudiante: String!
+    estudiante: Usuario
     estado: Enum_EstadoInscripcion
-    fechaDeIngreso: Date!
+    fechaDeIngreso: Date
     fechaDeEgreso: Date
   }
   type Proyecto {
@@ -50,8 +50,8 @@ const tiposProyecto = gql`
     inscripcion: [Inscripcion]
   }
   type gInscripcion {
-    nombre: String!
-    inscripcion: Inscripcion
+    nombre: String
+    inscripcion:[Inscripcion]
   }
   type LAvance {
   nombre: String!
@@ -63,7 +63,7 @@ const tiposProyecto = gql`
   input editProyecto {
     nombre: String
     objetivosGenerales: String
-    objetivosEspecificos: [String]
+    objetivosEspecificos: [String!]
     presupuesto: Int
     lider: String
     fechaInicio: Date
@@ -76,15 +76,17 @@ const tiposProyecto = gql`
     presupuesto: Int!
   }
   input inputInscripcion {
-    idEstudiante: String!
+    estudiante: ID!
   }
 
   type Query {
     ListarProyectos(idUsuario: ID!): [LProyectos]
-    ListarInscripciones(idUsuario: String!):[LInscripcion] 
+    ListarInscripciones(idUsuario: ID!):[LInscripcion] 
+    ListarAvances(idUsuario: ID!):[LAvance]
     VerProyecto(idUsuario: ID!, idProyecto:ID!): Proyecto
-    VerAvances(idUsuario: String!, idProyecto:ID!):[LAvance] 
-    getInscripcion(idUsuario: ID!, idInscripcion: ID!): gInscripcion
+    VerAvances(idUsuario: ID!, idProyecto:ID!):[LAvance] 
+    VerAvance(idUsuario: ID!, idAvance:ID!):[LAvance] 
+    getInscripcion(idUsuario: ID!, idInscripcion: ID!): [gInscripcion]
   }
 
   type Mutation {
@@ -98,7 +100,7 @@ const tiposProyecto = gql`
     inscripcion(idProyecto: ID!, inscripcion: inputInscripcion): String
     
     registrarAvance(idProyecto: ID!, idEstudiante: String!, avance: inputAvance): String
-    editarAvance(idProyecto: ID!, idAvance: ID!, idEstudiante: String!, descripcion: String!): String
+    editarAvance(idAvance: ID!, idEstudiante: String!, descripcion: String!): String
     reabrirProyecto(idUsuario: String!, idProyecto: ID!): String
 }
 `;
