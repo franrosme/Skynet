@@ -1,0 +1,207 @@
+.titulo {
+    font-family:Georgia,serif;
+ color:#666666;
+ font-size:30px;
+ line-height:1em;
+ margin:10px 0 10px; /*may change */
+ padding:5px 10px 10px; /*may change */
+ position:relative;
+ text-align: center;
+
+}
+.blue {
+    color: #478FCA!important
+}
+.titulo strong{
+    color:#A80C1E;
+    display:block;
+    font-size:85px;
+    font-weight:normal;
+    letter-spacing:-3.5px;
+    line-height:1em;
+    }
+.container {
+    background:url(http://www.dlocc.com/articles/wp-content/uploads/2010/01/Mozilla-Background.png) no-repeat top left;
+    }
+    .c > div {
+        padding: 1em;
+      }
+      
+      @media screen and (min-width: 31.42em) {
+        .c2, .c3 {
+          float: left;
+          width: 50%;
+        }
+      }
+
+      /* Acordeon styles */
+.tab {
+    position: relative;
+    margin-bottom: 1px;
+    width: 100%;
+    overflow: hidden;
+    transition:all 0.8s ease;
+  }
+  .mah-accordion input {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+    transition:all 0.8s ease;
+  }
+  .mah-accordion label {
+      position: relative;
+      display: block;
+      background: #565656;
+      cursor: pointer;
+      color: #fff;
+      padding: 15px;
+  }
+  .tab-content {
+    max-height: 0;
+    overflow: hidden;
+    background: #fff;
+    -webkit-transition: max-height .35s;
+    transition: max-height .35s;
+  }
+  .tab-content p {
+      color: #303030;
+      padding: 5px;
+      margin: 0;
+      text-align:left;
+  }
+  .tab-content img {
+      max-width: 100%;
+      width: 265px;
+      margin: 1px;
+  }
+  /* :checked */
+  .mah-accordion input:checked ~ .tab-content {
+    max-height: inherit;
+    transition:all 0.8s ease;
+  }
+  /* Icon */
+  .mah-accordion label::after {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: block;
+    width: 3em;
+    height: 3em;
+    line-height: 3;
+    text-align: center;
+    -webkit-transition: all .35s;
+    transition: all .35s;
+  }
+  .mah-accordion input[type=checkbox] + label::after {
+    content: "+";
+  }
+  .mah-accordion input[type=checkbox]:checked + label::after {
+    -webkit-transform: rotate(315deg);
+            transform: rotate(315deg);
+  }
+  .left_part {
+      width: 45%;
+      display: inline-block;
+      margin-right: 1%;
+      padding: 10px;    
+      vertical-align: top;
+  }
+  .right_part {
+      width: 45%;
+      display: inline-block;
+      margin-left: 1%;
+      padding: 10px;
+      vertical-align: top;
+  }
+  .tab-content h2 {
+      margin: 0 0 10px 0;
+      padding: 5px;
+      color: #2196F3;
+  }
+  @media screen and (max-width:500px){ 
+      .left_part,.right_part{
+          width:100%;
+          text-align:center;
+      }
+  }
+  .hr {
+    height: 1px;
+    background-color: black;
+  }
+  .project-title-2 {
+    text-align: left;
+    padding: 6px 10px 6px 4px;
+    font-weight: 400;
+    color: #667E99;
+    background-color: transparent;
+    vertical-align: middle
+}
+.project-info {
+    padding: 6px 4px 6px 6px
+}
+
+
+
+.project-info {
+    display: table;
+    width: 98%;
+    width: calc(100% - 24px);
+    margin: 0 auto
+}
+
+.project-info-row {
+    display: table-row
+}
+
+.project-info-name,
+.project-info-value {
+    display: table-cell;
+    border-top: 1px dotted #D5E4F1
+}
+
+.project-info-name {
+    text-align: left;
+    padding: 6px 10px 6px 4px;
+    font-weight: 400;
+    color: #667E99;
+    background-color: transparent;
+   
+    vertical-align: middle
+}
+
+.project-info-value {
+    padding: 6px 4px 6px 6px
+}
+
+.project-info-value>span+span:before {
+    display: inline;
+    content: ",";
+    margin-left: 1px;
+    margin-right: 3px;
+    color: #666;
+    border-bottom: 1px solid #FFF
+}
+
+.project-info-value>span+span.editable-container:before {
+    display: none
+}
+
+.project-info-row:first-child .project-info-name,
+.project-info-row:first-child .project-info-value {
+    border-top: none
+}
+
+.project-info-striped {
+    border: 1px solid #DCEBF7
+}
+
+.project-info-striped .project-info-name {
+    color: #336199;
+    background-color: #EDF3F4;
+    border-top: 1px solid #F7FBFF
+}
+
+.project-info-striped .project-info-value {
+    border-top: 1px dotted #DCEBF7;
+    padding-left: 12px
+}

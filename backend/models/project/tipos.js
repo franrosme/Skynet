@@ -41,6 +41,7 @@ const tiposProyecto = gql`
   type LProyectos {
     _id:ID
     nombre: String!
+    presupuesto: Int
     fase: Enum_FaseProyecto
     estado: Enum_EstadoProyecto
     lider:Usuario

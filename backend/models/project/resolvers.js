@@ -458,7 +458,7 @@ const resolversProyecto = {
       },
       editarAvance:  async (parent, args) => {
         const user = await UserModel.findOne({ _id: args.idEstudiante })
-        if(user && user.estado === "Autorizado" && user.rol==="Estudiante"){
+        if(user && user.estado === "Autorizado" && (user.rol==="Estudiante")){
           const verificar = await ProjectModel.findOne({
             $and:[
               {estado:{$eq:"Activo"}},

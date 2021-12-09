@@ -1,0 +1,214 @@
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+/*
+// Basic Bootstrap table
+*/
+@media only screen and (max-width: 800px) {
+    
+    /* Force table to not be like tables anymore */
+	.table-bordered table, 
+	.table-bordered thead, 
+	.table-bordered tbody, 
+	.table-bordered th, 
+	.table-bordered td, 
+	.table-bordered tr { 
+		display: block; 
+	}
+ 
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.table-bordered thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+ 
+	.table-bordered tr { border: 1px solid #ccc; }
+ 
+	.table-bordered td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+		white-space: normal;
+		text-align:left;
+	}
+ 
+	.table-bordered td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		text-align:left;
+		font-weight: bold;
+	}
+ 
+	/*
+	Label the data
+	*/
+	.table-bordered div:before { content: attr(data-title); }
+}
+  
+
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-accent-bg: transparent;
+    --bs-table-striped-color: #212529;
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+    --bs-table-active-color: #212529;
+    --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+    --bs-table-hover-color: #212529;
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+    width: 100%;
+    color: #212529;
+    vertical-align: top;
+    table-layout: fixed;
+    padding: 5px;
+    border-color: #dee2e6;
+    border-radius: var(--border-radius);
+    border-bottom: 1px solid rgba(120,130,140,.13)!important;
+    border-collapse: separate !important;
+    border-spacing: 0;
+    caption-side: bottom;
+    clear: both;
+    margin-top: 6px !important;
+    margin-bottom: 1rem;
+    max-width: none !important;
+   
+    
+  
+    
+  }
+
+  tbody {
+    vertical-align: inherit;
+  }
+
+  thead {
+    vertical-align: bottom;
+  }
+  tr {
+    /*display: table-row;*/
+    vertical-align: inherit;
+    border-color: inherit;
+    
+    }
+thead {
+        background: #444;
+        color: #fff;
+    
+
+}
+tbody, td, tfoot, th, thead, tr {
+    text-align:justify !important;
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+.table>:not(:last-child)>:last-child>* {
+    border-bottom-color: currentColor;
+}
+.table>:not(caption)>*>* {
+    padding: .5rem .5rem;
+    background-color: var(--bs-table-bg);
+    border-bottom-width: 1px;
+    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+  
+.title-th{
+    font-weight: bold;
+}
+.action{
+    text-align:center !important;
+
+}
+.add{
+    text-align: right;
+    float: right !important;
+    margin-right:20px;
+    margin-bottom: 20px;
+}
+.Contenedor {
+    text-align: center;
+    width:100%;
+    margin:0px auto;
+    }
+
+
+
+
+
+/*buscar*/
+.search-label {
+    display: inline-block;
+    align-items: stretch;
+    overflow: hidden;
+    flex-wrap: wrap;
+    width: 80%;
+    padding-bottom: 20px;
+    padding-top: 10px;
+}
+/*paginacion*/
+.pagination {
+    float: right;
+    padding-top: 0.25em;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: .25rem;
+    padding-right: 0;
+}
+.header-title {
+    font-family: lato,sans-serif;
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: #333;
+    text-transform: capitalize;
+    margin-bottom: 17px;
+    margin-top: 20px !important;
+}
+.Card {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    margin-bottom: 30px;
+    margin-top: 20px;
+    margin-right:10px;
+    margin-left: 10px;
+}
+.status-p {
+    color: #fff;
+    padding: 0 20px 1px;
+    border-radius: 20px;
+    display: inline-block;
+    text-transform: capitalize;
+    vertical-align: middle;
+}
+.box, .buttonText {
+    margin: 10px 10px 10px 10px;
+}
+
+.btn-close {
+    float: right;
+  }
+  
