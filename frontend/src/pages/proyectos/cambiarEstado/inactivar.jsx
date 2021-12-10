@@ -6,7 +6,6 @@ import useFormData from 'hooks/useFormData';
 import { toast } from 'react-toastify';
 import { GET_PROYECTO } from 'graphql/proyectos/queries';
 import DropDown from 'components/Dropdown';
-import { APROBAR } from 'graphql/proyectos/mutations';
 import { INACTIVAR } from 'graphql/proyectos/mutations';
 
 export default function InactivarProyecto (props) {
@@ -40,19 +39,22 @@ export default function InactivarProyecto (props) {
 
   useEffect(() => {
     if (mutationData) {
-      toast.success('Usuario modificado correctamente');
+      toast.success('Se inactivo el proyecto');
+      setTimeout( function() { window.location.href = `/proyecto/${idProyecto}`; }, 5000 );
     }
-  }, [mutationData]);
+  }, [idProyecto, mutationData]);
 
   useEffect(() => {
     if (mutationError) {
-      toast.error('Error modificando el usuario');
+      toast.error('Error al inactivar el proyecto');
+      setTimeout( function() { window.location.href = `/proyecto/${idProyecto}`; }, 5000 );
     }
 
     if (queryError) {
-      toast.error('Error consultando el usuario'+queryError);
+      toast.error('Error consultando el proyecto');
+      setTimeout( function() { window.location.href = `/proyecto/${idProyecto}`; }, 5000 );
     }
-  }, [queryError, mutationError]);
+  }, [queryError, mutationError, idProyecto]);
 
   if (queryLoading) return <div>Cargando....</div>;
 
@@ -85,7 +87,7 @@ export default function InactivarProyecto (props) {
         
          
         <ButtonLoading
-          disabled={Object.keys(formData).length === 0}
+        
           loading={mutationLoading}
           text='Confirmar'
         />
