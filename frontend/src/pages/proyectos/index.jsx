@@ -4,7 +4,6 @@ import { GET_PROYECTOS } from 'graphql/proyectos/queries';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { Enum_FaseProyecto, Enum_EstadoProyecto } from 'utils/enums';
-import { Spinner } from "reactstrap";
 import PrivateComponent from 'components/PrivateComponent';
 
 
@@ -19,9 +18,17 @@ export default function IndexProyectos (props) {
         toast.error('Error consultando los proyectos');
       }
     }, [error]);
-  if (loading) return ( <div> 
-  <Spinner/>
-</div>);
+  if (loading) return ( 
+    <div
+    className="
+      animate-spin
+      rounded-full
+      h-10
+      w-10
+      border-t-2 border-b-2 border-blue-500
+    "
+  ></div>
+);
   return (<>
   <PrivateComponent roleList={['Administrador']}>
  
@@ -30,12 +37,7 @@ export default function IndexProyectos (props) {
       <h1 className="titulo"> Proyectos</h1>
      </div> 
 
-  <div class="btn buttonAdd" onClick={(e) => {
-            e.preventDefault();
-            
-            window.location.href = '/proyectos/crear/' + idUsuario;
-          } }> <i className='fas fa-plus-circle text-white-600 cursor-pointer' /> Crear Proyecto
-  </div>
+ 
 
  
       <div>
@@ -47,7 +49,7 @@ export default function IndexProyectos (props) {
               <th>Fase</th>
               <th>Estado</th>
               <th>Acciones</th>
-              <th>Cambiar estado</th>
+              
             </tr>
           </thead>
           <tbody>
@@ -60,28 +62,34 @@ export default function IndexProyectos (props) {
                       <td><div><div className = "title-th" data-title = "Nombre: "></div>{u.nombre}</div></td>
                       <td><div><div  className = "title-th" data-title = "Lider: "></div>{u.lider.nombre}</div></td>
                       <td><div><div className = "title-th" data-title = "Fase: "></div>{Enum_FaseProyecto[u.fase]}</div></td>
-                      <td><div><div  className = "title-th" data-title = "Estado: "></div>{Enum_EstadoProyecto[u.estado]}</div></td>
-                      <td><div><div  className = "title-th" data-title = "Acciones: "></div>
+                      
+                      
+                        <td><div><div  className = "title-th" data-title = "Estado: "></div>{Enum_EstadoProyecto[u.estado]}
+                     
+                     {(u.estado==="Inactivo" && u.fase===null) ?
+                     (<Link to={`/proyectos/aprobar/${u._id}`} alt='Aprobar proyecto'>
+                          <i className='fas fa-thumbs-up text-green-600 hover:text-green-400 cursor-pointer' />
+                        </Link>):(<div></div>)}
+                        {(u.estado==="Activo" && (u.fase==="Iniciado" ||u.fase==="En_Desarrollo" )) ?
+                        (<Link to={`/proyectos/inactivar/${u._id}`} alt='Inactivar proyecto'>
+                          <i className='fas fa-power-off text-red-600 hover:text-red-400 cursor-pointer' />
+                        </Link>):(<div></div>)}
+                        {(u.estado==="Activo" && u.fase==="En_Desarrollo") ?
+                        (<Link to={`/proyectos/terminar/${u._id}`} alt='Terminar proyecto'>
+                          <i className='fas fa-window-close text-red-600 hover:text-red-400 cursor-pointer' />
+                        </Link>):(<div></div>)}
+                        {(u.estado==="Inactivo" && u.fase!=="Terminado" && u.fase!==null) ?
+                        (<Link to={`/proyectos/reabrir/${u._id}`} alt='Reabrir proyecto'>
+                          <i className='fas fa-power-off text-green-600 hover:text-green-400 cursor-pointer' />
+                        </Link>):(<div></div>)}
+                     </div></td>
+                     <td><div><div  className = "title-th" data-title = "Acciones: "></div>
                       <Link to={`/proyectos/editar/${u._id}`}>
                           <i className='fas fa-pen text-yellow-600 hover:text-yellow-400 cursor-pointer' />
                         </Link>
                         <Link to={`/proyecto/${u._id}`}>
                           <i className='fas fa-eye text-blue-600 hover:text-blue-400 cursor-pointer' />
                         </Link></div></td>
-                     <td><div><div  className = "title-th" data-title = "Cambiar estado: "></div>
-                     <Link to={`/proyectos/aprobar/${u._id}`} alt='Aprobar proyecto'>
-                          <i className='fas fa-thumbs-up text-green-600 hover:text-green-400 cursor-pointer' />
-                        </Link>
-                        <Link to={`/proyectos/inactivar/${u._id}`} alt='Inactivar proyecto'>
-                          <i className='fas fa-power-off text-red-600 hover:text-red-400 cursor-pointer' />
-                        </Link>
-                        <Link to={`/proyectos/terminar/${u._id}`} alt='Terminar proyecto'>
-                          <i className='fas fa-window-close text-red-600 hover:text-red-400 cursor-pointer' />
-                        </Link>
-                        <Link to={`/proyectos/reabrir/${u._id}`} alt='Reabrir proyecto'>
-                          <i className='fas fa-power-off text-green-600 hover:text-green-400 cursor-pointer' />
-                        </Link>
-                     </div></td>
                      
                     </tr>
                   );
