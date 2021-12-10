@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import Input from 'components/Input';
 import ButtonLoading from 'components/ButtonLoading';
 import useFormData from 'hooks/useFormData';
 import { toast } from 'react-toastify';
@@ -24,7 +23,7 @@ export default function EstadoInscripcion (props) {
     error: queryError,
     loading: queryLoading,
   } = useQuery(GET_INSCRIPCION, {
-    variables: {idUsuario,idInscripcion},
+    variables: {idUsuario, idInscripcion},
   });
 
 
@@ -42,17 +41,17 @@ export default function EstadoInscripcion (props) {
 
   useEffect(() => {
     if (mutationData) {
-      toast.success('Usuario modificado correctamente');
+      toast.success('Estado modificado correctamente');
     }
   }, [mutationData]);
 
   useEffect(() => {
     if (mutationError) {
-      toast.error('Error modificando el usuario');
+      toast.error('Error modificando el estado de la inscripcion');
     }
 
     if (queryError) {
-      toast.error('Error consultando el usuario'+queryError);
+      toast.error('Error consultando la inscripcion');
     }
   }, [queryError, mutationError]);
 
@@ -61,12 +60,12 @@ export default function EstadoInscripcion (props) {
 
 
 const imprimir = []
-  queryData.getInscripcion.map((u) => {
+  queryData.getInscripcion.forEach((u) => {
     console.log(u.inscripcion.length)
     if(u.inscripcion.length > 0){
       
     u.inscripcion.forEach((x)=> {
-    
+    if(x._id===idInscripcion){
     imprimir.push({
       "_id":x._id,
     "nombreP":u.nombre, 
@@ -76,7 +75,7 @@ const imprimir = []
     "fechaDeEgreso":x.fechaDeEgreso,
     "fechaDeIngreso":x.fechaDeIngreso,
   
-  })
+  })}
    
      })
     
@@ -119,43 +118,9 @@ const imprimir = []
        
       })}
      
-          {/*}
-        <Input
-          label='Nombre Proyecto:'
-          type='text'
-          name='nombre'
-          defaultValue={queryData.getInscripcion.nombre}
-          required={true}
-          disabled
-        />
-     
-        <Input
-          label='Identificacion Estudiante:'
-          type='text'
-          name='idEstudiante'
-          defaultValue={queryData.getInscripcion.inscripcion.idEstudiante}
-          required={true}
-          disabled
-        />
-        <Input
-          label='Identificacion Estudiante:'
-          type='text'
-          name='idEstudiante'
-          defaultValue={queryData.getInscripcion.inscripcion.idEstudiante}
-          required={true}
-          disabled
-        />
-         <DropDown
-          label='Estado de la inscripcion:'
-          name='estado'
-          defaultValue={queryData.getInscripcion.inscripcion.estado}
-          required={true}
-          options={Enum_EstadoInscripcion}
-        />
         
-        {*/}
         <ButtonLoading
-          disabled={Object.keys(formData).length === 0}
+          
           loading={mutationLoading}
           text='Confirmar'
         />
