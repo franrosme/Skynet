@@ -29,13 +29,13 @@ export default function AgregarAvance (props) {
 
   useEffect(() => {
     if (mutationData) {
-      toast.success('Usuario modificado correctamente');
+      toast.success('Avance agregado correctamente');
     }
   }, [mutationData]);
 
   useEffect(() => {
     if (mutationError) {
-      toast.error('Error modificando el usuario');
+      toast.error('Error agregando el avance');
     }
   }, [mutationError]);
 
@@ -60,41 +60,7 @@ export default function AgregarAvance (props) {
           required={true}
           disabled
         />
-          {/*}
-        <Input
-          label='Nombre Proyecto:'
-          type='text'
-          name='nombre'
-          defaultValue={queryData.getInscripcion.nombre}
-          required={true}
-          disabled
-        />
-     
-        <Input
-          label='Identificacion Estudiante:'
-          type='text'
-          name='idEstudiante'
-          defaultValue={queryData.getInscripcion.inscripcion.idEstudiante}
-          required={true}
-          disabled
-        />
-        <Input
-          label='Identificacion Estudiante:'
-          type='text'
-          name='idEstudiante'
-          defaultValue={queryData.getInscripcion.inscripcion.idEstudiante}
-          required={true}
-          disabled
-        />
-         <DropDown
-          label='Estado de la inscripcion:'
-          name='estado'
-          defaultValue={queryData.getInscripcion.inscripcion.estado}
-          required={true}
-          options={Enum_EstadoInscripcion}
-        />
-        
-        {*/}
+         
         <ButtonLoading
           disabled={Object.keys(formData).length === 0}
           loading={mutationLoading}
