@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import Input from 'components/Input';
 import ButtonLoading from 'components/ButtonLoading';
 import useFormData from 'hooks/useFormData';
 import { toast } from 'react-toastify';
@@ -9,38 +8,45 @@ import { CREAR_PROYECTO } from 'graphql/proyectos/mutations';
 
 
 export default function CrearProyecto (props) {
-  
+  var ex =0;
   
   const { form, formData, updateFormData } = useFormData(null);
   const idUsuario=props._id;
-  var { _id } = useParams();
-
-
-
-
-  const [EditarProyecto, { data: mutationData, loading: mutationLoading, error: mutationError }] =
+  
+  const [CrearProyecto, { data: mutationData, loading: mutationLoading, error: mutationError }] =
     useMutation(CREAR_PROYECTO);
 
   const submitForm = (e) => {
     e.preventDefault();
-    delete formData.rol;
-    console.log(formData)
+    const arr =[];
+    
+   for (const property in formData) {
+      if(property.includes("E")){
+        arr.push(formData[property])
+        delete formData[property];
+        
+      }
+     }
+    formData.objetivosEspecificos= arr;
     const campos=formData
     campos.presupuesto= parseInt(campos.presupuesto)
-    EditarProyecto({
+    console.log(arr)
+    CrearProyecto({
       variables: { idUsuario, campos},
     });
   };
 
   useEffect(() => {
     if (mutationData) {
-      toast.success('Usuario modificado correctamente');
+      toast.success('Proyecto creado correctamente');
+      setTimeout( function() { window.location.href = `/proyecto/${mutationData.crear_id}`; }, 5000 );
     }
   }, [mutationData]);
 
   useEffect(() => {
     if (mutationError) {
-      toast.error('Error modificando el usuario');
+      toast.error('Error creando el proyecto');
+      setTimeout( function() { window.location.href = `/proyecto/crear`; }, 5000 );
     }
 
   
@@ -48,44 +54,95 @@ export default function CrearProyecto (props) {
 
 
   return (
-    <div className='flew flex-col w-full h-full items-center justify-center p-10'>
+  
+<div className='flew flex-col w-full h-full items-center justify-center p-10'>
       <Link to='/proyectos'>
         <i className='fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900' />
       </Link>
-      <h1 className='m-4 text-3xl text-gray-800 font-bold text-center'>Crear Proyecto</h1>
-      <form
+      
+    <div class="h-96"></div>
+    <div class="max-w-5xl mx-auto px-6 sm:px-6 lg:px-8 mb-12">
+        <div class="bg-white w-full shadow rounded p-8 sm:p-12 -mt-72">
+            <p class="text-3xl font-bold leading-7 text-center">Crear Proyecto</p>
+            <form
         onSubmit={submitForm}
         onChange={updateFormData}
         ref={form}
-        className='flex flex-col items-center justify-center'
-      >
-        <Input
-          label='Nombre Proyecto:'
+        >
+                <div class="md:flex items-center mt-8">
+                    <div class="w-full flex flex-col">
+                        <label class="font-semibold leading-none">Nombre del Proyecto:</label>
+                        <input 
+                        type='text'
+                        name='nombre'
+                        required={true} 
+                        className="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
+                    </div>
+                    
+                </div>
+                
+                <div>
+                    <div class="w-full flex flex-col mt-8">
+                        <label class="font-semibold leading-none">Objetivo General:</label>
+                        <textarea
+                        name='objetivosGenerales'
+                        required={true}
+                        type="text"
+                        className="h-20 text-base leading-none text-gray-900 p-3 focus:oultine-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"></textarea>
+                    </div>
+                </div>
+                <div>
+                    <div class="w-full flex flex-col mt-8" id="inputDiv"   >
+                        <label class="font-semibold leading-none">Objetivos Específicos:</label>
+                      
+                        <input
           type='text'
-          name='nombre'
-          required={true}
-        />
-     
-        <Input
-          label='Objetivo General:'
-          type='textarea'
-          name='objetivosGenerales'
-          required={true}
-        />
-         <Input
-          label='Presupuesto:'
-          type='number'
-          name='presupuesto'
-          required={true}
-        />
+          name="E0"
+          required={true} 
+          className= "h-auto text-base leading-none text-gray-900 p-3 focus:oultine-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
+       
+
+       </div>
+         <button onClick={(e) => {
+                      ex=ex+1;
+            var parent = document.getElementById("inputDiv");
+
+            var input = document.createElement("input");
+            input.type= 'text';
+            input.name = `E${ex}`; 
+            input.required= true;
+            input.className = "h-auto text-base leading-none text-gray-900 p-3 focus:oultine-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"
+            parent.appendChild(input);
+            
+           
+          }}> <i className='fas fa-plus-circle text-blue-600 hover:text-blue-400 cursor-pointer' /></button>
         
-        <ButtonLoading
-          disabled={Object.keys(formData).length === 0}
+                    
+                    
+                    
+                </div>
+                <div class="md:flex items-center mt-12">
+                    <div class="w-full md:w-1/2 flex flex-col">
+                        <label class="font-semibold leading-none">Presupuesto:</label>
+                        <input 
+                         type='number'
+                         name='presupuesto'
+                         required={true} 
+                         className="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200" />
+                    </div>
+                </div>
+                <div class="flex items-center justify-center w-full">
+                <ButtonLoading
           loading={mutationLoading}
           text='Confirmar'
         />
-      </form>
+               
+                </div>
+            </form>
+        </div>
     </div>
+</div>
+
   );
 };
 

@@ -5,9 +5,6 @@ import { UserContext } from 'context/userContext';
 import { ApolloProvider, ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import Index from 'pages/Index';
-import Page2 from 'pages/Page2';
-import IndexCategory1 from 'pages/category1/Index';
-import Category1 from 'pages/category1/CategoryPage1';
 import IndexUsuarios from 'pages/usuarios/index';
 import IndexProyectos from 'pages/proyectos/index';
 import Proyecto from 'pages/proyectos/proyecto';
@@ -19,13 +16,16 @@ import Inscripciones from 'pages/proyectos/inscripciones';
 import EstadoInscripcion from 'pages/proyectos/estadoInscripcion';
 import Avances from 'pages/proyectos/avances';
 import 'styles/globals.css';
-import 'styles/tabla.css';
+import 'styles/table.css';
+import 'styles/buttons.css'
+import 'styles/text.css'
 import AuthLayout from 'layouts/AuthLayout';
 import Register from 'pages/auth/register';
 import Login from 'pages/auth/login';
 import { AuthContext } from 'context/authContext';
 import jwt_decode from 'jwt-decode';
 import AgregarObservacion from 'pages/proyectos/observacion';
+import NuevaObservacion from 'pages/proyectos/nuevaObservacion';
 import AgregarAvance from 'pages/proyectos/agregarAvance';
 import EditarAvance from 'pages/proyectos/editarAvance';
 import Inscripcion from 'pages/proyectos/inscripcion';
@@ -96,7 +96,7 @@ function App() {
                 <Route path='/usuario' element={<PerfilUsuario _id= {userData._id}/>} />
                 <Route path='/usuarios/editar/:_id' element={<EditarUsuario _id= {userData._id} />} />
                 <Route path='/usuarios/cambiarEstado/:_id' element={<CambiarEstadoUsuario _id= {userData._id} />} />
-                <Route path='/proyectos' element={<IndexProyectos _id= {userData._id}/>} />
+                <Route path='/proyectos' element={<IndexProyectos  nombre= {userData.nombre} _id= {userData._id}/>} />
                 <Route path='/proyecto/:_id' element={<Proyecto _id= {userData._id}/>} />
                 <Route path='/proyecto/inscripcion/:_id' element={<Inscripcion idUsuario= {userData._id} />} />
                 <Route path='/proyectos/editar/:_id' element={<EditarProyecto _id= {userData._id} />} />
@@ -110,6 +110,7 @@ function App() {
                 <Route path='/proyectos/estado/:_id' element={<EditarProyecto _id= {userData._id} />} />
                 <Route path='/proyectos/avances' element={<Avances  _id= {userData._id}/>} />
                 <Route path='/proyectos/avances/observacion/:_id' element={<AgregarObservacion _id= {userData._id} />} />
+                <Route path='/proyectos/avances/nuevaObservacion/:_id' element={<NuevaObservacion _id= {userData._id} />} />
                 <Route path='/proyectos/inscripciones' element={<Inscripciones _id= {userData._id} />} />
                 <Route path='/proyectos/inscripciones/estado/:_id' element={<EstadoInscripcion _id= {userData._id} />} />
               </Route>

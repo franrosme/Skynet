@@ -24,14 +24,15 @@ export default function Inscripcion (props) {
 
   const submitForm = (e) => {
     e.preventDefault();
-    if(formData.respuesta===0){ 
+    if(formData.respuesta==="0"){ 
     var inscripcion;
 
      inscripcion= {"estudiante":idEstudiante};
      
     inscribirse({
       variables: { idProyecto, inscripcion},
-    });}else{
+    });}
+    else{
       console.log("no desea inscribirse")
     }
     

@@ -5,6 +5,7 @@ query ListarProyectos($idUsuario: ID!) {
   ListarProyectos(idUsuario: $idUsuario) {
     _id
     nombre
+    presupuesto
     fase
     estado
     lider {

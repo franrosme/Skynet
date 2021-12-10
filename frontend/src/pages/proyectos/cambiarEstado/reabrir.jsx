@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import Input from 'components/Input';
 import ButtonLoading from 'components/ButtonLoading';
 import useFormData from 'hooks/useFormData';
 import { toast } from 'react-toastify';
@@ -40,19 +39,22 @@ export default function ReabrirProyecto (props) {
 
   useEffect(() => {
     if (mutationData) {
-      toast.success('Usuario modificado correctamente');
+      toast.success('Proyecto reabrierto correctamente');
+      setTimeout( function() { window.location.href = `/proyecto/${idProyecto}`; }, 5000 );
     }
-  }, [mutationData]);
+  }, [idProyecto, mutationData]);
 
   useEffect(() => {
     if (mutationError) {
-      toast.error('Error modificando el usuario');
+      toast.error('Error reabriendo el proyecto');
+      setTimeout( function() { window.location.href = `/proyecto/${idProyecto}`; }, 5000 );
     }
 
     if (queryError) {
-      toast.error('Error consultando el usuario'+queryError);
+      toast.error('Error consultando el proyecto');
+      setTimeout( function() { window.location.href = `/proyecto/${idProyecto}`; }, 5000 );
     }
-  }, [queryError, mutationError]);
+  }, [queryError, mutationError, idProyecto]);
 
   if (queryLoading) return <div>Cargando....</div>;
 
@@ -85,7 +87,7 @@ export default function ReabrirProyecto (props) {
         
          
         <ButtonLoading
-          disabled={Object.keys(formData).length === 0}
+         
           loading={mutationLoading}
           text='Confirmar'
         />
