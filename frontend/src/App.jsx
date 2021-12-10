@@ -25,6 +25,7 @@ import Login from 'pages/auth/login';
 import { AuthContext } from 'context/authContext';
 import jwt_decode from 'jwt-decode';
 import AgregarObservacion from 'pages/proyectos/observacion';
+import NuevaObservacion from 'pages/proyectos/nuevaObservacion';
 import AgregarAvance from 'pages/proyectos/agregarAvance';
 import EditarAvance from 'pages/proyectos/editarAvance';
 import Inscripcion from 'pages/proyectos/inscripcion';
@@ -109,6 +110,7 @@ function App() {
                 <Route path='/proyectos/estado/:_id' element={<EditarProyecto _id= {userData._id} />} />
                 <Route path='/proyectos/avances' element={<Avances  _id= {userData._id}/>} />
                 <Route path='/proyectos/avances/observacion/:_id' element={<AgregarObservacion _id= {userData._id} />} />
+                <Route path='/proyectos/avances/nuevaObservacion/:_id' element={<NuevaObservacion _id= {userData._id} />} />
                 <Route path='/proyectos/inscripciones' element={<Inscripciones _id= {userData._id} />} />
                 <Route path='/proyectos/inscripciones/estado/:_id' element={<EstadoInscripcion _id= {userData._id} />} />
               </Route>
