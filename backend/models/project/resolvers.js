@@ -31,10 +31,9 @@ const resolversProyecto = {
           const user = await UserModel.findOne({ _id: args.idUsuario })
           if(user && user.estado === "Autorizado" && user.rol==="Lider"){
             const inscripcion = await ProjectModel.find({
-              $and:[
-                {"inscripcion._id":{$eq:args.idInscripcion}},           
-                {lider:{$eq:user._id}},
-              ]},{"inscripcion":1,"nombre":1}).populate('inscripcion.estudiante');;
+              
+                inscripcion:{$elemMatch:{_id:{$eq: args.idInscripcion}}},           
+                },{"inscripcion":1,"nombre":1}).populate('inscripcion.estudiante');;
             return inscripcion;
           }
           else if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
@@ -80,9 +79,9 @@ const resolversProyecto = {
           if(user && user.estado === "Autorizado" && user.rol==="Lider"){
             const avance = await ProjectModel.find({
               $and:[
-                {"avance._id":{$eq:args.idAvance}},           
+                {avance:{$elemMatch:{_id:{$eq: args.idAvance}}}},           
                 {lider:{$eq:user._id}},
-              ]},{"inscripcion":1,"nombre":1});
+              ]},{"avance.$":1,"nombre":1});
             return avance;
           }
           else if(user && user.estado === "Autorizado" && (user.rol==="Administrador"||user.rol==="Estudiante")){
@@ -368,38 +367,8 @@ const resolversProyecto = {
         var reabrirInscripcion = false;
        const user = await UserModel.findOne({ _id: args.inscripcion.estudiante })
        if(user && user.estado === "Autorizado" && user.rol==="Estudiante"){
-          const busqueda = await ProjectModel.findOne({
-            _id:args.idProyecto, "inscripcion.idEstudiante":user._id });
-              if(busqueda !== null){
-                for(let i = 0; i < busqueda.inscripcion.length; i++) {
-                  if(busqueda.inscripcion[i].estudiante=== user._id){
-                    if(busqueda.inscripcion[i].estado==="Aceptada" && busqueda.inscripcion[i].fechaDeEgreso===null){
-                      reabrirInscripcion = false;
-                      return "El usuario ya pertenece al proyecto indicado"
-                    }else if(busqueda.inscripcion[i].estado==="Rechazada")
-                    {
-                      reabrirInscripcion = false;
-                      return "El usuario ya fue rechazado al proyecto indicado"
-                    }
-                    else if(busqueda.inscripcion[i].estado==="Aceptada" && busqueda.inscripcion[i].fechaDeEgreso!==null){
-                      reabrirInscripcion = true;
-                    }
-                    else{
-                      return "El usuario no pertenece al proyecto indicado"
-                    }
-                  }
-                 }
-                 if(reabrirInscripcion){
-                  const inscripcion = await ProjectModel.updateOne({_id: args.idProyecto},                    
-                    { $push: { inscripcion: args.inscripcion} });
-                    if(inscripcion.modifiedCount>0){
-                      return "El usuario ya trabajo en el proyecto indicado, puede inscribirse nuevamente al reabrir"
-                    }
-                    else{ return "No se pudo registrar"}
-                 }
-  
-  
-            }else{
+          
+              
                 const inscripcion = await ProjectModel.updateOne({_id: args.idProyecto},                    
                   { $push: { inscripcion: args.inscripcion} });
                   if(inscripcion.modifiedCount>0){
@@ -407,7 +376,7 @@ const resolversProyecto = {
                   }
                   else{ return "No se pudo registrar"}
   
-              }
+              
            
         } else {
             return "Usuario no valido"
