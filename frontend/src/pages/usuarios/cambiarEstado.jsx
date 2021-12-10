@@ -60,6 +60,7 @@ export default function CambiarEstadoUsuario (props) {
   if (queryLoading) return <div>Cargando....</div>;
 console.log("query data: "+queryData)
   return (
+    <body className= 'bg-gray-500 w-full h-full'>
     <div className='flew flex-col w-full h-full items-center justify-center p-10'>
       <Link to='/usuarios/'>
         <i className='fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900' />
@@ -93,6 +94,7 @@ console.log("query data: "+queryData)
         />
       </form>
     </div>
+    </body>
   );
 };
 

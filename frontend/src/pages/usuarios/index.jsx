@@ -24,6 +24,7 @@ export default function IndexUsuarios (props) {
 
   return (
     <><PrivateComponent roleList={['Administrador']}>
+      
       <div>
         Datos Usuarios:
         <table className='tabla'>
@@ -50,11 +51,11 @@ export default function IndexUsuarios (props) {
                       <td>{Enum_Rol[u.rol]}</td>
                       <td>{Enum_EstadoUsuario[u.estado]}
                       <Link to={`/usuarios/cambiarEstado/${u._id}`}>
-                          <i className='fas fa-pen text-yellow-600 hover:text-yellow-400 cursor-pointer' />
+                          <i className='userpen fas fa-pen text-yellow-600 hover:text-yellow-400 cursor-pointer text-align: right' />
                         </Link></td>
                       <td>
                         <Link to={`/usuarios/editar/${u._id}`}>
-                          <i className='fas fa-pen text-yellow-600 hover:text-yellow-400 cursor-pointer' />
+                           <i className='userpen fas fa-pen text-yellow-600 hover:text-yellow-400 cursor-pointer display: inline' />
                         </Link>
                       </td>
                     </tr>
@@ -67,7 +68,8 @@ export default function IndexUsuarios (props) {
           </tbody>
         </table>
       </div>
-    </PrivateComponent><PrivateComponent roleList={['Lider']}>
+    </PrivateComponent>
+    <PrivateComponent roleList={['Lider']}>
         <div>
           Datos Usuarios:
           <table className='tabla'>
@@ -95,7 +97,7 @@ export default function IndexUsuarios (props) {
                         <td>{Enum_EstadoUsuario[u.estado]}</td>
                         <td>
                           <Link to={`/usuarios/editar/${u._id}`}>
-                            <i className='fas fa-pen text-yellow-600 hover:text-yellow-400 cursor-pointer' />
+                            <i className='userpen fas fa-pen text-yellow-600 hover:text-yellow-400 cursor-pointer' />
                           </Link>
                         </td>
                       </tr>

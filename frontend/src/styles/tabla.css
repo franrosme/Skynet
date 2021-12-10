@@ -11,11 +11,11 @@
 }
 
 .tabla th {
-  background-color: #04aa46;
+  background-color: #2E3338;
   color: white;
   padding-top: 12px;
   padding-bottom: 12px;
-  text-align: left;
+  text-align: flex-start;
 }
 
 .tabla tr:nth-child(even) {
