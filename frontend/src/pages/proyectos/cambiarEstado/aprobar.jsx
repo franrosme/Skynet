@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import Input from 'components/Input';
 import ButtonLoading from 'components/ButtonLoading';
 import useFormData from 'hooks/useFormData';
 import { toast } from 'react-toastify';
 import { GET_PROYECTO } from 'graphql/proyectos/queries';
 import DropDown from 'components/Dropdown';
-import { Enum_EstadoInscripcion } from 'utils/enums';
 import { APROBAR } from 'graphql/proyectos/mutations';
 
 export default function AprobarProyecto (props) {
@@ -41,19 +39,21 @@ export default function AprobarProyecto (props) {
 
   useEffect(() => {
     if (mutationData) {
-      toast.success('Usuario modificado correctamente');
+      toast.success('Proyecto aprobado');
+      setTimeout( function() { window.location.href = `/proyecto/${idProyecto}`; }, 5000 );
     }
-  }, [mutationData]);
+  }, [idProyecto, mutationData]);
 
   useEffect(() => {
     if (mutationError) {
-      toast.error('Error modificando el usuario');
+      toast.error('Error aprobando el proyecto');
+      setTimeout( function() { window.location.href = `/proyecto/${idProyecto}`; }, 5000 );
     }
 
     if (queryError) {
-      toast.error('Error consultando el usuario'+queryError);
+      toast.error('Error consultando el proyecto');
     }
-  }, [queryError, mutationError]);
+  }, [queryError, mutationError, idProyecto]);
 
   if (queryLoading) return <div>Cargando....</div>;
 
@@ -84,48 +84,8 @@ export default function AprobarProyecto (props) {
         />
               
         
-         
-         
-         
-       
-     
-          {/*}
-        <Input
-          label='Nombre Proyecto:'
-          type='text'
-          name='nombre'
-          defaultValue={queryData.getInscripcion.nombre}
-          required={true}
-          disabled
-        />
-     
-        <Input
-          label='Identificacion Estudiante:'
-          type='text'
-          name='idEstudiante'
-          defaultValue={queryData.getInscripcion.inscripcion.idEstudiante}
-          required={true}
-          disabled
-        />
-        <Input
-          label='Identificacion Estudiante:'
-          type='text'
-          name='idEstudiante'
-          defaultValue={queryData.getInscripcion.inscripcion.idEstudiante}
-          required={true}
-          disabled
-        />
-         <DropDown
-          label='Estado de la inscripcion:'
-          name='estado'
-          defaultValue={queryData.getInscripcion.inscripcion.estado}
-          required={true}
-          options={Enum_EstadoInscripcion}
-        />
-        
-        {*/}
         <ButtonLoading
-          disabled={Object.keys(formData).length === 0}
+          
           loading={mutationLoading}
           text='Confirmar'
         />
