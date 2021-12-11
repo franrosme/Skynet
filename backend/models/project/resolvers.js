@@ -18,11 +18,11 @@ const resolversProyecto = {
         ListarInscripciones: async (parent, args) => {
           const user = await UserModel.findOne({ _id: args.idUsuario })
           if(user && user.estado === "Autorizado" && user.rol==="Lider"){
-            const inscripcion = await ProjectModel.find({lider:user._id},{"inscripcion":1,"nombre":1}).populate('inscripcion.estudiante');;
+            const inscripcion = await ProjectModel.find({lider:user._id},{"inscripcion":1,"nombre":1,"lider":1}).populate('inscripcion.estudiante');;
             return inscripcion;
           }
-          else if(user && user.estado === "Autorizado" && user.rol==="Administrador"){
-            const inscripcion = await ProjectModel.find({},{"inscripcion":1,"nombre":1}).populate('inscripcion.estudiante');;
+          else if(user && user.estado === "Autorizado" && (user.rol==="Administrador" || user.rol==="Estudiante")){
+            const inscripcion = await ProjectModel.find({},{"inscripcion":1,"nombre":1,"lider":1}).populate('inscripcion.estudiante');;
             return inscripcion;
           } else{
             return console.log("Rol no valido o usuario no autorizado") }      

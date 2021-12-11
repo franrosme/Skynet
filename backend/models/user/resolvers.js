@@ -66,6 +66,11 @@ const resolversUsuario = {
       }
     },
     editarUsuario: async (parent, args) => {
+      if(Object.keys(args).includes('clave')){
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(args.clave, salt);
+      args.clave=hashedPassword
+      }
       const user = await UserModel.findOne({ _id: args._id })
       if(user && user.estado === "Autorizado" && (user.rol==="Administrador" || user.rol==="Lider" || user.rol==="Estudiante")){
       
@@ -75,6 +80,7 @@ const resolversUsuario = {
           email: args.email,
           idUsuario: args.idUsuario,
           nombre: args.nombre,
+          clave: args.clave,
           
         },
         { new: true }

@@ -28,6 +28,7 @@ const tiposUsuario = gql`
       email: String
       idUsuario: String
       nombre: String
+      clave: String
     ): Usuario
     eliminarUsuario(_id: ID!, email: String): String
   }

@@ -48,6 +48,7 @@ const tiposProyecto = gql`
   }
   type LInscripcion {
     nombre: String!
+    lider:ID!
     inscripcion: [Inscripcion]
   }
   type gInscripcion {
