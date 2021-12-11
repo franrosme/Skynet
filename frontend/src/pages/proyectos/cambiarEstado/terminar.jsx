@@ -32,7 +32,7 @@ export default function TerminarProyecto (props) {
       terminarProyecto({
         variables: { idUsuario, idProyecto},
       });}else{
-        console.log("no desea terminar el proyecto")
+        window.location.href = `/proyectos/`; 
       }
     
   };
@@ -60,41 +60,52 @@ export default function TerminarProyecto (props) {
 
 
   return (
-    <div className='flew flex-col w-full h-full items-center justify-center p-10'>
-      <Link to='/proyectos/inscripciones'>
-        <i className='fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900' />
-      </Link>
-      <h1 className='m-4 text-3xl text-gray-800 font-bold text-center'>terminar Proyecto</h1>
-      <form
-        onSubmit={submitForm}
-        onChange={updateFormData}
-        ref={form}
-        className='flex flex-col items-center justify-center'
+    <div class="w-full">
+    <Link to='/proyectos/'>
+      <i className='fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900' />
+    </Link>
+  <div class="bg-gradient-to-b from-blue-800 to-blue-600 h-96"></div>
+  <div class="max-w-5xl mx-auto px-6 sm:px-6 lg:px-8 mb-6">
+      <div class="bg-white w-full shadow rounded p-8 sm:p-12 -mt-72">
+          <p class="text-3xl font-bold leading-7 text-center">Terminar Proyecto</p>
+          <form
+      onSubmit={submitForm}
+      onChange={updateFormData}
+      ref={form}
       >
-        
-        
-        <h1> <strong>Nombre Proyecto: </strong>  {queryData.VerProyecto.nombre}</h1>
-         
-      
-               
-         <DropDown
-          label='terminar proyecto'
+              <div class="md:flex items-center mt-8">
+                    <div class="w-full flex flex-col">
+                      <label class="font-semibold leading-none">¿Desea terminar el proyecto {queryData.VerProyecto.nombre}?</label>
+                      <DropDown
+          
           name='respuesta'
           required={true}
           options={['Si','No']}
         />
+                  </div>
+                  
+              </div>
+              <div class="md:flex items-center mt-8"></div>
+           
+                  
+              <div class="flex items-center justify-center w-full">
               
-        
-         
-         
-         
-        <ButtonLoading
-         
-          loading={mutationLoading}
-          text='Confirmar'
-        />
-      </form>
-    </div>
+              <ButtonLoading
+       
+        loading={mutationLoading}
+        text='Confirmar'
+      />
+                  
+              </div>
+          </form>
+      </div>
+  </div>
+
+
+    
+
+  </div>
+    
   );
 };
 
