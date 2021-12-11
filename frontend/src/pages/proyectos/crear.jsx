@@ -39,7 +39,7 @@ export default function CrearProyecto (props) {
   useEffect(() => {
     if (mutationData) {
       toast.success('Proyecto creado correctamente');
-      setTimeout( function() { window.location.href = `/proyecto/${mutationData.crear_id}`; }, 5000 );
+      setTimeout( function() { window.location.href = `/proyecto/${mutationData.crearProyecto._id}`; }, 5000 );
     }
   }, [mutationData]);
 

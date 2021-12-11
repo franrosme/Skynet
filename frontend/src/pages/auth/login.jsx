@@ -8,6 +8,7 @@ import { LOGIN } from 'graphql/auth/mutations';
 import { useAuth } from 'context/authContext';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/Skynet1.png';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -32,6 +33,12 @@ const Login = () => {
       }
     }
   }, [dataMutation, setToken, navigate]);
+  useEffect(() => {
+    if (mutationError) {
+      toast.error('Error al ingresar', mutationError);
+      
+    }
+  }, [mutationError]);
 
 
 

@@ -108,13 +108,13 @@ export default function IndexProyectos (props) {
       <div className="container">  
       <h1 className="titulo"> Proyectos Liderados Por: {nombre}</h1>
      </div> 
-
+     {data && data.ListarProyectos ? (
   <div class="btn buttonAdd" onClick={(e) => {
             e.preventDefault();
             
             window.location.href = '/proyectos/crear/' + idUsuario;
           } }> <i className='fas fa-plus-circle text-white-600 cursor-pointer' /> Crear Proyecto
-  </div>
+  </div>):(<div></div>)}
 
  
       <div>

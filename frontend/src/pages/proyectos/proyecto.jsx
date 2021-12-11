@@ -301,17 +301,18 @@ export default function Proyecto (props) {
                         {x.observacionesDelLider.map((i) => {
                           return( <div key={i._id}>
                             <li>{i}</li>
-                                                  
-                          </div> );})}
+                            <Link to={`/proyectos/avances/observacion/${x._id}`}>
+                        <i className='fas fa-pen text-yellow-600 hover:text-yellow-400 cursor-pointer' />
+                      </Link>                      
+                          </div> );})
+                          }
                         </>
                       ) : (
                         <div>No hay Observaciones</div>
                       )}
                        {queryData.VerProyecto.estado==="Activo" ?(
                          <>
-                        <Link to={`/proyectos/avances/observacion/${x._id}`}>
-                        <i className='fas fa-pen text-yellow-600 hover:text-yellow-400 cursor-pointer' />
-                      </Link>
+                        
                       <Link to={`/proyectos/avances/nuevaObservacion/${x._id}`}>
                         <i className='fas fa-plus-circle text-green-600 hover:text-green-400 cursor-pointer' />
                       </Link></>):(<div></div>)}
@@ -397,8 +398,8 @@ export default function Proyecto (props) {
         </div>
     </PrivateComponent>
     <PrivateComponent roleList={['Estudiante']}>
-      {
-       (queryData.VerProyecto.estado==="Activo" && queryData.VerProyecto.inscripcion.length>0 ) ?(
+      {queryData.VerProyecto.estado==="Activo"?(
+       (queryData.VerProyecto.inscripcion.length>0 ) ?(
          queryData.VerProyecto.inscripcion.forEach((x) => {
            
           if(x.estudiante._id===idUsuario && x.estado==="Aceptada" && x.fechaDeEgreso===null){
@@ -415,7 +416,9 @@ export default function Proyecto (props) {
           inscripcionValida=false;
         }
 
-        })):(<div>{inscripcionValida=true}</div>)
+        })):(<div>{inscripcionValida=true}</div>)):(<div>{inscripcionValida=false}</div>)}
+        
+       { EstudianteActivo ? (<div>{inscripcionValida=false}</div>):(<div></div>)
         
       }
     <div className='flew flex-col w-full h-full items-center justify-center p-10'>
