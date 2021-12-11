@@ -86,6 +86,7 @@ const INSCRIPCIONES = gql`
 query ListarInscripciones($idUsuario: ID!) {
   ListarInscripciones(idUsuario: $idUsuario) {
     nombre
+    lider
     inscripcion {
       _id
       estudiante {

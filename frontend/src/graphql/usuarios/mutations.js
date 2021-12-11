@@ -1,30 +1,16 @@
 import { gql } from '@apollo/client';
 
 const EDITAR_USUARIO = gql`
-  mutation EditarUsuario(
-    $_id: String!
-    $usuario: String!
-    $nombre: String!
-    $idUsuario: String!
-    $email: String!
-   
-  ) {
-    editarUsuario(
-      _id: $_id
-      usuario: $usuario
-      nombre: $nombre
-      idUsuario: $idUsuario
-      email: $email
-    
-    ) {
-      _id
-      nombre
-      email
-      estado
-      idUsuario
-      rol
-    }
+mutation EditarUsuario($_id: String!, $clave: String, $email: String, $idUsuario: String, $nombre: String, $usuario: String!) {
+  editarUsuario(_id: $_id, clave: $clave, email: $email, idUsuario: $idUsuario, nombre: $nombre, usuario: $usuario) {
+    _id
+    idUsuario
+    email
+    nombre
+    rol
+    estado
   }
+}
 `;
 
 const CAMBIAR_ESTADO_USUARIO = gql`
