@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import PrivateRoute from 'components/PrivateRoute';
 import PrivateComponent from 'components/PrivateComponent';
 import { AVANCES } from 'graphql/proyectos/queries';
 
@@ -22,7 +21,6 @@ export default function Inscripciones (props) {
   
  
   data.ListarAvances.forEach((u) => {
-    console.log(u.avance.length)
     if(u.avance.length > 0){
       
     u.avance.forEach((x)=> {
@@ -42,7 +40,7 @@ export default function Inscripciones (props) {
   })
     
   return (
-    <PrivateRoute roleList={['Administrador','Lider']}>
+   
     <PrivateComponent roleList={['Administrador','Lider']}>
     <div className="container">  
       <h1 className="titulo">Avances</h1>
@@ -103,7 +101,6 @@ export default function Inscripciones (props) {
    </div> 
     </PrivateComponent>
    
-    </PrivateRoute>
   );
 };
 

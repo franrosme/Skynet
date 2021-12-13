@@ -30,7 +30,6 @@ export default function CrearProyecto (props) {
     formData.objetivosEspecificos= arr;
     const campos=formData
     campos.presupuesto= parseInt(campos.presupuesto)
-    console.log(arr)
     CrearProyecto({
       variables: { idUsuario, campos},
     });
@@ -60,18 +59,18 @@ export default function CrearProyecto (props) {
         <i className='fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900' />
       </Link>
       
-    <div class="h-96"></div>
-    <div class="max-w-5xl mx-auto px-6 sm:px-6 lg:px-8 mb-12">
-        <div class="bg-white w-full shadow rounded p-8 sm:p-12 -mt-72">
-            <p class="text-3xl font-bold leading-7 text-center">Crear Proyecto</p>
+    <div className="h-96"></div>
+    <div className="max-w-5xl mx-auto px-6 sm:px-6 lg:px-8 mb-12">
+        <div className="bg-white w-full shadow rounded p-8 sm:p-12 -mt-72">
+            <p className="text-3xl font-bold leading-7 text-center">Crear Proyecto</p>
             <form
         onSubmit={submitForm}
         onChange={updateFormData}
         ref={form}
         >
-                <div class="md:flex items-center mt-8">
-                    <div class="w-full flex flex-col">
-                        <label class="font-semibold leading-none">Nombre del Proyecto:</label>
+                <div className="md:flex items-center mt-8">
+                    <div className="w-full flex flex-col">
+                        <label className="font-semibold leading-none">Nombre del Proyecto:</label>
                         <input 
                         type='text'
                         name='nombre'
@@ -82,8 +81,8 @@ export default function CrearProyecto (props) {
                 </div>
                 
                 <div>
-                    <div class="w-full flex flex-col mt-8">
-                        <label class="font-semibold leading-none">Objetivo General:</label>
+                    <div className="w-full flex flex-col mt-8">
+                        <label className="font-semibold leading-none">Objetivo General:</label>
                         <textarea
                         name='objetivosGenerales'
                         required={true}
@@ -92,8 +91,8 @@ export default function CrearProyecto (props) {
                     </div>
                 </div>
                 <div>
-                    <div class="w-full flex flex-col mt-8" id="inputDiv"   >
-                        <label class="font-semibold leading-none">Objetivos Específicos:</label>
+                    <div className="w-full flex flex-col mt-8" id="inputDiv"   >
+                        <label className="font-semibold leading-none">Objetivos Específicos:</label>
                       
                         <input
           type='text'
@@ -121,9 +120,9 @@ export default function CrearProyecto (props) {
                     
                     
                 </div>
-                <div class="md:flex items-center mt-12">
-                    <div class="w-full md:w-1/2 flex flex-col">
-                        <label class="font-semibold leading-none">Presupuesto:</label>
+                <div className="md:flex items-center mt-12">
+                    <div className="w-full md:w-1/2 flex flex-col">
+                        <label className="font-semibold leading-none">Presupuesto:</label>
                         <input 
                          type='number'
                          name='presupuesto'
@@ -131,7 +130,7 @@ export default function CrearProyecto (props) {
                          className="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200" />
                     </div>
                 </div>
-                <div class="flex items-center justify-center w-full">
+                <div className="flex items-center justify-center w-full">
                 <ButtonLoading
           loading={mutationLoading}
           text='Confirmar'

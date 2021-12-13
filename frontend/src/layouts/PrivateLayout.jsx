@@ -1,7 +1,7 @@
 import Sidebar from 'components/Sidebar';
 import { Outlet } from 'react-router';
 import React, { useEffect, useState } from 'react';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { useMutation } from '@apollo/client';
 import { useAuth } from 'context/authContext';
 import { REFRESH_TOKEN } from 'graphql/auth/mutations';
@@ -11,10 +11,10 @@ import PrivateRoute from 'components/PrivateRoute';
 
 const PrivateLayout = () => {
   const navigate = useNavigate();
-  const { authToken, setToken } = useAuth();
+  const { setToken } = useAuth();
   const [loadingAuth, setLoadingAuth] = useState(true);
 
-  const [refreshToken, { data: dataMutation, loading: loadingMutation, error: errorMutation }] =
+  const [refreshToken, { data: dataMutation, loading: loadingMutation, error: mutationError }] =
     useMutation(REFRESH_TOKEN);
 
   useEffect(() => {
@@ -32,10 +32,18 @@ const PrivateLayout = () => {
       setLoadingAuth(false);
     }
   }, [dataMutation, setToken, loadingAuth, navigate]);
+  useEffect(() => {
+    if (mutationError) {
+      toast.error('Error al ingresar', mutationError);
+      
+    }
+  }, [mutationError]);
+
 
   if (loadingMutation || loadingAuth) return <div>Loading...</div>;
 
   return (
+    <PrivateRoute roleList={['Administrador','Lider','Estudiante']}>
     <div className='flex flex-col md:flex-row flex-no-wrap h-screen'>
       <Sidebar />
       <div className='flex w-full h-full'>
@@ -45,6 +53,7 @@ const PrivateLayout = () => {
       </div>
       <ToastContainer />
     </div>
+    </PrivateRoute>
   );
 };
 

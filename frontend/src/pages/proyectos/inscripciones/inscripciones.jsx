@@ -3,7 +3,6 @@ import { useQuery } from '@apollo/client';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { Enum_EstadoInscripcion } from 'utils/enums';
-import PrivateRoute from 'components/PrivateRoute';
 import PrivateComponent from 'components/PrivateComponent';
 import { INSCRIPCIONES } from 'graphql/proyectos/queries';
 
@@ -11,7 +10,6 @@ import { INSCRIPCIONES } from 'graphql/proyectos/queries';
 export default function Inscripciones (props) {
   const nombre = props.nombre;
    const idUsuario = props._id;
-  console.log(idUsuario)
   const { data, error, loading } = useQuery(INSCRIPCIONES, {
     variables: { idUsuario }});
     useEffect(() => {
@@ -24,7 +22,6 @@ export default function Inscripciones (props) {
   const imprimir = []
   if(data.ListarInscripciones){
   data.ListarInscripciones.forEach((u) => {
-    console.log(u.inscripcion.length)
     if(u.inscripcion.length > 0){
       
     u.inscripcion.forEach((x)=> {
@@ -48,8 +45,8 @@ export default function Inscripciones (props) {
   })}
     
   return (
-    <PrivateRoute roleList={['Administrador','Lider','Estudiante']}>
-        <PrivateComponent roleList={['Administrador']}>
+    <>
+   <PrivateComponent roleList={['Administrador']}>
         <div className="container">  
       <h1 className="titulo"> Inscripciones A Proyectos</h1>
      </div> 
@@ -129,7 +126,7 @@ export default function Inscripciones (props) {
                     <td><div><div className = "title-th" data-title = "Fecha de Ingreso: "></div>{x.fechaDeIngreso}</div></td>
                     <td><div><div className = "title-th" data-title = "Fecha de Egreso: "></div>{x.fechaDeEgreso}</div></td>
                     </tr>);}
-                    else{<div>No tiene inscripciones</div>}
+                    else{return(<div>No tiene inscripciones</div>)}
                
                 })}
               </>
@@ -177,7 +174,7 @@ export default function Inscripciones (props) {
                     </div></td>
                     <td><div><div className = "title-th" data-title = "Fecha de Ingreso: "></div>{x.fechaDeIngreso}</div></td>
                     <td><div><div className = "title-th" data-title = "Fecha de Egreso: "></div>{x.fechaDeEgreso}</div></td>
-                    </tr>);}
+                    </tr>);}else{return (<div>No autorizado</div>)}
                
                 })}
               </>
@@ -188,11 +185,7 @@ export default function Inscripciones (props) {
           </tbody>
         </table>
      </div>
-    </PrivateComponent>
-    
-     
-      
-    </PrivateRoute>
+    </PrivateComponent></>
   );
 };
 

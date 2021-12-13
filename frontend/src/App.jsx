@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PrivateLayout from 'layouts/PrivateLayout';
+import AuthLayout from 'layouts/AuthLayout';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { UserContext } from 'context/userContext';
 import { ApolloProvider, ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { AuthContext } from 'context/authContext';
+import jwt_decode from 'jwt-decode';
+//Import pages
 import Index from 'pages/Index';
 import IndexUsuarios from 'pages/usuarios/index';
 import IndexProyectos from 'pages/proyectos/index';
@@ -15,15 +19,8 @@ import CrearProyecto from 'pages/proyectos/crear';
 import Inscripciones from 'pages/proyectos/inscripciones/inscripciones';
 import EstadoInscripcion from 'pages/proyectos/inscripciones/estadoInscripcion';
 import Avances from 'pages/proyectos/avances/avances';
-import 'styles/globals.css';
-import 'styles/table.css';
-import 'styles/buttons.css'
-import 'styles/text.css'
-import AuthLayout from 'layouts/AuthLayout';
 import Register from 'pages/auth/register';
 import Login from 'pages/auth/login';
-import { AuthContext } from 'context/authContext';
-import jwt_decode from 'jwt-decode';
 import AgregarObservacion from 'pages/proyectos/avances/observacion';
 import NuevaObservacion from 'pages/proyectos/avances/nuevaObservacion';
 import AgregarAvance from 'pages/proyectos/avances/agregarAvance';
@@ -34,7 +31,11 @@ import  AprobarProyecto  from "pages/proyectos/cambiarEstado/aprobar";
 import TerminarProyecto from "pages/proyectos/cambiarEstado/terminar"
 import InactivarProyecto from 'pages/proyectos/cambiarEstado/inactivar';
 import ReabrirProyecto from 'pages/proyectos/cambiarEstado/reabrir';
-// import PrivateRoute from 'components/PrivateRoute';
+//Import styles
+import 'styles/globals.css';
+import 'styles/table.css';
+import 'styles/buttons.css'
+import 'styles/text.css'
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',

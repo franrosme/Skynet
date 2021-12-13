@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import Input from 'components/Input';
 import ButtonLoading from 'components/ButtonLoading';
 import useFormData from 'hooks/useFormData';
 import { toast } from 'react-toastify';
@@ -9,14 +8,12 @@ import { VER_AVANCE } from 'graphql/proyectos/queries';
 import { ADD_OBSERVACION } from 'graphql/proyectos/mutations';
 
 export default function NuevaObservacion (props) {
-  
-  
+
   const { form, formData, updateFormData } = useFormData(null);
   const idUsuario=props._id;
   var { _id } = useParams();
   const idAvance= _id;
  
-
   const {
     data: queryData,
     error: queryError,
@@ -25,20 +22,18 @@ export default function NuevaObservacion (props) {
     variables: {idUsuario, idAvance},
   });
 
-
   const [AddObservacion, { data: mutationData, loading: mutationLoading, error: mutationError }] =
     useMutation(ADD_OBSERVACION);
 
   const submitForm = (e) => {
     e.preventDefault();
-    delete formData.rol;
     const arr =[]
     for (const property in formData) {
       if(property.includes("E")){
         if(formData[property]!==""){
         arr.push(formData[property])}
         delete formData[property];
-        //console.log(`${property}: ${formData[property]}`);
+       
       }
      
     }
@@ -73,8 +68,6 @@ export default function NuevaObservacion (props) {
 
   if (queryLoading) return <div>Cargando....</div>;
 
-
-
 const imprimir = []
   queryData.VerAvance.forEach((u) => {
     if(u.avance.length > 0){
@@ -94,17 +87,16 @@ const imprimir = []
     
    }
   })
-  console.log("query data: "+ imprimir)
   return (
     <div className='flew flex-col w-full h-full items-center justify-center p-10'>
   <Link to='/proyectos/avances'>
         <i className='fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900' />
       </Link>
     
-  <div class=" bg-gradient-to-b from-blue-800 to-blue-600 h-96"></div>
-  <div class="max-w-5xl mx-auto px-6 sm:px-6 lg:px-8 mb-12">
-      <div class="bg-white w-full shadow rounded p-8 sm:p-12 -mt-72">
-          <p class="text-3xl font-bold leading-7 text-center">Nueva Observación</p>
+  <div className=" bg-gradient-to-b from-blue-800 to-blue-600 h-96"></div>
+  <div className="max-w-5xl mx-auto px-6 sm:px-6 lg:px-8 mb-12">
+      <div className="bg-white w-full shadow rounded p-8 sm:p-12 -mt-72">
+          <p className="text-3xl font-bold leading-7 text-center">Nueva Observación</p>
           <form
       onSubmit={submitForm}
       onChange={updateFormData}
@@ -114,25 +106,25 @@ const imprimir = []
         return( 
         
         <div key={x._id}>
-          <div class="md:flex items-center mt-12">
-                    <div class="w-full md:w-1/2 flex flex-col">
-                    <label class="font-semibold leading-none">Nombre del Proyecto:</label>
-                      <span class="leading-none text-gray-600 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-blue-100 border rounded border-gray-200">{x.nombre}</span>
+          <div className="md:flex items-center mt-12">
+                    <div className="w-full md:w-1/2 flex flex-col">
+                    <label className="font-semibold leading-none">Nombre del Proyecto:</label>
+                      <span className="leading-none text-gray-600 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-blue-100 border rounded border-gray-200">{x.nombre}</span>
                     </div>
-                    <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
-                        <label class="font-semibold leading-none">Fecha del Avance:</label>
-                        <span class="leading-none text-gray-600 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-blue-100 border rounded border-gray-200">{x.fecha}</span>
+                    <div className="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
+                        <label className="font-semibold leading-none">Fecha del Avance:</label>
+                        <span className="leading-none text-gray-600 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-blue-100 border rounded border-gray-200">{x.fecha}</span>
                     </div>
                 </div>
                
-                  <div class="w-full flex flex-col mt-8">
-                      <label class="font-semibold leading-none">Descripción del Avance:</label>
-                      <span class="leading-none text-gray-600 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-blue-100 border rounded border-gray-200">{x.descripcion}</span>
+                  <div className="w-full flex flex-col mt-8">
+                      <label className="font-semibold leading-none">Descripción del Avance:</label>
+                      <span className="leading-none text-gray-600 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-blue-100 border rounded border-gray-200">{x.descripcion}</span>
                      
                   </div>
-                  <div class="md:flex items-center mt-8">
-                    <div class="w-full flex flex-col">
-                        <label class="font-semibold leading-none">Observaciones del lider:</label>
+                  <div className="md:flex items-center mt-8">
+                    <div className="w-full flex flex-col">
+                        <label className="font-semibold leading-none">Observaciones del lider:</label>
                         { x.observacionesDelLider.length>0 ? (
         x.observacionesDelLider.map((u, index) => {
           return(
@@ -168,7 +160,7 @@ const imprimir = []
               <div>
             
               </div>
-              <div class="flex items-center justify-center w-full">
+              <div className="flex items-center justify-center w-full">
               <ButtonLoading
        
         loading={mutationLoading}

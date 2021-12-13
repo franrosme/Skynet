@@ -36,15 +36,12 @@ export default function EditarProyecto (props) {
     
     for (const property in formData) {
       if(property.includes("E")){
-        console.log(`${property}: ${formData[property]}`);
         arr.push(formData[property])
         delete formData[property];
         
       }
      
     }
-    console.log(formData)
-    console.log("----"+arr)
     formData.objetivosEspecificos= arr;
    
     const campos=formData
@@ -81,18 +78,18 @@ export default function EditarProyecto (props) {
         <i className='fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900' />
       </Link>
       
-    <div class=" bg-gradient-to-b from-blue-800 to-blue-600 h-96"></div>
-    <div class="max-w-5xl mx-auto px-6 sm:px-6 lg:px-8 mb-12">
-        <div class="bg-white w-full shadow rounded p-8 sm:p-12 -mt-72">
-            <p class="text-3xl font-bold leading-7 text-center">Editar Proyecto</p>
+    <div className=" bg-gradient-to-b from-blue-800 to-blue-600 h-96"></div>
+    <div className="max-w-5xl mx-auto px-6 sm:px-6 lg:px-8 mb-12">
+        <div className="bg-white w-full shadow rounded p-8 sm:p-12 -mt-72">
+            <p className="text-3xl font-bold leading-7 text-center">Editar Proyecto</p>
             <form
         onSubmit={submitForm}
         onChange={updateFormData}
         ref={form}
         >
-                <div class="md:flex items-center mt-8">
-                    <div class="w-full flex flex-col">
-                        <label class="font-semibold leading-none">Nombre del Proyecto:</label>
+                <div className="md:flex items-center mt-8">
+                    <div className="w-full flex flex-col">
+                        <label className="font-semibold leading-none">Nombre del Proyecto:</label>
                         <input 
                         type='text'
                         name='nombre'
@@ -102,9 +99,9 @@ export default function EditarProyecto (props) {
                     </div>
                     
                 </div>
-                <div class="md:flex items-center mt-12">
-                    <div class="w-full md:w-1/2 flex flex-col">
-                        <label class="font-semibold leading-none">Presupuesto:</label>
+                <div className="md:flex items-center mt-12">
+                    <div className="w-full md:w-1/2 flex flex-col">
+                        <label className="font-semibold leading-none">Presupuesto:</label>
                         <input 
                          type='number'
                          name='presupuesto'
@@ -114,8 +111,8 @@ export default function EditarProyecto (props) {
                     </div>
                 </div>
                 <div>
-                    <div class="w-full flex flex-col mt-8">
-                        <label class="font-semibold leading-none">Objetivo General:</label>
+                    <div className="w-full flex flex-col mt-8">
+                        <label className="font-semibold leading-none">Objetivo General:</label>
                         <textarea
                         name='objetivosGenerales'
                         defaultValue={queryData.VerProyecto.objetivosGenerales}
@@ -125,8 +122,8 @@ export default function EditarProyecto (props) {
                     </div>
                 </div>
                 <div>
-                    <div class="w-full flex flex-col mt-8">
-                        <label class="font-semibold leading-none">Objetivos Específicos:</label>
+                    <div className="w-full flex flex-col mt-8">
+                        <label className="font-semibold leading-none">Objetivos Específicos:</label>
                       
                         { queryData.VerProyecto.objetivosEspecificos.length>0 ?(
                         queryData.VerProyecto.objetivosEspecificos.map((u, index) => {
@@ -172,7 +169,7 @@ export default function EditarProyecto (props) {
                     
                     </div>
                 </div>
-                <div class="flex items-center justify-center w-full">
+                <div className="flex items-center justify-center w-full">
                 <ButtonLoading
          
           loading={mutationLoading}

@@ -65,7 +65,6 @@ export default function EstadoInscripcion (props) {
 
 const imprimir = []
   queryData.getInscripcion.forEach((u) => {
-    console.log(u.inscripcion.length)
     if(u.inscripcion.length > 0){
       
     u.inscripcion.forEach((x)=> {
@@ -85,17 +84,16 @@ const imprimir = []
     
    }
   })
-  console.log("query data: "+ imprimir)
   return (
     <div className='flew flex-col w-full h-full items-center justify-center p-10'>
     <Link to='/proyectos/avances'>
           <i className='fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900' />
         </Link>
       
-    <div class=" bg-gradient-to-b from-blue-800 to-blue-600 h-96"></div>
-    <div class="max-w-5xl mx-auto px-6 sm:px-6 lg:px-8 mb-12">
-        <div class="bg-white w-full shadow rounded p-8 sm:p-12 -mt-72">
-            <p class="text-3xl font-bold leading-7 text-center">Cambiar Estado De La Inscripción</p>
+    <div className=" bg-gradient-to-b from-blue-800 to-blue-600 h-96"></div>
+    <div className="max-w-5xl mx-auto px-6 sm:px-6 lg:px-8 mb-12">
+        <div className="bg-white w-full shadow rounded p-8 sm:p-12 -mt-72">
+            <p className="text-3xl font-bold leading-7 text-center">Cambiar Estado De La Inscripción</p>
             <form
         onSubmit={submitForm}
         onChange={updateFormData}
@@ -105,29 +103,29 @@ const imprimir = []
           return( 
           
           <div key={x._id}>
-            <div class="md:flex items-center mt-8">
-                    <div class="w-full flex flex-col">
-                        <label class="font-semibold leading-none">Nombre del Proyecto:</label>
-                        <span class="leading-none text-gray-600 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-blue-100 border rounded border-gray-200">{x.nombreP}</span>
+            <div className="md:flex items-center mt-8">
+                    <div className="w-full flex flex-col">
+                        <label className="font-semibold leading-none">Nombre del Proyecto:</label>
+                        <span className="leading-none text-gray-600 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-blue-100 border rounded border-gray-200">{x.nombreP}</span>
                     </div>
                     
                 </div>
          
-                  <div class="md:flex items-center mt-12">
-                      <div class="w-full md:w-1/2 flex flex-col">
-                      <label class="font-semibold leading-none">Nombre del Estudiante:</label>
-                        <span class="leading-none text-gray-600 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-blue-100 border rounded border-gray-200">{x.nombreE}</span>
+                  <div className="md:flex items-center mt-12">
+                      <div className="w-full md:w-1/2 flex flex-col">
+                      <label className="font-semibold leading-none">Nombre del Estudiante:</label>
+                        <span className="leading-none text-gray-600 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-blue-100 border rounded border-gray-200">{x.nombreE}</span>
                       </div>
-                      <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
-                          <label class="font-semibold leading-none">Identificación del Estudiante: </label>
-                          <span class="leading-none text-gray-600 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-blue-100 border rounded border-gray-200">{x.idEstudiante}</span>
+                      <div className="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
+                          <label className="font-semibold leading-none">Identificación del Estudiante: </label>
+                          <span className="leading-none text-gray-600 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-blue-100 border rounded border-gray-200">{x.idEstudiante}</span>
                       </div>
                   </div>
                  
                   
-                    <div class="md:flex items-center mt-8">
-                      <div class="w-full flex flex-col">
-                          <label class="font-semibold leading-none">Estado de la inscripción:</label>
+                    <div className="md:flex items-center mt-8">
+                      <div className="w-full flex flex-col">
+                          <label className="font-semibold leading-none">Estado de la inscripción:</label>
                           <DropDown
          
           name='estado'
@@ -150,7 +148,7 @@ const imprimir = []
                 <div>
               
                 </div>
-                <div class="flex items-center justify-center w-full">
+                <div className="flex items-center justify-center w-full">
                 <ButtonLoading
          
           loading={mutationLoading}

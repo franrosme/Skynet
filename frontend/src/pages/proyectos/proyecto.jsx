@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery} from '@apollo/client';
 import { GET_PROYECTO} from 'graphql/proyectos/queries';
-import PrivateRoute from 'components/PrivateRoute';
-
 import { toast } from 'react-toastify';
 import PrivateComponent from 'components/PrivateComponent';
 
@@ -11,7 +9,6 @@ export default function Proyecto (props) {
   const idUsuario = props._id;
   var EstudianteActivo = false;
   var inscripcionValida= false;
-  console.log("id Usuario"+idUsuario)
   var { _id } = useParams();
   const idProyecto = _id;
   const {
@@ -30,64 +27,64 @@ export default function Proyecto (props) {
 
   if (queryLoading) return <div>Cargando....</div>;
   return (
-    <PrivateRoute roleList={['Administrador','Lider','Estudiante']}>
+  <>
     <PrivateComponent roleList={['Administrador']}>
     <div className='flew flex-col w-full h-full items-center justify-center p-10'>
       <Link to='/proyectos'>
         <i className='fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900' />
       </Link>
-      <div id="pattern" class="pattern">
-        <div class="c">
-          <div class="main">
+      <div id="pattern" className="pattern">
+        <div className="c">
+          <div className="main">
             <h1 className="titulo"> {queryData.VerProyecto.nombre} </h1>
         	</div>
-			    <div class="c2">
-            <h4 class="blue"><span class="middle">Datos básicos</span></h4>
-            <div class="project-info">
-							<div class="project-info-row">
-								<div class="project-info-name"> <i class="fa fa-money-bill-wave fa-fw w3-xxlarge w3-margin-right"> </i>Presupuesto:</div>
-                <div class="project-info-value"><span>$ {queryData.VerProyecto.presupuesto}</span></div>
+			    <div className="c2">
+            <h4 className="blue"><span className="middle">Datos básicos</span></h4>
+            <div className="project-info">
+							<div className="project-info-row">
+								<div className="project-info-name"> <i className="fa fa-money-bill-wave fa-fw w3-xxlarge w3-margin-right"> </i>Presupuesto:</div>
+                <div className="project-info-value"><span>$ {queryData.VerProyecto.presupuesto}</span></div>
 							</div>
-              <div class="project-info-row">
-								<div class="project-info-name"> <i class="fa fa-business-time fa-fw w3-xxlarge w3-margin-right"></i>fase:  </div>
-                <div class="project-info-value"><span>{queryData.VerProyecto.fase}</span></div>
+              <div className="project-info-row">
+								<div className="project-info-name"> <i className="fa fa-business-time fa-fw w3-xxlarge w3-margin-right"></i>fase:  </div>
+                <div className="project-info-value"><span>{queryData.VerProyecto.fase}</span></div>
 							</div>
-              <div class="project-info-row">
-								<div class="project-info-name"> <i class="fa fa-receipt fa-fw w3-xxlarge w3-margin-right"> </i>estado: </div>
-                <div class="project-info-value"><span>{queryData.VerProyecto.estado}</span></div>
+              <div className="project-info-row">
+								<div className="project-info-name"> <i className="fa fa-receipt fa-fw w3-xxlarge w3-margin-right"> </i>estado: </div>
+                <div className="project-info-value"><span>{queryData.VerProyecto.estado}</span></div>
 							</div>
            </div>
           </div>
-        <div class="c3">
-          <h4 class="blue"><span class="middle">Información Lider</span></h4>
-          <div class="project-info">
-            <div class="project-info-row">
-              <div class="project-info-name"> <i class="fa fa-user fa-fw w3-xxlarge w3-margin-right"> </i>Nombre:</div>
-              <div class="project-info-value"><span>{queryData.VerProyecto.lider.nombre}</span></div>
+        <div className="c3">
+          <h4 className="blue"><span className="middle">Información Lider</span></h4>
+          <div className="project-info">
+            <div className="project-info-row">
+              <div className="project-info-name"> <i className="fa fa-user fa-fw w3-xxlarge w3-margin-right"> </i>Nombre:</div>
+              <div className="project-info-value"><span>{queryData.VerProyecto.lider.nombre}</span></div>
             </div>
-            <div class="project-info-row">
-              <div class="project-info-name"> <i class="fa fa-id-card fa-fw w3-xxlarge w3-margin-right"> </i>Identificacion:   </div>
-              <div class="project-info-value"><span>{queryData.VerProyecto.lider.idUsuario}</span></div>
+            <div className="project-info-row">
+              <div className="project-info-name"> <i className="fa fa-id-card fa-fw w3-xxlarge w3-margin-right"> </i>Identificacion:   </div>
+              <div className="project-info-value"><span>{queryData.VerProyecto.lider.idUsuario}</span></div>
             </div>
-            <div class="project-info-row">
-              <div class="project-info-name"><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i>Email: </div>
-              <div class="project-info-value"><span>{queryData.VerProyecto.lider.email}</span></div>
+            <div className="project-info-row">
+              <div className="project-info-name"><i className="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i>Email: </div>
+              <div className="project-info-value"><span>{queryData.VerProyecto.lider.email}</span></div>
               </div>
             </div>
           </div>
 	      </div>
     	</div>
-    	<div class="container">	
-	    	<section class="pattern-description">
-          <div class="mah-accordion">
-           <div class="half">
-             <div class="tab">
+    	<div className="container">	
+	    	<section className="pattern-description">
+          <div className="mah-accordion">
+           <div className="half">
+             <div className="tab">
               <input id="tab-one" type="checkbox" name="tabs" />
               <label for="tab-one">Objetivos</label>
-              <div class="tab-content">
-                <h3 class="blue"> <span class="middle">Objetivo General:</span></h3>
+              <div className="tab-content">
+                <h3 className="blue"> <span className="middle">Objetivo General:</span></h3>
                 <p>{queryData.VerProyecto.objetivosGenerales}</p>
-                <h3 class="blue"> <span class="middle">Objetivos Especificos:</span></h3>
+                <h3 className="blue"> <span className="middle">Objetivos Especificos:</span></h3>
                 {queryData && queryData.VerProyecto.objetivosEspecificos.length>0 ? (
                   <>
                   {queryData.VerProyecto.objetivosEspecificos.map((x) => {
@@ -101,23 +98,23 @@ export default function Proyecto (props) {
                       )}
               </div>
             </div>
-            <div class="tab">
+            <div className="tab">
               <input id="tab-two" type="checkbox" name="tabs" />
               <label for="tab-two">Avances</label>
-              <div class="tab-content">
-                <div class="hr hr-8 dotted"></div>
+              <div className="tab-content">
+                <div className="hr hr-8 dotted"></div>
                 {queryData && queryData.VerProyecto.avance.length>0 ? (
                   <>
                   {queryData.VerProyecto.avance.map((x) => {
                     return( <div key={x._id}>
-                      <h3 class="blue"> <span class="middle"><i class="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha:</span></h3>
+                      <h3 className="blue"> <span className="middle"><i className="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha:</span></h3>
                       <p>{x.fecha}</p>
-                      <h3 class="blue"> <span class="middle"><i class="fa fa-file-signature fa-fw w3-xxlarge w3-margin-right"> </i>Descripción:</span></h3>
+                      <h3 className="blue"> <span className="middle"><i className="fa fa-file-signature fa-fw w3-xxlarge w3-margin-right"> </i>Descripción:</span></h3>
                       <p>{x.descripcion}</p>
                       <Link to={`/proyectos/EditarAvance/${x._id}`}>
                         <i className='fas fa-pen text-yellow-600 hover:text-yellow-400 cursor-pointer' />
                       </Link>
-                      <h3 class="blue"> <span class="middle"><i class="fa fa-file-alt fa-fw w3-xxlarge w3-margin-right"> </i>Observaciones del Lider:</span></h3>
+                      <h3 className="blue"> <span className="middle"><i className="fa fa-file-alt fa-fw w3-xxlarge w3-margin-right"> </i>Observaciones del Lider:</span></h3>
                       {x && x.observacionesDelLider.length>0 ? (
                         <>
                         {x.observacionesDelLider.map((x) => {
@@ -135,7 +132,7 @@ export default function Proyecto (props) {
                       <Link to={`/proyectos/avances/nuevaObservacion/${x._id}`}>
                         <i className='fas fa-plus-circle text-green-600 hover:text-green-400 cursor-pointer' />
                       </Link>
-                      <div class="hr hr-8 dotted"></div>
+                      <div className="hr hr-8 dotted"></div>
                         </div>);
                        })}
                         </>
@@ -145,51 +142,51 @@ export default function Proyecto (props) {
              
             </div>
             </div>
-            <div class="tab">
+            <div className="tab">
               <input id="tab-three" type="checkbox" name="tabs" />
               <label for="tab-three">Inscripciones</label>
-              <div class="tab-content">
-              <div class="hr hr-8 dotted"></div>
+              <div className="tab-content">
+              <div className="hr hr-8 dotted"></div>
               <div>
               {queryData && queryData.VerProyecto.inscripcion.length>0 ? (
                 <>
                 {queryData.VerProyecto.inscripcion.map((x) => {
                   return( <div key={x._id}>
-                    <div class="left_part">
-                    <h4 class="blue"><span class="middle">Información Estudiante</span></h4>
-                    <div class="project-info-row">
-                      <div class="project-info-name"> <i class="fa fa-user fa-fw w3-xxlarge w3-margin-right"> </i>Nombre:</div>
-                      <div class="project-info-value"> <span>{x.estudiante.nombre}</span></div>
+                    <div className="left_part">
+                    <h4 className="blue"><span className="middle">Información Estudiante</span></h4>
+                    <div className="project-info-row">
+                      <div className="project-info-name"> <i className="fa fa-user fa-fw w3-xxlarge w3-margin-right"> </i>Nombre:</div>
+                      <div className="project-info-value"> <span>{x.estudiante.nombre}</span></div>
                     </div>
-                    <div class="project-info-row">
-                      <div class="project-info-name"> <i class="fa fa-id-card fa-fw w3-xxlarge w3-margin-right"> </i>Identificacion:   </div>
-                      <div class="project-info-value"><span>{x.estudiante.idUsuario}</span></div>
+                    <div className="project-info-row">
+                      <div className="project-info-name"> <i className="fa fa-id-card fa-fw w3-xxlarge w3-margin-right"> </i>Identificacion:   </div>
+                      <div className="project-info-value"><span>{x.estudiante.idUsuario}</span></div>
                     </div>
-                    <div class="project-info-row">
-                      <div class="project-info-name"><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i>Email: </div>
-                      <div class="project-info-value"><span>{x.estudiante.email}</span></div>
+                    <div className="project-info-row">
+                      <div className="project-info-name"><i className="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i>Email: </div>
+                      <div className="project-info-value"><span>{x.estudiante.email}</span></div>
                     </div>
                   </div>
-                  <div class="right_part">
-                    <h4 class="blue"><span class="middle">Información Inscripción</span></h4>
-                    <div class="project-info-row">
-                      <div class="project-info-name"> <i class="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha de ingreso:</div>
-                      <div class="project-info-value"><span>{x.fechaDeIngreso}</span> </div>
+                  <div className="right_part">
+                    <h4 className="blue"><span className="middle">Información Inscripción</span></h4>
+                    <div className="project-info-row">
+                      <div className="project-info-name"> <i className="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha de ingreso:</div>
+                      <div className="project-info-value"><span>{x.fechaDeIngreso}</span> </div>
                     </div>
-                    <div class="project-info-row">
-                      <div class="project-info-name"> <i class="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha de Egreso:</div>
-                      <div class="project-info-value"> <span>{x.fechaDeEgreso}</span> </div>
+                    <div className="project-info-row">
+                      <div className="project-info-name"> <i className="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha de Egreso:</div>
+                      <div className="project-info-value"> <span>{x.fechaDeEgreso}</span> </div>
                     </div>
-                    <div class="project-info-row">
-                      <div class="project-info-name"> <i class="fa fa-receipt fa-fw w3-xxlarge w3-margin-right"> </i>Estado:</div>
-                      <div class="project-info-value"><span>{x.estado}</span>
+                    <div className="project-info-row">
+                      <div className="project-info-name"> <i className="fa fa-receipt fa-fw w3-xxlarge w3-margin-right"> </i>Estado:</div>
+                      <div className="project-info-value"><span>{x.estado}</span>
                       <span> <Link to={`/proyectos/inscripciones/estado/${x._id}`}>
                         <i className='fas fa-pen text-yellow-600 hover:text-yellow-400 cursor-pointer' />
                       </Link></span>
                     </div>
                    </div>
                   </div>               
-                  <div class="hr hr-8 dotted"></div>
+                  <div className="hr hr-8 dotted"></div>
                   </div>);
                   })}
                   </>
@@ -203,7 +200,7 @@ export default function Proyecto (props) {
           </div>
         </section>
           <footer role="contentinfo">   
-           <div class="btn buttonAdd" onClick={(e) => {
+           <div className="btn buttonAdd" onClick={(e) => {
              e.preventDefault();
              window.location.href = `/proyectos/editar/${idProyecto}`;} }> 
               <i className='fas fa-plus-circle text-white-600 cursor-pointer' /> Editar Proyecto
@@ -217,58 +214,58 @@ export default function Proyecto (props) {
       <Link to='/proyectos'>
         <i className='fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900' />
       </Link>
-      <div id="pattern" class="pattern">
-        <div class="c">
-          <div class="main">
+      <div id="pattern" className="pattern">
+        <div className="c">
+          <div className="main">
             <h1 className="titulo"> {queryData.VerProyecto.nombre} </h1>
         	</div>
-			    <div class="c2">
-            <h4 class="blue"><span class="middle">Datos básicos</span></h4>
-            <div class="project-info">
-							<div class="project-info-row">
-								<div class="project-info-name"> <i class="fa fa-money-bill-wave fa-fw w3-xxlarge w3-margin-right"> </i>Presupuesto:</div>
-                <div class="project-info-value"><span>$ {queryData.VerProyecto.presupuesto}</span></div>
+			    <div className="c2">
+            <h4 className="blue"><span className="middle">Datos básicos</span></h4>
+            <div className="project-info">
+							<div className="project-info-row">
+								<div className="project-info-name"> <i className="fa fa-money-bill-wave fa-fw w3-xxlarge w3-margin-right"> </i>Presupuesto:</div>
+                <div className="project-info-value"><span>$ {queryData.VerProyecto.presupuesto}</span></div>
 							</div>
-              <div class="project-info-row">
-								<div class="project-info-name"> <i class="fa fa-business-time fa-fw w3-xxlarge w3-margin-right"></i>fase:  </div>
-                <div class="project-info-value"><span>{queryData.VerProyecto.fase}</span></div>
+              <div className="project-info-row">
+								<div className="project-info-name"> <i className="fa fa-business-time fa-fw w3-xxlarge w3-margin-right"></i>fase:  </div>
+                <div className="project-info-value"><span>{queryData.VerProyecto.fase}</span></div>
 							</div>
-              <div class="project-info-row">
-								<div class="project-info-name"> <i class="fa fa-receipt fa-fw w3-xxlarge w3-margin-right"> </i>estado: </div>
-                <div class="project-info-value"><span>{queryData.VerProyecto.estado}</span></div>
+              <div className="project-info-row">
+								<div className="project-info-name"> <i className="fa fa-receipt fa-fw w3-xxlarge w3-margin-right"> </i>estado: </div>
+                <div className="project-info-value"><span>{queryData.VerProyecto.estado}</span></div>
 							</div>
            </div>
           </div>
-        <div class="c3">
-          <h4 class="blue"><span class="middle">Información Lider</span></h4>
-          <div class="project-info">
-            <div class="project-info-row">
-              <div class="project-info-name"> <i class="fa fa-user fa-fw w3-xxlarge w3-margin-right"> </i>Nombre:</div>
-              <div class="project-info-value"><span>{queryData.VerProyecto.lider.nombre}</span></div>
+        <div className="c3">
+          <h4 className="blue"><span className="middle">Información Lider</span></h4>
+          <div className="project-info">
+            <div className="project-info-row">
+              <div className="project-info-name"> <i className="fa fa-user fa-fw w3-xxlarge w3-margin-right"> </i>Nombre:</div>
+              <div className="project-info-value"><span>{queryData.VerProyecto.lider.nombre}</span></div>
             </div>
-            <div class="project-info-row">
-              <div class="project-info-name"> <i class="fa fa-id-card fa-fw w3-xxlarge w3-margin-right"> </i>Identificacion:   </div>
-              <div class="project-info-value"><span>{queryData.VerProyecto.lider.idUsuario}</span></div>
+            <div className="project-info-row">
+              <div className="project-info-name"> <i className="fa fa-id-card fa-fw w3-xxlarge w3-margin-right"> </i>Identificacion:   </div>
+              <div className="project-info-value"><span>{queryData.VerProyecto.lider.idUsuario}</span></div>
             </div>
-            <div class="project-info-row">
-              <div class="project-info-name"><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i>Email: </div>
-              <div class="project-info-value"><span>{queryData.VerProyecto.lider.email}</span></div>
+            <div className="project-info-row">
+              <div className="project-info-name"><i className="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i>Email: </div>
+              <div className="project-info-value"><span>{queryData.VerProyecto.lider.email}</span></div>
               </div>
             </div>
           </div>
 	      </div>
     	</div>
-    	<div class="container">	
-	    	<section class="pattern-description">
-          <div class="mah-accordion">
-           <div class="half">
-             <div class="tab">
+    	<div className="container">	
+	    	<section className="pattern-description">
+          <div className="mah-accordion">
+           <div className="half">
+             <div className="tab">
               <input id="tab-one" type="checkbox" name="tabs" />
               <label for="tab-one">Objetivos</label>
-              <div class="tab-content">
-                <h3 class="blue"> <span class="middle">Objetivo General:</span></h3>
+              <div className="tab-content">
+                <h3 className="blue"> <span className="middle">Objetivo General:</span></h3>
                 <p>{queryData.VerProyecto.objetivosGenerales}</p>
-                <h3 class="blue"> <span class="middle">Objetivos Especificos:</span></h3>
+                <h3 className="blue"> <span className="middle">Objetivos Especificos:</span></h3>
                 {queryData && queryData.VerProyecto.objetivosEspecificos.length>0 ? (
                   <>
                   {queryData.VerProyecto.objetivosEspecificos.map((x) => {
@@ -282,20 +279,20 @@ export default function Proyecto (props) {
                       )}
               </div>
             </div>
-            <div class="tab">
+            <div className="tab">
               <input id="tab-two" type="checkbox" name="tabs" />
               <label for="tab-two">Avances</label>
-              <div class="tab-content">
-                <div class="hr hr-8 dotted"></div>
+              <div className="tab-content">
+                <div className="hr hr-8 dotted"></div>
                 {queryData && queryData.VerProyecto.avance.length>0 ? (
                   <>
                   {queryData.VerProyecto.avance.map((x) => {
                     return( <div key={x._id}>
-                      <h3 class="blue"> <span class="middle"><i class="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha:</span></h3>
+                      <h3 className="blue"> <span className="middle"><i className="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha:</span></h3>
                       <p>{x.fecha}</p>
-                      <h3 class="blue"> <span class="middle"><i class="fa fa-file-signature fa-fw w3-xxlarge w3-margin-right"> </i>Descripción:</span></h3>
+                      <h3 className="blue"> <span className="middle"><i className="fa fa-file-signature fa-fw w3-xxlarge w3-margin-right"> </i>Descripción:</span></h3>
                       <p>{x.descripcion}</p>
-                      <h3 class="blue"> <span class="middle"><i class="fa fa-file-alt fa-fw w3-xxlarge w3-margin-right"> </i>Observaciones del Lider:</span></h3>
+                      <h3 className="blue"> <span className="middle"><i className="fa fa-file-alt fa-fw w3-xxlarge w3-margin-right"> </i>Observaciones del Lider:</span></h3>
                       {x && x.observacionesDelLider.length>0 ? (
                         <>
                         {x.observacionesDelLider.map((i) => {
@@ -316,7 +313,7 @@ export default function Proyecto (props) {
                       <Link to={`/proyectos/avances/nuevaObservacion/${x._id}`}>
                         <i className='fas fa-plus-circle text-green-600 hover:text-green-400 cursor-pointer' />
                       </Link></>):(<div></div>)}
-                      <div class="hr hr-8 dotted"></div>
+                      <div className="hr hr-8 dotted"></div>
                         </div>);
                        })}
                         </>
@@ -326,44 +323,44 @@ export default function Proyecto (props) {
                   
             </div>
             </div>
-            <div class="tab">
+            <div className="tab">
               <input id="tab-three" type="checkbox" name="tabs" />
               <label for="tab-three">Inscripciones</label>
-              <div class="tab-content">
-              <div class="hr hr-8 dotted"></div>
+              <div className="tab-content">
+              <div className="hr hr-8 dotted"></div>
               <div>
               {queryData && queryData.VerProyecto.inscripcion.length>0 ? (
                 <>
                 {queryData.VerProyecto.inscripcion.map((x) => {
                   return( <div key={x._id}>
-                    <div class="left_part">
-                    <h4 class="blue"><span class="middle">Información Estudiante</span></h4>
-                    <div class="project-info-row">
-                      <div class="project-info-name"> <i class="fa fa-user fa-fw w3-xxlarge w3-margin-right"> </i>Nombre:</div>
-                      <div class="project-info-value"> <span>{x.estudiante.nombre}</span></div>
+                    <div className="left_part">
+                    <h4 className="blue"><span className="middle">Información Estudiante</span></h4>
+                    <div className="project-info-row">
+                      <div className="project-info-name"> <i className="fa fa-user fa-fw w3-xxlarge w3-margin-right"> </i>Nombre:</div>
+                      <div className="project-info-value"> <span>{x.estudiante.nombre}</span></div>
                     </div>
-                    <div class="project-info-row">
-                      <div class="project-info-name"> <i class="fa fa-id-card fa-fw w3-xxlarge w3-margin-right"> </i>Identificacion:   </div>
-                      <div class="project-info-value"><span>{x.estudiante.idUsuario}</span></div>
+                    <div className="project-info-row">
+                      <div className="project-info-name"> <i className="fa fa-id-card fa-fw w3-xxlarge w3-margin-right"> </i>Identificacion:   </div>
+                      <div className="project-info-value"><span>{x.estudiante.idUsuario}</span></div>
                     </div>
-                    <div class="project-info-row">
-                      <div class="project-info-name"><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i>Email: </div>
-                      <div class="project-info-value"><span>{x.estudiante.email}</span></div>
+                    <div className="project-info-row">
+                      <div className="project-info-name"><i className="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i>Email: </div>
+                      <div className="project-info-value"><span>{x.estudiante.email}</span></div>
                     </div>
                   </div>
-                  <div class="right_part">
-                    <h4 class="blue"><span class="middle">Información Inscripción</span></h4>
-                    <div class="project-info-row">
-                      <div class="project-info-name"> <i class="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha de ingreso:</div>
-                      <div class="project-info-value"><span>{x.fechaDeIngreso}</span> </div>
+                  <div className="right_part">
+                    <h4 className="blue"><span className="middle">Información Inscripción</span></h4>
+                    <div className="project-info-row">
+                      <div className="project-info-name"> <i className="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha de ingreso:</div>
+                      <div className="project-info-value"><span>{x.fechaDeIngreso}</span> </div>
                     </div>
-                    <div class="project-info-row">
-                      <div class="project-info-name"> <i class="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha de Egreso:</div>
-                      <div class="project-info-value"> <span>{x.fechaDeEgreso}</span> </div>
+                    <div className="project-info-row">
+                      <div className="project-info-name"> <i className="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha de Egreso:</div>
+                      <div className="project-info-value"> <span>{x.fechaDeEgreso}</span> </div>
                     </div>
-                    <div class="project-info-row">
-                      <div class="project-info-name"> <i class="fa fa-receipt fa-fw w3-xxlarge w3-margin-right"> </i>Estado:</div>
-                      <div class="project-info-value"><span>{x.estado}</span>
+                    <div className="project-info-row">
+                      <div className="project-info-name"> <i className="fa fa-receipt fa-fw w3-xxlarge w3-margin-right"> </i>Estado:</div>
+                      <div className="project-info-value"><span>{x.estado}</span>
                      { queryData.VerProyecto.estado==="Activo" ?(
                       <span> <Link to={`/proyectos/inscripciones/estado/${x._id}`}>
                         <i className='fas fa-pen text-yellow-600 hover:text-yellow-400 cursor-pointer' />
@@ -371,7 +368,7 @@ export default function Proyecto (props) {
                     </div>
                    </div>
                   </div>               
-                  <div class="hr hr-8 dotted"></div>
+                  <div className="hr hr-8 dotted"></div>
                   </div>);
                   })}
                   </>
@@ -386,7 +383,7 @@ export default function Proyecto (props) {
         </section>
         {queryData.VerProyecto.estado==="Activo" ? (
           <footer role="contentinfo">   
-          <div class="btn buttonAdd" onClick={(e) => {
+          <div className="btn buttonAdd" onClick={(e) => {
             e.preventDefault();
              window.location.href = `/proyectos/editar/${idProyecto}`;} }> 
              <i className='fas fa-plus-circle text-white-600 cursor-pointer' /> Editar Proyecto
@@ -422,19 +419,17 @@ export default function Proyecto (props) {
         
       }
     <div className='flew flex-col w-full h-full items-center justify-center p-10'>
-      {console.log("Inscripcion"+inscripcionValida+"estudiante"+EstudianteActivo)
-      }
       <Link to='/proyectos'>
         <i className='fas fa-arrow-left text-gray-600 cursor-pointer font-bold text-xl hover:text-gray-900' />
       </Link>
-      {inscripcionValida ? ( <div class="btn buttonAdd" onClick={(e) => {
+      {inscripcionValida ? ( <div className="btn buttonAdd" onClick={(e) => {
               e.preventDefault();
                window.location.href = '/proyecto/inscripcion/' + idProyecto;} }> 
                <i className='fas fa-plus-circle text-white-600 cursor-pointer' /> Inscribirse
              </div>):(<div></div>)}
-      <div id="pattern" class="pattern">
-        <div class="c">
-          <div class="main">
+      <div id="pattern" className="pattern">
+        <div className="c">
+          <div className="main">
             <h1 className="titulo"> {queryData.VerProyecto.nombre} </h1>
         
            
@@ -443,53 +438,53 @@ export default function Proyecto (props) {
           
             </div>
             
-			    <div class="c2">
-            <h4 class="blue"><span class="middle">Datos básicos</span></h4>
-            <div class="project-info">
-							<div class="project-info-row">
-								<div class="project-info-name"> <i class="fa fa-money-bill-wave fa-fw w3-xxlarge w3-margin-right"> </i>Presupuesto:</div>
-                <div class="project-info-value"><span>$ {queryData.VerProyecto.presupuesto}</span></div>
+			    <div className="c2">
+            <h4 className="blue"><span className="middle">Datos básicos</span></h4>
+            <div className="project-info">
+							<div className="project-info-row">
+								<div className="project-info-name"> <i className="fa fa-money-bill-wave fa-fw w3-xxlarge w3-margin-right"> </i>Presupuesto:</div>
+                <div className="project-info-value"><span>$ {queryData.VerProyecto.presupuesto}</span></div>
 							</div>
-              <div class="project-info-row">
-								<div class="project-info-name"> <i class="fa fa-business-time fa-fw w3-xxlarge w3-margin-right"></i>fase:  </div>
-                <div class="project-info-value"><span>{queryData.VerProyecto.fase}</span></div>
+              <div className="project-info-row">
+								<div className="project-info-name"> <i className="fa fa-business-time fa-fw w3-xxlarge w3-margin-right"></i>fase:  </div>
+                <div className="project-info-value"><span>{queryData.VerProyecto.fase}</span></div>
 							</div>
-              <div class="project-info-row">
-								<div class="project-info-name"> <i class="fa fa-receipt fa-fw w3-xxlarge w3-margin-right"> </i>estado: </div>
-                <div class="project-info-value"><span>{queryData.VerProyecto.estado}</span></div>
+              <div className="project-info-row">
+								<div className="project-info-name"> <i className="fa fa-receipt fa-fw w3-xxlarge w3-margin-right"> </i>estado: </div>
+                <div className="project-info-value"><span>{queryData.VerProyecto.estado}</span></div>
 							</div>
            </div>
           </div>
-        <div class="c3">
-          <h4 class="blue"><span class="middle">Información Lider</span></h4>
-          <div class="project-info">
-            <div class="project-info-row">
-              <div class="project-info-name"> <i class="fa fa-user fa-fw w3-xxlarge w3-margin-right"> </i>Nombre:</div>
-              <div class="project-info-value"><span>{queryData.VerProyecto.lider.nombre}</span></div>
+        <div className="c3">
+          <h4 className="blue"><span className="middle">Información Lider</span></h4>
+          <div className="project-info">
+            <div className="project-info-row">
+              <div className="project-info-name"> <i className="fa fa-user fa-fw w3-xxlarge w3-margin-right"> </i>Nombre:</div>
+              <div className="project-info-value"><span>{queryData.VerProyecto.lider.nombre}</span></div>
             </div>
-            <div class="project-info-row">
-              <div class="project-info-name"> <i class="fa fa-id-card fa-fw w3-xxlarge w3-margin-right"> </i>Identificacion:   </div>
-              <div class="project-info-value"><span>{queryData.VerProyecto.lider.idUsuario}</span></div>
+            <div className="project-info-row">
+              <div className="project-info-name"> <i className="fa fa-id-card fa-fw w3-xxlarge w3-margin-right"> </i>Identificacion:   </div>
+              <div className="project-info-value"><span>{queryData.VerProyecto.lider.idUsuario}</span></div>
             </div>
-            <div class="project-info-row">
-              <div class="project-info-name"><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i>Email: </div>
-              <div class="project-info-value"><span>{queryData.VerProyecto.lider.email}</span></div>
+            <div className="project-info-row">
+              <div className="project-info-name"><i className="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i>Email: </div>
+              <div className="project-info-value"><span>{queryData.VerProyecto.lider.email}</span></div>
               </div>
             </div>
           </div>
 	      </div>
     	</div>
-    	<div class="container">	
-	    	<section class="pattern-description">
-          <div class="mah-accordion">
-           <div class="half">
-             <div class="tab">
+    	<div className="container">	
+	    	<section className="pattern-description">
+          <div className="mah-accordion">
+           <div className="half">
+             <div className="tab">
               <input id="tab-one" type="checkbox" name="tabs" />
               <label for="tab-one">Objetivos</label>
-              <div class="tab-content">
-                <h3 class="blue"> <span class="middle">Objetivo General:</span></h3>
+              <div className="tab-content">
+                <h3 className="blue"> <span className="middle">Objetivo General:</span></h3>
                 <p>{queryData.VerProyecto.objetivosGenerales}</p>
-                <h3 class="blue"> <span class="middle">Objetivos Especificos:</span></h3>
+                <h3 className="blue"> <span className="middle">Objetivos Especificos:</span></h3>
                 {queryData && queryData.VerProyecto.objetivosEspecificos.length>0 ? (
                   <>
                   {queryData.VerProyecto.objetivosEspecificos.map((x) => {
@@ -503,23 +498,23 @@ export default function Proyecto (props) {
                       )}
               </div>
             </div>
-            <div class="tab">
+            <div className="tab">
               <input id="tab-two" type="checkbox" name="tabs" />
               <label for="tab-two">Avances</label>
-              <div class="tab-content">
-                <div class="hr hr-8 dotted"></div>
+              <div className="tab-content">
+                <div className="hr hr-8 dotted"></div>
                 {queryData && queryData.VerProyecto.avance.length>0 ? (
                   <>
                   {queryData.VerProyecto.avance.map((x) => {
                     return( <div key={x._id}>
-                      <h3 class="blue"> <span class="middle"><i class="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha:</span></h3>
+                      <h3 className="blue"> <span className="middle"><i className="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha:</span></h3>
                       <p>{x.fecha}</p>
-                      <h3 class="blue"> <span class="middle"><i class="fa fa-file-signature fa-fw w3-xxlarge w3-margin-right"> </i>Descripción:</span></h3>
+                      <h3 className="blue"> <span className="middle"><i className="fa fa-file-signature fa-fw w3-xxlarge w3-margin-right"> </i>Descripción:</span></h3>
                       <p>{x.descripcion}</p>
                       <Link to={`/proyectos/EditarAvance/${x._id}`}>
                         <i className='fas fa-pen text-yellow-600 hover:text-yellow-400 cursor-pointer' />
                       </Link>
-                      <h3 class="blue"> <span class="middle"><i class="fa fa-file-alt fa-fw w3-xxlarge w3-margin-right"> </i>Observaciones del Lider:</span></h3>
+                      <h3 className="blue"> <span className="middle"><i className="fa fa-file-alt fa-fw w3-xxlarge w3-margin-right"> </i>Observaciones del Lider:</span></h3>
                       {x && x.observacionesDelLider.length>0 ? (
                         <>
                         {x.observacionesDelLider.map((x) => {
@@ -533,16 +528,16 @@ export default function Proyecto (props) {
                         <div>No hay Observaciones</div>
                       )}
                      
-                      <div class="hr hr-8 dotted"></div>
+                      <div className="hr hr-8 dotted"></div>
                         </div>);
                        })}
                         </>
                       ) : (
                         <div>No hay avances</div>
                       )}
-             <div class="left_part"></div>
-             <div class="right_part">
-                {EstudianteActivo ? (<div class="btn buttonAdd" onClick={(e) => {
+             <div className="left_part"></div>
+             <div className="right_part">
+                {EstudianteActivo ? (<div className="btn buttonAdd" onClick={(e) => {
                e.preventDefault();
                window.location.href = '/proyectos/AgregarAvance/'+queryData.VerProyecto._id;
                } }> <i className='fas fa-plus-circle text-white-600 cursor-pointer' /> Agregar Avance
@@ -550,11 +545,11 @@ export default function Proyecto (props) {
              </div>      
             </div>
             </div>
-            <div class="tab">
+            <div className="tab">
               <input id="tab-three" type="checkbox" name="tabs" />
               <label for="tab-three">Inscripciones</label>
-              <div class="tab-content">
-              <div class="hr hr-8 dotted"></div>
+              <div className="tab-content">
+              <div className="hr hr-8 dotted"></div>
               <div>
               {queryData && queryData.VerProyecto.inscripcion.length>0 ? (
                 <>
@@ -563,39 +558,39 @@ export default function Proyecto (props) {
                     EstudianteActivo="true";
                   }
                   return( <div key={x._id}>
-                    <div class="left_part">
-                    <h4 class="blue"><span class="middle">Información Estudiante</span></h4>
-                    <div class="project-info-row">
-                      <div class="project-info-name"> <i class="fa fa-user fa-fw w3-xxlarge w3-margin-right"> </i>Nombre:</div>
-                      <div class="project-info-value"> <span>{x.estudiante.nombre}</span></div>
+                    <div className="left_part">
+                    <h4 className="blue"><span className="middle">Información Estudiante</span></h4>
+                    <div className="project-info-row">
+                      <div className="project-info-name"> <i className="fa fa-user fa-fw w3-xxlarge w3-margin-right"> </i>Nombre:</div>
+                      <div className="project-info-value"> <span>{x.estudiante.nombre}</span></div>
                     </div>
-                    <div class="project-info-row">
-                      <div class="project-info-name"> <i class="fa fa-id-card fa-fw w3-xxlarge w3-margin-right"> </i>Identificacion:   </div>
-                      <div class="project-info-value"><span>{x.estudiante.idUsuario}</span></div>
+                    <div className="project-info-row">
+                      <div className="project-info-name"> <i className="fa fa-id-card fa-fw w3-xxlarge w3-margin-right"> </i>Identificacion:   </div>
+                      <div className="project-info-value"><span>{x.estudiante.idUsuario}</span></div>
                     </div>
-                    <div class="project-info-row">
-                      <div class="project-info-name"><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i>Email: </div>
-                      <div class="project-info-value"><span>{x.estudiante.email}</span></div>
+                    <div className="project-info-row">
+                      <div className="project-info-name"><i className="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i>Email: </div>
+                      <div className="project-info-value"><span>{x.estudiante.email}</span></div>
                     </div>
                   </div>
-                  <div class="right_part">
-                    <h4 class="blue"><span class="middle">Información Inscripción</span></h4>
-                    <div class="project-info-row">
-                      <div class="project-info-name"> <i class="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha de ingreso:</div>
-                      <div class="project-info-value"><span>{x.fechaDeIngreso}</span> </div>
+                  <div className="right_part">
+                    <h4 className="blue"><span className="middle">Información Inscripción</span></h4>
+                    <div className="project-info-row">
+                      <div className="project-info-name"> <i className="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha de ingreso:</div>
+                      <div className="project-info-value"><span>{x.fechaDeIngreso}</span> </div>
                     </div>
-                    <div class="project-info-row">
-                      <div class="project-info-name"> <i class="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha de Egreso:</div>
-                      <div class="project-info-value"> <span>{x.fechaDeEgreso}</span> </div>
+                    <div className="project-info-row">
+                      <div className="project-info-name"> <i className="fa fa-calendar-alt fa-fw w3-xxlarge w3-margin-right"> </i>Fecha de Egreso:</div>
+                      <div className="project-info-value"> <span>{x.fechaDeEgreso}</span> </div>
                     </div>
-                    <div class="project-info-row">
-                      <div class="project-info-name"> <i class="fa fa-receipt fa-fw w3-xxlarge w3-margin-right"> </i>Estado:</div>
-                      <div class="project-info-value"><span>{x.estado}</span>
+                    <div className="project-info-row">
+                      <div className="project-info-name"> <i className="fa fa-receipt fa-fw w3-xxlarge w3-margin-right"> </i>Estado:</div>
+                      <div className="project-info-value"><span>{x.estado}</span>
                       
                     </div>
                    </div>
                   </div>               
-                  <div class="hr hr-8 dotted"></div>
+                  <div className="hr hr-8 dotted"></div>
                   </div>);
                   })}
                   </>
@@ -613,6 +608,6 @@ export default function Proyecto (props) {
         </div>
     </PrivateComponent>
   
-  </PrivateRoute>
+  </>
   );
 };

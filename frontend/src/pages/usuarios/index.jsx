@@ -113,7 +113,7 @@ export default function IndexUsuarios (props) {
                         </Link></div></td>
                                          
                     </tr>
-                  );}
+                  );}else{return ( <div>No autorizado</div>)}
                 })}
               </>
             ) : (
