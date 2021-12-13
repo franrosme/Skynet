@@ -5,6 +5,17 @@ import { generateToken } from '../../utils/tokenUtils.js';
 const resolversAutenticacion = {
   Mutation: {
     registro: async (parent, args) => {
+      const usuarioEcontrado = await UserModel.findOne({ email: args.email });
+      const idEncontrado = await UserModel.findOne({ idUsuario: args.idUsuario });
+      if(idEncontrado){
+        return{
+          error:"Ya se encuentra registrado el ID: "+ args.idUsuario
+        }
+      } else if(usuarioEcontrado){
+        return{
+        error:"El email: "+ args.email +" ya se encuentra registrado"
+        }
+      } else {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(args.clave, salt);
       const usuarioCreado = await UserModel.create({
@@ -22,22 +33,39 @@ const resolversAutenticacion = {
           idUsuario: usuarioCreado.idUsuario,
           email: usuarioCreado.email,
           rol: usuarioCreado.rol,
-        }),
-      };
+         
+        },
+       { error: null}),
+      };}
+     
     },
 
     login: async (parent, args) => {
       const usuarioEcontrado = await UserModel.findOne({ email: args.email });
-      if (await bcrypt.compare(args.clave, usuarioEcontrado.clave)) {
+      
+      if(usuarioEcontrado){
+        if (await bcrypt.compare(args.clave, usuarioEcontrado.clave)) {
+          return {
+            token: generateToken({
+              _id: usuarioEcontrado._id,
+              nombre: usuarioEcontrado.nombre,
+             idUsuario: usuarioEcontrado.idUsuario,
+              email: usuarioEcontrado.email,
+              rol: usuarioEcontrado.rol,
+              
+            },{error: null}),
+          };
+        }else{
+          return {
+            error:"Contraseña incorrecta",
+          };
+  
+        }
+
+      }else{
         return {
-          token: generateToken({
-            _id: usuarioEcontrado._id,
-            nombre: usuarioEcontrado.nombre,
-           idUsuario: usuarioEcontrado.idUsuario,
-            email: usuarioEcontrado.email,
-            rol: usuarioEcontrado.rol,
-          }),
-        };
+          error:"Usuario no existe",
+      };
       }
     },
 
