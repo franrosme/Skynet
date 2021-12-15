@@ -1,0 +1,20 @@
+version: "2"
+services:
+    frontend:
+        image: afk/frontend
+        restart: always
+        ports:
+            - "3000:3000"
+        working_dir: /frontend/src/App
+        volumes:
+            - ./frontend:/frontend/src/App
+            - /frontend/node_modules
+    backend:
+        image: afk/backend
+        restart: always
+        ports:
+            - "4000:4000"
+        volumes:
+            - ./backend:/backend
+            - /backend/node_modules
+       
