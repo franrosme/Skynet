@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 const tiposUsuario = gql`
   type Usuario {
-    _id: ID!
+    _id: ID
     idUsuario: String!
     email: String!
     nombre: String!
@@ -10,8 +10,8 @@ const tiposUsuario = gql`
     estado: Enum_EstadoUsuario
   }
   type Query {
-    Usuarios: [Usuario]
-    Usuario(idUsuario: String!): Usuario
+    Usuarios(_id: ID!): [Usuario]
+    Usuario(_id: ID!, usuario:ID!): Usuario
   }
   type Mutation {
     crearUsuario(
@@ -20,16 +20,16 @@ const tiposUsuario = gql`
       nombre: String!
       clave: String!
       rol: Enum_Rol!
-      estado: Enum_EstadoUsuario
     ): Usuario
+    cambiarEstado(_id: ID!, usuario:ID!, estado: Enum_EstadoUsuario!): String
     editarUsuario(
       _id: String!
+      usuario:String!
       email: String
       idUsuario: String
       nombre: String
-      estado: Enum_EstadoUsuario
     ): Usuario
-    eliminarUsuario(idUsuario: String, email: String): Usuario
+    eliminarUsuario(_id: ID!, email: String): String
   }
 `;
 

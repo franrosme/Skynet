@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { UserModel } from "../user/userModel.js";
 const { Schema, model } = mongoose;
 
 const projectSchema = new Schema(
@@ -26,13 +27,9 @@ const projectSchema = new Schema(
       type: Date,
     },
     lider:{
-      type:String,
-      required: true
-
-    }, 
-    idLider: {
-      type:String,
-      required: true,
+      type: Schema.Types.ObjectId,
+        ref: UserModel,
+        required: true,
     },
     estado: {
       type: String,
@@ -45,11 +42,6 @@ const projectSchema = new Schema(
       default: null,
     },
     inscripcion: [{
-        idInscripcion: {
-            type: Schema.Types.ObjectId,
-            required: true,  
-            auto: true,              
-        },
         idEstudiante: {
             type: String,
             required: true,
@@ -62,18 +54,14 @@ const projectSchema = new Schema(
         },
         fechaDeIngreso: {
             type: Date,
-            default: new Date()
+            default: null
         },
         fechaDeEgreso: {
             type: Date,
+            default: null
         }
     }],
     avance: [{
-        idAvance: {
-            type: Schema.Types.ObjectId,
-            required: true,
-            auto: true,  
-            },
             fecha: {
                 type: Date,
                 required: true,
@@ -93,6 +81,6 @@ const projectSchema = new Schema(
   },
 );
 
-const ProjectModel = model('Proyecto', projectSchema);
+const ProjectModel = model('proyectos', projectSchema);
 
 export { ProjectModel };
