@@ -2,8 +2,6 @@
 FROM node:14-alpine
 # Set the working directory to /client
 WORKDIR /frontend
-#add the ENV to Dockerfile
-ENV PATH /frontend/node_modules/.bin:$PATH
 # copy package.json into the container at /frontend
 COPY package*.json /frontend/
 # install dependencies

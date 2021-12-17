@@ -38,7 +38,7 @@ import 'styles/buttons.css'
 import 'styles/text.css'
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'https://skynet-web-back.herokuapp.com/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
